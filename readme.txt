@@ -1,6 +1,6 @@
-#Project Allocation (by Daniel Cooke)
+# Project Allocation (by Daniel Cooke)
 
-###Description
+### Description
 Students want a nice project to do in their final years. Staff want interesting projects but
 not too many and to get the right student for their project. Staff have differing levels of
 availability too – some can supervise just one project others’ several projects. How do we
