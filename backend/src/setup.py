@@ -1,3 +1,7 @@
+#   Filename: munkres.py
+#   Description: Init file for python package
+#   Author: Daniel Cooke
+
 from distutils.core import setup
 
 setup(

@@ -1,6 +1,11 @@
-import csv
+#   Filename: test_suite.py
+#   Description: A test suit for testing fisher yates shuffle
+#   Author: Daniel Cooke
 
-import fisher_yates, unittest
+import unittest
+
+from src.shuffle import fisher_yates
+
 
 class FisherYatesTestCase(unittest.TestCase):
 
