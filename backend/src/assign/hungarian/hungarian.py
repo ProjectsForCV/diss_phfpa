@@ -5,30 +5,55 @@ import numpy as np
 
 from src.assign.hungarian.hungarian_exceptions import MatrixError
 
+costMatrix = []
+maskMatrix = []
+step = 1
+
+"""Returns the lowest cost assignment solution for matrix m (n by m)"""
 
 
-"""Returns the lowest cost assignment solution for matrix m (n by n)"""
-def minimise(m):
+def minimise(mat):
+    global costMatrix
+    global maskMatrix
 
-    if(np.ndim(m) != 2):
-        raise MatrixError(m)
+    # Get dimensions of input matrix
+    n = len(mat)
+    m = len(mat[0])
 
-    npa = __createNumpyArray__(m)
+    if (np.ndim(mat) != 2):
+        raise MatrixError(mat)
 
+    costMatrix = __createNumpyArray__(mat)
+    maskMatrix = np.zeros((n, m), np.int8)
 
-    log(npa, "Initial Matrix: ")
-    npa = __reduceRows__(npa)
-    log(npa, "Reduced Rows: ")
-    npa = __reduceCols__(npa)
-    log(npa, "Reduced Columns: ")
+    solved = False
 
+    while not solved:
+        __logCostMatrix__()
+        __logMaskMatrix__()
+
+        if step == 1:
+            __step1__()
+        elif step == 2:
+            __step2__()
+        elif step == 3:
+            __step3__()
+        elif step == 4:
+            __step4__()
+        elif step == 5:
+            __step5__()
+        elif step == 6:
+            __step6__()
 
 
 
 """Returns the highest cost assignment solution for matrix m (n by n)"""
+
+
 def maximise(m):
-    if(np.ndim(m) != 2):
+    if (np.ndim(m) != 2):
         raise MatrixError(m)
+
 
 def __isSolved__(m):
     # Checks if the matrix has been solved
@@ -36,51 +61,70 @@ def __isSolved__(m):
 
     pass
 
-def log(matrix, message):
-    print("%s\n" %message)
-    print("%s\n" %matrix)
-    print("--------------------------")
 
 def __createNumpyArray__(m):
     return np.array(m)
 
-def __reduceRows__(m):
+
+def __step1__():
     # Reduces rows in matrix n by subtracting the smallest value in each row from every other value in the row.
-    for i in range(len(m)):
-        m[i] = m[i] - min(m[i])
+    global costMatrix
 
-    return m
+    for i in range(len(costMatrix)):
+        costMatrix[i] = costMatrix[i] - min(costMatrix[i])
 
-def __reduceCols__(m):
-    # Reduces cols in matrix n by subtracting the smallest value in each col from every other value in the col.
-    cols = []
-    for i in m.T:
-        cols.append(i - min(i))
+def __step2__():
+    pass
 
-    m = np.array(cols).T
-    return m
+def __step3__():
+    pass
+
+def __step4__():
+    pass
+
+def __step5__():
+    pass
+
+def __step6__():
+    pass
+
+
+# def __reduceCols__():
+#     # Reduces cols in matrix n by subtracting the smallest value in each col from every other value in the col.
+#     global costMatrix
+#     cols = []
+#     for i in m.T:
+#         cols.append(i - min(i))
+#
+#     m = np.array(cols).T
+#     return m
+
 
 def __drawLines__(m):
     # Marks the minimum amount of lines on the matrix that cross out a zero in every row/column
-    assignedColumns = []
-    assignedRows = []
-    for rowIndex in range(len(m)):
-#       Initialise array , assignedColumns = []
-#       Initialise array, assignedRows = []
-#       For Each Row in the Matrix
-#           For Each Col in the Row
-#               z = INDEX of next zero in row
-#               IF z is IN assignedColumns
-#                   continue
-#               ELSE
-#                   assignedRows.push(Index of this row)
-        for colIndex in range(len(m[rowIndex])):
-            z = m[rowIndex,colIndex].index(0)
+    pass
 
+
+def __logMaskMatrix__():
+    global maskMatrix
+    print("Mask Matrix\n")
+    print(maskMatrix)
+    print("---------------------")
+
+
+def __logCostMatrix__():
+    global costMatrix
+    print("Cost Matrix\n")
+    print(costMatrix)
+    print("---------------------")
+
+
+# TODO: Validate matrix is (n x m) where the number of columns is >= rows
 testData = [
-    [1,2,3],
-    [3,1,2],
-    [1,3,2]
+    [1, 3, 4, 2, 5],
+    [3, 2, 4, 5, 1],
+    [3, 1, 5, 2, 4],
+    [4, 3, 1, 2, 5]
 ]
 
 minimise(testData)
