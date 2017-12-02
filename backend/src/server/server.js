@@ -2,7 +2,7 @@
  * Date: 01/12/2017
  * Author: Daniel Cooke
  ***********************************************************************/
-// DCOOKE 01/12/2017 - TODO: This will need to be hosted on digital ocean for testing purposes 
+// DCOOKE 01/12/2017 - TODO: This will need to be hosted on digital ocean for testing purposes
 const express = require('express');
 const app = express();
 const port = 4000;

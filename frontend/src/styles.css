@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Arvo');
+
+body{
+  background:#DDC9B4;
+  color: #2A3D45;
+  font-family: 'Arvo', serif;
+  font-size: 24pt;
+}
