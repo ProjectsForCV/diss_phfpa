@@ -1,7 +1,10 @@
 #   Filename: hungarian.py
 #   Description: This is an implementation of the munkres assignment algorithm, a.k.a the hungarian algorithm
 #   Author: Daniel Cooke
+from random import randint
+
 import numpy as np
+import sys
 
 from src.assign.hungarian.hungarian_exceptions import MatrixError
 
@@ -34,16 +37,17 @@ solved = False
 # covered.
 coveredCols, coveredRows = [], []
 
-# It is required to store the smallest uncovered value
-smallestUncovered = 0
+# We must store the uncovered prime zero from step 4
+uncoveredPrimedZeroRow, uncoveredPrimedZeroCol = 0, 0
 
 """Returns the lowest cost assignment solution for matrix m (n by m)"""
 
 
-def minimise(mat, rownames, colnames):
+def minimise(mat, rownames = -1, colnames = -1):
     global costMatrix, maskMatrix, originalMatrix
     global n, m, step, inputM, inputN
     global coveredCols, coveredRows, smallestUncovered
+
 
     # Get dimensions of input matrix
     inputN = len(mat)
@@ -52,19 +56,19 @@ def minimise(mat, rownames, colnames):
     # Make sure matrix has as many rows as columns by appending dummy rows if necessary
     if inputN < inputM:
         diff = inputM - inputN
-        while(diff > 0):
-            mat.append(np.zeros(inputM, np.int8))
+        while (diff > 0):
+            a = np.full(inputM, 9999, np.uint16)
+            mat.append(a)
             diff -= 1
 
     # Update real dimensions after potential dummy rows
     n = len(mat)
     m = len(mat[0])
 
-
     if (np.ndim(mat) != 2):
         raise MatrixError(mat)
 
-    # Set up various matricies
+    # Set up various matrices
     costMatrix = __createNumpyArray__(mat)
     maskMatrix = np.zeros((n, m), np.int8)
     originalMatrix = mat
@@ -73,12 +77,13 @@ def minimise(mat, rownames, colnames):
     coveredRows = np.zeros(n, np.int8)
     coveredCols = np.zeros(m, np.int8)
 
-
-
+    iter = 0
     while not solved:
         __logCostMatrix__()
         __logMaskMatrix__()
-        print("Step %s" % step)
+        iter += 1
+        print("Iteration: " + str(iter))
+        print("Step: %s" % step)
 
         if step == 1:
             __step1__()
@@ -123,8 +128,8 @@ def __step2__():
     # each element in the matrix. Go to Step 3.
     global step, maskMatrix, costMatrix
 
-    assignedCols = np.zeros(m)
-    assignedRows = np.zeros(n)
+    assignedCols = np.zeros(m, np.uint8)
+    assignedRows = np.zeros(n, np.uint8)
 
     for i in range(n):
         for j in range(m):
@@ -133,6 +138,7 @@ def __step2__():
                 maskMatrix[i][j] = 1
                 assignedCols[j] = 1
                 assignedRows[i] = 1
+                continue
 
     step = 3
 
@@ -161,33 +167,146 @@ def __step4__():
     # Go to Step 5.  Otherwise, cover this row and uncover the column containing the starred zero.
     # Continue in this manner until there are no uncovered zeros left. Save the smallest uncovered value and
     # Go to Step 6.
-    global step, costMatrix, maskMatrix, smallestUncovered
+    global step, costMatrix, maskMatrix, smallestUncovered, uncoveredPrimedZeroRow, uncoveredPrimedZeroCol
+    global coveredCols, coveredRows
 
-    smallestUncovered = costMatrix[0][0]
     for i in range(n):
         for j in range(m):
+            # Find a non covered zero and prime it
             if costMatrix[i][j] == 0 and coveredCols[j] == 0 and coveredRows[i] == 0:
+
+                # Prime the uncovered zero
                 maskMatrix[i][j] = 2
-                if 1 not in maskMatrix[i]:
+
+                # If there is no starred zero in the row go to step 5
+                if __findStarInRow__(i) < 0:
                     step = 5
+                    uncoveredPrimedZeroRow = i
+                    uncoveredPrimedZeroCol = j
+                    return
                 else:
+                    # There IS a starred zero, cover this row
                     coveredRows[i] = 1
-                    coveredCols[np.nonzero(maskMatrix[i] == 1)[0][0]] = 0
-                    smallestUncovered = min(costMatrix[i][j], smallestUncovered)
+
+                    # Uncover the column containing the starred zero
+                    coveredCols[__findStarInRow__(i)] = 0
+
+
 
     # No uncovered zeros left
     step = 6
 
 
+def __augmentSeries__(series):
+    # A helper method to augment the series of alternating primed/starred zeroes from step 5.
+    # It will perform the following :
+    # Unstar each starred zero of the series, star each primed zero of the series
+    for i in range(len(series)):
+        if i%2 == 0:
+            # star this prime in the mask matrix
+            maskMatrix[series[i]['row'], series[i]['col']] = 1
+        else:
+            # unstar the star
+            maskMatrix[series[i]['row'], series[i]['col']] = 0
+
+
+def __uncoverLines__():
+    for i in range(len(coveredCols)):
+        coveredCols[i] = 0
+        coveredRows[i] = 0
+
+
+def __emptyPrimes__():
+    for i in range(n):
+        for j in range(m):
+            if maskMatrix[i][j] == 2:
+                maskMatrix[i][j] = 0
 
 
 def __step5__():
-    pass
+    # Construct a series of alternating primed and starred zeros as follows.  Let Z0 represent the uncovered primed
+    # zero found in Step 4.  Let Z1 denote the starred zero in the column of Z0 (if any).
+    # Let Z2 denote the primed zero in the row of Z1 (there will always be one).
+    # Continue until the series terminates at a primed zero that has no starred zero in its column.
+    # Unstar each starred zero of the series, star each primed zero of the series, erase all primes and uncover every
+    # line in the matrix.  Return to Step 3.
+
+
+    series = []
+    done = False
+    # First entry in the series is Z0, the uncovered prime from step 4
+    series.append({'row' : uncoveredPrimedZeroRow, 'col' : uncoveredPrimedZeroCol})
+
+    while not done:
+        c = series[len(series) - 1]['col']
+        # Find a starred zero in the column of the last primed zero
+        r = __findStarInCol__(c)
+
+
+        if r > -1:
+            # Add this starred zero to the series
+            series.append({'row': r, 'col': c })
+        else:
+            # If there is no star in this column we are done
+            done = True
+
+        if not done:
+            # Continue by adding another primed zero from the row of the last starred zero
+            c = __findPrimeInRow__(r)
+            series.append({'row': r, 'col': c})
+
+    __augmentSeries__(series)
+    __uncoverLines__()
+    __emptyPrimes__()
+    global step
+    step = 3
+
 
 
 def __step6__():
-    pass
+    # Add the value found in Step 4 to every element of each covered row, and subtract it from every element of
+    # each uncovered column.  Return to Step 4 without altering any stars, primes, or covered lines.
+    global step
+    smallestUncovered = __findSmallestUncoveredVal__()
 
+    for i in range(n):
+        for j in range(m):
+
+            if coveredRows[i] == 1:
+                costMatrix[i, j] += smallestUncovered
+
+            if coveredCols[j] == 0:
+                costMatrix[i, j] -= smallestUncovered
+
+    step = 4
+
+def __findSmallestUncoveredVal__():
+    min = sys.maxsize
+    for i in range(n):
+        for j in range(m):
+            if costMatrix[i,j] < min and coveredRows[i] == 0 and coveredCols[j] == 0:
+                min = costMatrix[i,j]
+    return min
+def __findStarInCol__(col):
+    r = -1
+    for i in range(n):
+        if maskMatrix[i, col] == 1:
+            r = i
+
+    return r
+
+def __findStarInRow__(row):
+    c = -1
+    for i in range(m):
+        if maskMatrix[i,row] == 1:
+            c = i
+    return c
+def __findPrimeInRow__(row):
+    c = -1
+    for i in range(m):
+        if maskMatrix[i,row] == 2:
+            c = i
+    return c
 
 def __logFinalResult__(rownames, colnames):
     global maskMatrix, originalMatrix
@@ -197,13 +316,19 @@ def __logFinalResult__(rownames, colnames):
     for i in range(inputN):
         for j in range(inputM):
             if maskMatrix[i][j] == 1:
-                resultPairs[rownames[i]] = colnames[j]
+                if rownames > -1 and colnames > -1:
+                    resultPairs[rownames[i]] = colnames[j]
+                else:
+                    resultPairs[i] = j
 
     print('=========================')
     print('The optimum assignment has be found.')
     print()
     for i in range(len(resultPairs)):
-        print(rownames[i] + " -> " + resultPairs[rownames[i]])
+        if rownames > -1 and colnames > -1:
+            print(rownames[i] + " -> " + resultPairs[rownames[i]])
+        else:
+            print(str(i) + " -> " + str(resultPairs[i]))
 
 
 def __logMaskMatrix__():
@@ -219,14 +344,25 @@ def __logCostMatrix__():
     print(costMatrix)
     print("---------------------")
 
+def __generateRandomMatrix__(size = 5, min = 1, max = 20):
+    # A method for testing purposes to generate test matrices
+    a = np.zeros((size,size), np.uint16)
+
+    for i in range(size):
+        rowvals = np.zeros(max + 1, np.uint16)
+        for j in range(size):
+            same = True
+            while(same):
+                v = randint(min, max)
+                if rowvals[v] == 1:
+                    continue
+                else:
+                    a[i][j] = v
+                    rowvals[v] = 1
+                    same = False
+    return a
 
 # TODO: Validate matrix is (n x m) where the number of columns is >= rows
-testData = [
-    [5, 3, 4, 2, 1],
-    [3, 2, 4, 5, 1],
-    [3, 1, 5, 2, 4],
-    [4, 3, 1, 2, 5]
-]
+testData = np.random.randint(1, 20, (20,20))
 
-minimise(testData, ["John", "Paul", "Lily", "Chris"],
-         ["Wash Windows", "Clean Car", "Brush Floor", "Take out bins", "Mop"])
+minimise(__generateRandomMatrix__(20, 1, 20))
