@@ -298,13 +298,13 @@ def __findStarInCol__(col):
 def __findStarInRow__(row):
     c = -1
     for i in range(m):
-        if maskMatrix[i,row] == 1:
+        if maskMatrix[row,i] == 1:
             c = i
     return c
 def __findPrimeInRow__(row):
     c = -1
     for i in range(m):
-        if maskMatrix[i,row] == 2:
+        if maskMatrix[row, i] == 2:
             c = i
     return c
 
@@ -365,4 +365,4 @@ def __generateRandomMatrix__(size = 5, min = 1, max = 20):
 # TODO: Validate matrix is (n x m) where the number of columns is >= rows
 testData = np.random.randint(1, 20, (20,20))
 
-minimise(__generateRandomMatrix__(20, 1, 20))
+minimise(__generateRandomMatrix__(5, 1, 20))
