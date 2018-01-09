@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Oswald');
+
+
+p {
+  color: #82A3A1;
+  font-family: 'Oswald', serif;
+  font-size: 21pt;
+  text-align: center;
+}
+
+a {
+  color: #9FC490;
+}
+
+
+.continue-button {
+  font-family: 'Lobster' , cursive;
+  font-size: 28pt;
+  color: #9FC490;
+}
+
+.continue-button:hover {
+  color: #E8F3DC;
+}
+
+.mainButton{
+  font-family: 'Oswald' , serif;
+  font-size: 36pt;
+  color: #E8F3DC;
+}
+
+hr {
+  border-color: #2c3847;
+  border-radius: 2px;
+}

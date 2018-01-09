@@ -1,12 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+@import '../node_modules/animate.css/animate.min.css';
+
 /* Fonts */
 @import url('https://fonts.googleapis.com/css?family=Arvo');
 
 body{
-  background:#DDC9B4;
-  color: #2A3D45;
-  font-family: 'Arvo', serif;
-  font-size: 24pt;
+  background:#011936;
+  font-size: 16pt;
+  padding: 2%;
 }
+
+.panel {
+  background: #465362;
+  border: none;
+  box-shadow: 5pt 7pt #011023 ;
+}
+
+
+
+
+

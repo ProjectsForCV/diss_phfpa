@@ -7,15 +7,21 @@ import { AppComponent } from './app.component';
 import { NewProblemComponent } from './new-problem/new-problem.component';
 
 import { RouterModule, Routes } from '@angular/router';
+import { HomePageComponent } from './home-page/home-page.component';
+import { PlaygroundComponent } from './playground/playground.component';
 
 const appRoutes: Routes = [
-  { path: '',                           component: NewProblemComponent}
+  { path: '',                           component: HomePageComponent},
+  { path: 'playground',                           component: PlaygroundComponent}
+
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewProblemComponent
+    NewProblemComponent,
+    HomePageComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,
@@ -30,3 +36,4 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

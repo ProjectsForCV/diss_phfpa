@@ -1,0 +1,66 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
+      <div class="panel panel-default animated bounceInUp">
+        <div class="panel panel-body" style="text-align: center">
+          <p class="animated fadeIn" *ngIf="page ==0">This application is designed to solve the <a href="https://en.wikipedia.org/wiki/Assignment_problem">Assignment Problem</a> using
+            the <a href="https://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Method</a>.
+          </p>
+
+          <div *ngIf="page==1">
+            <p  class="animated fadeIn">
+              All you need to do is input agents and the tasks they can be assigned to. The system will email the
+              agents and ask them to rank the tasks in order of preference.
+            </p>
+
+            <br>
+
+            <p class="animated fadeIn">
+
+              You will receive an email once all agents have responded, containing the optimum assignment.
+            </p>
+          </div>
+
+          <div *ngIf="page ==2">
+            <p class="animated fadeIn">
+              Alternatively you can run the algorithm directly by simply inputting cost values into a matrix.
+            </p>
+          </div>
+
+          <div *ngIf="page==3">
+            <div class="mainButton">
+              Agent/Task Mode
+            </div>
+
+            <hr size="10">
+            <div class="mainButton">
+              Cost Matrix Mode
+            </div>
+
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset2">
+      <div class="pull-right ">
+        <div class="continue-button animated slideInRight" *ngIf="continueButtonVisible" (click)="next()">
+          Continue
+          <span class="glyphicon glyphicon-arrow-right"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
