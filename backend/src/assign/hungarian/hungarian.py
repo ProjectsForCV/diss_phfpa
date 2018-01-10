@@ -1,7 +1,6 @@
 #   Filename: hungarian.py
 #   Description: This is an implementation of the munkres assignment algorithm, a.k.a the hungarian algorithm
 #   Author: Daniel Cooke
-from random import randint
 
 import numpy as np
 import sys
@@ -344,25 +343,13 @@ def __logCostMatrix__():
     print(costMatrix)
     print("---------------------")
 
-def __generateRandomMatrix__(size = 5, min = 1, max = 20):
-    # A method for testing purposes to generate test matrices
-    a = np.zeros((size,size), np.uint16)
 
-    for i in range(size):
-        rowvals = np.zeros(max + 1, np.uint16)
-        for j in range(size):
-            same = True
-            while(same):
-                v = randint(min, max)
-                if rowvals[v] == 1:
-                    continue
-                else:
-                    a[i][j] = v
-                    rowvals[v] = 1
-                    same = False
-    return a
 
 # TODO: Validate matrix is (n x m) where the number of columns is >= rows
-testData = np.random.randint(1, 20, (20,20))
+testData = [
+    [1,2,3],
+    [2,1,3],
+    [3,2,1]
+]
 
-minimise(__generateRandomMatrix__(5, 1, 20))
+minimise(testData)
