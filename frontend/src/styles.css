@@ -3,6 +3,9 @@
 
 @import '../node_modules/animate.css/animate.min.css';
 
+
+@import url('https://fonts.googleapis.com/css?family=Lobster|Oswald');
+
 /* Fonts */
 @import url('https://fonts.googleapis.com/css?family=Arvo');
 
@@ -16,6 +19,12 @@ body{
   background: #465362;
   border: none;
   box-shadow: 5pt 7pt #011023 ;
+}
+
+.main-label{
+  font-family: Oswald;
+  font-size: 18pt;
+  color: #82A3A1;
 }
 
 

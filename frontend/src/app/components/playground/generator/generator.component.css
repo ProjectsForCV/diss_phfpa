@@ -1,0 +1,10 @@
+.form-custom-font{
+  font-family: 'Lobster' , cursive;
+  font-size: 20pt;
+  background: #5f7176;
+  border: 1px transparent;
+
+}
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

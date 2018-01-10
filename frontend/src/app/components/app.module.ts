@@ -9,6 +9,8 @@ import { NewProblemComponent } from './new-problem/new-problem.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PlaygroundComponent } from './playground/playground.component';
+import { GeneratorComponent } from './playground/generator/generator.component';
+import { PlaygroundModule } from './playground/playground.module';
 
 const appRoutes: Routes = [
   { path: '',                           component: HomePageComponent},
@@ -16,12 +18,14 @@ const appRoutes: Routes = [
 
 ];
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
     NewProblemComponent,
-    HomePageComponent,
-    PlaygroundComponent
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true}
-    )
+    ),
+    PlaygroundModule
   ],
   providers: [],
   bootstrap: [AppComponent]
