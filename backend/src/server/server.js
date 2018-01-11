@@ -9,11 +9,13 @@ const port = 12345;
 
 const PythonShell = require('python-shell');
 
+const PYTHON_PATH =  process.env.PYTHON_PATH;
 
 app.get('/randomMat', (request, response) => {
 
     let options = {
         mode: 'json',
+        pythonPath: PYTHON_PATH,
         scriptPath: '../assign/',
         args: [5, 5]
     };
