@@ -7,8 +7,8 @@ import { Globals } from '../../components/Globals';
 export class HttpBaseService {
 
   public HOST_ENDPOINT;
-  public MOCK_HOST = 'http://localhost:12345';
-  public REAL_HOST = 'http://178.62.107.105:12345';
+  public MOCK_HOST = 'http://localhost:12345/api';
+  public REAL_HOST = 'http://178.62.107.105:12345/api';
 
   constructor(public http: Http) {
     this.HOST_ENDPOINT = Globals.RunMode === Globals.AppRunModeEnum.MOCK ? this.MOCK_HOST : this.REAL_HOST;

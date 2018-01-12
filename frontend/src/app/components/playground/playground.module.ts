@@ -4,16 +4,19 @@ import { PlaygroundComponent } from './playground.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { GeneratorComponent } from './generator/generator.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatrixComponent } from './matrix/matrix.component';
 @NgModule({
     declarations: [
       PlaygroundComponent,
-      GeneratorComponent
+      GeneratorComponent,
+      MatrixComponent
     ],
     imports: [
       BrowserModule,
       CommonModule,
-      FormsModule
+      FormsModule,
+      ReactiveFormsModule
     ],
     providers: [
       HttpCostMatrixService

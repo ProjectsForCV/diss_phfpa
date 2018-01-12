@@ -1,0 +1,21 @@
+<div class="text-center">
+  <div class="panel panel-default animated fadeInDownBig" *ngIf="grid" >
+    <div class="panel-body" style="text-align: center">
+
+      <div class="container">
+      <span *ngFor="let row of grid; let rowIndex = index " class="row" style="padding: 0; margin:0">
+      <span class="col-xs-1" style="padding:0;" *ngFor="let cell of row; let colIndex = index">
+        <input type="text"
+               [ngModel]="cell.value"
+               name="{{cell.name}}"
+
+               class="{{getClass(rowIndex, colIndex)}}"
+        >
+      </span>
+    </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+

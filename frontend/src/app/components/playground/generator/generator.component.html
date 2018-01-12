@@ -2,23 +2,23 @@
     <div class="col-xs-3">
 
       <div class="col-xs-6">
-        <label for="rows" class="main-label">Rows</label>
+        <label for="rows" class="main-label" name="rows" >Rows</label>
       </div>
 
 
       <div class="col-xs-6">
-        <input type="number" id="rows" class="form-control form-custom-font">
+        <input type="number" id="rows" class="form-control form-custom-font" [formControl]="rowsControl" ngDefaultControl>
       </div>
 
     </div>
 
     <div class="col-xs-3">
       <div class="col-xs-6">
-        <label class="main-label" for="cols">Columns</label>
+        <label class="main-label" for="cols" >Columns</label>
       </div>
 
       <div class="col-xs-6">
-        <input type="number" id="cols" class="form-control  form-custom-font">
+        <input type="number" id="cols" class="form-control  form-custom-font" name="cols"  ngDefaultControl [formControl]="colsControl">
       </div>
 
 
@@ -26,12 +26,12 @@
 
     <div class="col-xs-3">
 
-      <div class="col-xs-2">
+      <div class="col-xs-4">
         <label  class="main-label">Fill?</label>
       </div>
 
       <div class="col-xs-6">
-        <input type="checkbox"/>
+        <input type="checkbox" name="fill"  ngDefaultControl [formControl]="fillControl"/>
       </div>
 
 

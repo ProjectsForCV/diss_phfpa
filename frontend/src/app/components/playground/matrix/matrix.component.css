@@ -1,0 +1,13 @@
+.optimumCell {
+  font-family: 'Lobster' , cursive;
+  font-size: 20pt;
+  background: #C0DFA1;
+  border: 1px transparent;
+}
+.regularCell{
+  font-family: 'Lobster' , cursive;
+  font-size: 20pt;
+  background: #5f7176;
+  border: 1px #011023;
+
+}
