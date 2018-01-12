@@ -4,6 +4,6 @@ export class Globals {
   PROD: 1
 };
 
-  public static RunMode = Globals.AppRunModeEnum.MOCK;
+  public static RunMode = Globals.AppRunModeEnum.PROD;
 
 }
