@@ -1,11 +1,12 @@
 #   Filename: hungarian.py
 #   Description: This is an implementation of the munkres assignment algorithm, a.k.a the hungarian algorithm
 #   Author: Daniel Cooke
+import ast
+import json
 
 import numpy as np
-import sys
+import sys, shlex
 
-from src.assign.hungarian.hungarian_exceptions import MatrixError
 
 # The input matrix is stored to output the final allocation to the user
 originalMatrix = []
@@ -48,6 +49,7 @@ def minimise(mat, rownames = -1, colnames = -1):
     global coveredCols, coveredRows, smallestUncovered
 
 
+
     # Get dimensions of input matrix
     inputN = len(mat)
     inputM = len(mat[0])
@@ -64,9 +66,6 @@ def minimise(mat, rownames = -1, colnames = -1):
     n = len(mat)
     m = len(mat[0])
 
-    if (np.ndim(mat) != 2):
-        raise MatrixError(mat)
-
     # Set up various matrices
     costMatrix = __createNumpyArray__(mat)
     maskMatrix = np.zeros((n, m), np.int8)
@@ -77,12 +76,10 @@ def minimise(mat, rownames = -1, colnames = -1):
     coveredCols = np.zeros(m, np.int8)
 
     iter = 0
+
+
     while not solved:
-        __logCostMatrix__()
-        __logMaskMatrix__()
-        iter += 1
-        print("Iteration: " + str(iter))
-        print("Step: %s" % step)
+
 
         if step == 1:
             __step1__()
@@ -97,18 +94,15 @@ def minimise(mat, rownames = -1, colnames = -1):
         elif step == 6:
             __step6__()
 
-    __logFinalResult__(rownames, colnames)
 
 
-"""Returns the highest cost assignment solution for matrix m (n by n)"""
+    return maskMatrix
 
-
-def maximise(m):
-    if (np.ndim(m) != 2):
-        raise MatrixError(m)
-
+def __buildOutputString__(mat):
+    return json.dumps(mat)
 
 def __createNumpyArray__(m):
+
     return np.array(m)
 
 
@@ -116,6 +110,7 @@ def __step1__():
     global step, costMatrix
     # For each row of the matrix, find the smallest element and subtract it from every element in its row.
     # Go to Step 2.
+
     for i in range(len(costMatrix)):
         costMatrix[i] = costMatrix[i] - min(costMatrix[i])
 
@@ -344,12 +339,6 @@ def __logCostMatrix__():
     print("---------------------")
 
 
+matrix = ast.literal_eval(sys.argv[1])
 
-# TODO: Validate matrix is (n x m) where the number of columns is >= rows
-testData = [
-    [1,2,3],
-    [2,1,3],
-    [3,2,1]
-]
-
-minimise(testData)
+print(__buildOutputString__(minimise(matrix).tolist()))
