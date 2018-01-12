@@ -6,7 +6,8 @@
         <div class="panel panel-body">
 
           <app-generator
-            (matrixChanged)="matrixChanged($event)"
+            [matrixSubscription]="matrixSubscriber"
+
           ></app-generator>
 
 
@@ -17,10 +18,10 @@
 
 
 
-  <div class="row" *ngIf="matrix">
+  <div class="row">
     <div class="col-xs-12" style="text-align: center">
-      <app-matrix [matrix]="matrix"
-                  [solution]="solution"
+      <app-matrix [matrixListener]="matrixSubscriber"
+                  [solutionListener]="solutionSubscriber"
       ></app-matrix>
     </div>
   </div>

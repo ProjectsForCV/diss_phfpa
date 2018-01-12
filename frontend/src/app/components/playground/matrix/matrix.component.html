@@ -6,10 +6,10 @@
       <span *ngFor="let row of grid; let rowIndex = index " class="row" style="padding: 0; margin:0">
       <span class="col-xs-1" style="padding:0;" *ngFor="let cell of row; let colIndex = index">
         <input type="text"
-               [ngModel]="cell.value"
-               name="{{cell.name}}"
+               value="{{cell}}"
 
                class="{{getClass(rowIndex, colIndex)}}"
+               (change)="valueChanged(rowIndex, colIndex, $event.target.value)"
         >
       </span>
     </span>

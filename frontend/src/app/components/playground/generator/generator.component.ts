@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-generator',
@@ -14,8 +16,10 @@ export class GeneratorComponent implements OnInit {
   public colsControl: FormControl;
   public fillControl: FormControl;
 
-  @Output()
-  public matrixChanged = new EventEmitter();
+  @Input()
+  public matrixSubscription: BehaviorSubject<number[][]>;
+
+
 
   constructor(public http: HttpCostMatrixService, public fb: FormBuilder) { }
 
@@ -50,7 +54,8 @@ export class GeneratorComponent implements OnInit {
 
   }
 
-  updateMatrix(newMatrix: any){
-    this.matrixChanged.emit(newMatrix);
+  updateMatrix(newMatrix: any) {
+    this.matrixSubscription.next(newMatrix);
+    debugger;
   }
 }
