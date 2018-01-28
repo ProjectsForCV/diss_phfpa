@@ -1,5 +1,11 @@
-import { Component, state, trigger } from '@angular/core';
-import { Router } from '@angular/router';
+/***********************************************************************
+ * Date: 28/01/2018
+ * Author: Daniel Cooke
+ ***********************************************************************/
+/*
+ DCOOKE 28/01/2018 - The root component of the application
+ */
+import { Component } from '@angular/core';
 
 
 @Component({
@@ -8,11 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = '3002 - Initial Commit - Angular works!';
 
-  constructor(public router: Router){
-
-  }
+  constructor() {}
 
 }
 
