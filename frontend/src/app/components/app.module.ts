@@ -17,6 +17,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundModule } from './playground/playground.module';
+import { UploadIconComponent } from './new-problem/upload-icon.component';
+import { NgUploaderModule } from 'ngx-uploader';
+import { UploadAgentsComponent } from './new-problem/upload-agents/upload-agents.component';
 
 
 /*
@@ -25,7 +28,9 @@ import { PlaygroundModule } from './playground/playground.module';
  */
 const appRoutes: Routes = [
   { path: '',                           component: HomePageComponent},
-  { path: 'playground',                           component: PlaygroundComponent}
+  { path: 'playground',                           component: PlaygroundComponent},
+  { path: 'new-problem',                           component: NewProblemComponent}
+
 
 ];
 
@@ -34,12 +39,15 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NewProblemComponent,
-    HomePageComponent
+    HomePageComponent,
+    UploadIconComponent,
+    UploadAgentsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    NgUploaderModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true}

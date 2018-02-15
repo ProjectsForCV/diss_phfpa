@@ -1,9 +1,58 @@
 <div class="container-fluid">
   <div class="row">
-    <button class="btn mainButton">
 
-      New Assignment Problem
-    </button>
+    <div class="col-xs-10 col-xs-offset-1" style="!important; margin-bottom:10px;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Assignment Details
+        </div>
+        <div class="panel-body">
+
+
+          <form>
+              <div class="col-xs-3 pull-left">
+                <app-upload-icon></app-upload-icon>
+              </div>
+              <div class="form-group row">
+
+
+                <label class="col-xs-1" for="title">Title</label>
+                <div class="col-xs-8">
+                  <input type="text" id="title" name="title" class="form-control">
+                </div>
+
+
+                <label for="title" class="col-xs-2">Organiser Name</label>
+                <div class="col-xs-7">
+                  <input type="text" id="orgName" name="orgName" class="form-control">
+                </div>
+
+
+
+                <label class="col-xs-2" for="orgEmail">Organiser Email</label>
+
+                <div class="col-xs-7">
+                  <input type="text" id="orgEmail" name="orgEmail" class="form-control">
+                </div>
+
+              </div>
+
+
+
+          </form>
+        </div>
+
+      </div >
+
+      <div class="panel panel-default" style="margin-top:0;">
+        <div class="panel-heading">
+          <h3 class="panel-title">Agents</h3>
+        </div>
+        <div class="panel-body">
+          <app-upload-agents></app-upload-agents>
+        </div>
+      </div>
+    </div>
 
   </div>
 

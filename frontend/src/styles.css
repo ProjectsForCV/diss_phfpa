@@ -9,33 +9,34 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css?family=Arvo');
 
-body{
-  background:#011936;
-  font-size: 16pt;
-  padding: 2%;
-}
+/*body{*/
+  /*background:#011936;*/
+  /*font-size: 16pt;*/
+  /*padding: 2%;*/
+/*}*/
 
-.panel {
-  background: #465362;
-  border: none;
-  box-shadow: 5pt 7pt #011023 ;
-}
-
-.main-label{
-  font-family: Oswald;
-  font-size: 18pt;
-  color: #82A3A1;
-}
+/*.panel {*/
+  /*background: #465362;*/
+  /*border: none;*/
+  /*box-shadow: 5pt 7pt #011023 ;*/
+/*}*/
 
 
+/*.main-label{*/
+  /*font-family: Oswald;*/
+  /*font-size: 18pt;*/
+  /*color: #82A3A1;*/
+/*}*/
 
 
-.form-custom-font{
-  font-family: 'Lobster' , cursive;
-  font-size: 20pt;
-  background: #5f7176;
-  border: 1px transparent;
-  text-align: center;
 
-}
+
+/*.form-custom-font{*/
+  /*font-family: 'Lobster' , cursive;*/
+  /*font-size: 20pt;*/
+  /*background: #5f7176;*/
+  /*border: 1px transparent;*/
+  /*text-align: center;*/
+
+/*}*/
 
