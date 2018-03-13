@@ -7,7 +7,7 @@
  */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -19,7 +19,9 @@ import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundModule } from './playground/playground.module';
 import { UploadIconComponent } from './new-problem/upload-icon.component';
 import { NgUploaderModule } from 'ngx-uploader';
-import { UploadAgentsComponent } from './new-problem/upload-agents/upload-agents.component';
+import { UploadAgentsComponent } from './new-problem/agents/upload-agents/upload-agents.component';
+import { AgentsComponent } from './new-problem/agents/agents.component';
+import { EnterAgentsComponent } from './new-problem/agents/enter-agents/enter-agents.component';
 
 
 /*
@@ -41,12 +43,15 @@ const appRoutes: Routes = [
     NewProblemComponent,
     HomePageComponent,
     UploadIconComponent,
-    UploadAgentsComponent
+    UploadAgentsComponent,
+    AgentsComponent,
+    EnterAgentsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
     NgUploaderModule,
     RouterModule.forRoot(
       appRoutes,
