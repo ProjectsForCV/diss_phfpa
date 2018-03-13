@@ -6,10 +6,10 @@ export class HttpCostMatrixService extends HttpBaseService{
 
 
   public getRandomMatrix(rows: number, cols: number) {
-    return this.get('/randomMat/' + rows + '/' + cols);
+    return this.get('/costMatrix/randomMat/' + rows + '/' + cols);
   }
 
   public postSolveMatrix(matrix: number[][]) {
-    return this.post('/solveMat' , matrix);
+    return this.post('/costMatrix/solveMat' , matrix);
   }
 }

@@ -1,19 +1,6 @@
-<div class="col-xs-3">
-  <label [routerLink]="" for="upload" class="profile-pic" >
-    <div class="profile-pic" style="background-image:
-  url('https://lasaterscoffee.com/wp-content/uploads/2014/10/group.png')" >
 
+<div class="col-xs-10 col-xs-offset-1">
 
-      <span class="glyphicon glyphicon-camera"></span>
-      <span>Upload Contacts</span>
-      <input type="file" id="upload" style="display:none">
-
-
-    </div>
-  </label>
+  <input type="file" class="form-control-file" (change)="fileChanged($event)" accept=".csv">
 </div>
-<div class="col-xs-6">
 
-
-  <input type="text" class="form-control" disabled>
-</div>
