@@ -19,7 +19,10 @@
 
       <div class="input-group">
 
-        <input type="text" id="addEmail" class="form-control" [formControl]="currentEmailInput" >
+        <input type="text" id="addEmail" class="form-control" [formControl]="currentEmailInput" placeholder="email">
+        <span class="input-group-addon">@</span>
+        <input type="text" class="form-control" placeholder="address.com" [formControl]="currentEmailDomainInput">
+
 
         <div class="input-group-addon btn-success" (click)="addEmail()">
             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -27,6 +30,7 @@
         </div>
       </div>
     </div>
+
 
 
   </div>
