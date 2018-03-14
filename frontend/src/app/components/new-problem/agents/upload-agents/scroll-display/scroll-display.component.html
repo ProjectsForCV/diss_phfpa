@@ -1,0 +1,16 @@
+<div class="panel panel-default" *ngIf="inputStrings && inputStrings.length > 0">
+  <div class="panel-heading">
+    {{title}}
+  </div>
+  <div class="panel-body">
+    <div style="overflow: auto; height:300px;" >
+      <table class="table">
+        <tbody>
+        <tr *ngFor="let item of inputStrings">
+          <td>{{item}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

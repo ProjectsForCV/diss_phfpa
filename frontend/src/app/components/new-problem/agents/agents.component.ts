@@ -12,24 +12,12 @@ export class AgentsComponent implements OnInit {
   @ViewChild(UploadAgentsComponent) uploadAgents: UploadAgentsComponent;
   @ViewChild(EnterAgentsComponent) enterAgents: EnterAgentsComponent;
 
-  constructor(public http: HttpEmailService) { }
+  public allEmails: string[] = [];
+
+  constructor() { }
 
   ngOnInit() {
   }
-
-  next() {
-    const manuallyEnteredEmails = this.enterAgents.getEmails();
-    const csvEmails = this.uploadAgents.getFile();
-
-    // IF CSV is present, post to server and check if the CSV is of the correct format
-    if (csvEmails) {
-      this.http.postCheckCSVFormat(csvEmails);
-    }
-  }
-
-
-
-
 
 
 }

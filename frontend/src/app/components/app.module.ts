@@ -22,6 +22,7 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { UploadAgentsComponent } from './new-problem/agents/upload-agents/upload-agents.component';
 import { AgentsComponent } from './new-problem/agents/agents.component';
 import { EnterAgentsComponent } from './new-problem/agents/enter-agents/enter-agents.component';
+import { ScrollDisplayComponent } from './new-problem/agents/upload-agents/scroll-display/scroll-display.component';
 
 
 /*
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     UploadIconComponent,
     UploadAgentsComponent,
     AgentsComponent,
-    EnterAgentsComponent
+    EnterAgentsComponent,
+    ScrollDisplayComponent
   ],
   imports: [
     BrowserModule,

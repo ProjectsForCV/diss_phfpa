@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Globals } from '../../components/Globals';
@@ -17,7 +17,11 @@ export class HttpBaseService {
     return this.http.get(this.HOST_ENDPOINT + resourcePath);
   }
 
-  public post(resourcePath: string, paylod: any): Observable<any> {
-    return this.http.post(this.HOST_ENDPOINT + resourcePath, paylod);
+  public post(resourcePath: string, paylod: any, options?: RequestOptions): Observable<any> {
+    return this.http.post(this.HOST_ENDPOINT + resourcePath, paylod, options);
+  }
+
+  public getHost() {
+    return this.HOST_ENDPOINT;
   }
 }
