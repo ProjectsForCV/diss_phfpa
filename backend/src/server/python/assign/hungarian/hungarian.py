@@ -5,7 +5,7 @@ import ast
 import json
 
 import numpy as np
-import sys, shlex
+import sys
 
 
 # The input matrix is stored to output the final allocation to the user

@@ -5,7 +5,7 @@ function solveMat(app) {
 
         const mat = req.body;
 
-        const py = spawn('python', ['../assign/hungarian/hungarian.py', JSON.stringify(mat)]);
+        const py = spawn('python', ['./python/assign/hungarian/hungarian.py', JSON.stringify(mat)]);
 
 
         py.stdout.on('data', (data) => {
@@ -17,7 +17,7 @@ function solveMat(app) {
         });
 
         py.stderr.on('data', (data) => {
-            console.log(`stderr: ${data}`);
+
 
         });
 
