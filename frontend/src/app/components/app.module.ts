@@ -19,12 +19,18 @@ import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundModule } from './playground/playground.module';
 import { UploadIconComponent } from './new-problem/upload-icon.component';
 import { NgUploaderModule } from 'ngx-uploader';
-import { UploadAgentsComponent } from './new-problem/agents/upload-agents/upload-agents.component';
-import { AgentsComponent } from './new-problem/agents/agents.component';
-import { EnterAgentsComponent } from './new-problem/agents/enter-agents/enter-agents.component';
-import { ScrollDisplayComponent } from './new-problem/agents/upload-agents/scroll-display/scroll-display.component';
+
 import { AlertServiceComponent } from '../services/alert-service/alert-service.component';
 import { AlertService } from '../services/alert-service/alert-service';
+import { HttpBaseService } from '../services/http/http-base-service';
+import { HttpCSVService } from '../services/http/http-csv-service';
+import { HttpCostMatrixService } from '../services/http/http-cost-matrix';
+import { ErrorHandlingService } from '../services/error-handling-service/error-handling-service';
+import { AssignmentDetailsComponent } from './new-problem/assignment-details/assignment-details.component';
+import { EnterTaskAgentsComponent } from './new-problem/task-agents/enter-task-agents/enter-task-agents.component';
+import { UploadTaskAgentsComponent } from './new-problem/task-agents/upload-task-agents/upload-task-agents.component';
+import { TaskAgentsComponent } from './new-problem/task-agents/task-agents.component';
+import { ScrollDisplayComponent } from './new-problem/task-agents/upload-task-agents/scroll-display/scroll-display.component';
 
 
 /*
@@ -46,11 +52,12 @@ const appRoutes: Routes = [
     NewProblemComponent,
     HomePageComponent,
     UploadIconComponent,
-    UploadAgentsComponent,
-    AgentsComponent,
-    EnterAgentsComponent,
+    UploadTaskAgentsComponent,
+    EnterTaskAgentsComponent,
+    TaskAgentsComponent,
     ScrollDisplayComponent,
-    AlertServiceComponent
+    AlertServiceComponent,
+    AssignmentDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,13 @@ const appRoutes: Routes = [
     ),
     PlaygroundModule
   ],
-  providers: [AlertService],
+  providers: [
+    AlertService,
+    HttpBaseService,
+    HttpCSVService,
+    HttpCostMatrixService,
+    ErrorHandlingService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

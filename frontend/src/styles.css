@@ -33,3 +33,13 @@
   color: white;
   margin-right:0px;
 }
+
+.continue-button {
+  font-family: 'Lobster' , cursive;
+  font-size: 28pt;
+  color: #9FC490;
+}
+
+.continue-button:hover {
+  color: #E8F3DC;
+}

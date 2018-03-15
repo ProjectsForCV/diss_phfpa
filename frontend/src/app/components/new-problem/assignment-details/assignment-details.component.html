@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup">
+  <div class="col-xs-3 pull-left">
+    <app-upload-icon></app-upload-icon>
+  </div>
+  <div class="form-group row">
+
+
+    <label class="col-xs-5" for="title">Title</label>
+    <div class="col-xs-7">
+      <input type="text" id="title" name="title" class="form-control" formControlName="title">
+    </div>
+
+
+    <label for="title" class="col-xs-5">Organiser Name</label>
+    <div class="col-xs-7">
+      <input type="text" id="orgName" name="orgName" class="form-control" formControlName="name">
+    </div>
+
+
+
+    <label class="col-xs-5" for="orgEmail">Organiser Email</label>
+
+    <div class="col-xs-7">
+      <input type="text" id="orgEmail" name="orgEmail" class="form-control" formControlName="email">
+    </div>
+
+
+  </div>
+
+
+
+</form>

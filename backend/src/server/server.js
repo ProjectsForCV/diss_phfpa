@@ -40,11 +40,13 @@ app.listen(port, (err) =>{
 function createEndpoints() {
     const randomMat = require('./api/costMatrix/randomMat');
     const solveMat = require('./api/costMatrix/solveMat');
-    const checkCSV  = require('./api/email/checkCSV');
+    const parseEmail  = require('./api/csv/parseEmail');
+    const parseTask = require('./api/csv/parseTask');
 
     randomMat(app);
     solveMat(app);
 
-    checkCSV(app);
+    parseEmail(app);
+    parseTask(app);
 
 }
