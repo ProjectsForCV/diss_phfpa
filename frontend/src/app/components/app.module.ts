@@ -23,6 +23,8 @@ import { UploadAgentsComponent } from './new-problem/agents/upload-agents/upload
 import { AgentsComponent } from './new-problem/agents/agents.component';
 import { EnterAgentsComponent } from './new-problem/agents/enter-agents/enter-agents.component';
 import { ScrollDisplayComponent } from './new-problem/agents/upload-agents/scroll-display/scroll-display.component';
+import { AlertServiceComponent } from '../services/alert-service/alert-service.component';
+import { AlertService } from '../services/alert-service/alert-service';
 
 
 /*
@@ -30,7 +32,7 @@ import { ScrollDisplayComponent } from './new-problem/agents/upload-agents/scrol
  separate file
  */
 const appRoutes: Routes = [
-  { path: '',                           component: HomePageComponent},
+  { path: '',                           component: NewProblemComponent},
   { path: 'playground',                           component: PlaygroundComponent},
   { path: 'new-problem',                           component: NewProblemComponent}
 
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     UploadAgentsComponent,
     AgentsComponent,
     EnterAgentsComponent,
-    ScrollDisplayComponent
+    ScrollDisplayComponent,
+    AlertServiceComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ const appRoutes: Routes = [
     ),
     PlaygroundModule
   ],
-  providers: [],
+  providers: [AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

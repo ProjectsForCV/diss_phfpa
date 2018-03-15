@@ -1,0 +1,18 @@
+<div class="foreground col-xs-4 col-xs-offset-8">
+  <ng-container *ngIf="successMessages && successMessages.length > 0">
+    <div class="alert alert-success animated  fadeIn" *ngFor="let success of successMessages">
+      <span class="glyphicon glyphicon-ok-circle"></span> {{success.message}}
+      <span class="glyphicon glyphicon-remove-circle pull-right button" (click)="remove(success)"></span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="errorMessages && errorMessages.length > 0">
+    <div class="alert alert-danger animated fadeIn" *ngFor="let error of errorMessages">
+      <span class="glyphicon glyphicon-ban-circle"></span>  {{error.message}}
+      <span class="glyphicon glyphicon-remove-circle pull-right button" (click)="remove(error)"></span>
+
+    </div>
+
+  </ng-container>
+
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HttpEmailService } from '../../../../services/http/http-email-service';
+import { AlertService } from '../../../../services/alert-service/alert-service';
 
 
 @Component({
@@ -15,9 +16,14 @@ export class UploadAgentsComponent implements OnInit {
 
   public fileName = 'No file chosen';
   public emailList: string[];
-  constructor(public http: HttpEmailService) { }
+  constructor(public http: HttpEmailService, public alertService: AlertService) { }
 
   ngOnInit() {
+  }
+
+  addMessage(){
+    this.alertService.success('This is a test sucess message');
+    this.alertService.error('this is a test error message');
   }
 
   public getFile() {
