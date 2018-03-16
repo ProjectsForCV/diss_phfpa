@@ -30,7 +30,7 @@ function parseEmail(app) {
                             items = [].concat.apply([], out);
 
                             items = items.filter(n => n !== '' && n !== undefined);
-                            
+
                             if(items && items.length > 0){
 
                                 res.json({
