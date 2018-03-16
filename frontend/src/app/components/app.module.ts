@@ -31,6 +31,8 @@ import { EnterTaskAgentsComponent } from './new-problem/task-agents/enter-task-a
 import { UploadTaskAgentsComponent } from './new-problem/task-agents/upload-task-agents/upload-task-agents.component';
 import { TaskAgentsComponent } from './new-problem/task-agents/task-agents.component';
 import { ScrollDisplayComponent } from './new-problem/task-agents/upload-task-agents/scroll-display/scroll-display.component';
+import { HttpAssignmentService } from '../services/http/http-assignment-service';
+import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 
 
 /*
@@ -38,9 +40,10 @@ import { ScrollDisplayComponent } from './new-problem/task-agents/upload-task-ag
  separate file
  */
 const appRoutes: Routes = [
-  { path: '',                           component: NewProblemComponent},
+  { path: '',                           component: HomePageComponent},
   { path: 'playground',                           component: PlaygroundComponent},
-  { path: 'new-problem',                           component: NewProblemComponent}
+  { path: 'new-problem',                           component: NewProblemComponent},
+  { path: 'survey/:surveyId',                       component: AgentLandingPageComponent}
 
 
 ];
@@ -57,7 +60,8 @@ const appRoutes: Routes = [
     TaskAgentsComponent,
     ScrollDisplayComponent,
     AlertServiceComponent,
-    AssignmentDetailsComponent
+    AssignmentDetailsComponent,
+    AgentLandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,8 @@ const appRoutes: Routes = [
     HttpBaseService,
     HttpCSVService,
     HttpCostMatrixService,
-    ErrorHandlingService
+    ErrorHandlingService,
+    HttpAssignmentService
   ],
   bootstrap: [AppComponent]
 })
