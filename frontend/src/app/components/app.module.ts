@@ -74,8 +74,7 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true}
     ),
-    PlaygroundModule,
-    NgxDnDModule
+    PlaygroundModule
   ],
   providers: [
     AlertService,

@@ -33,7 +33,7 @@ app.listen(port, (err) =>{
         return console.log(err)
     }
 
-    
+
     createEndpoints();
     console.log(`server is listening on ${port}`)
 });
