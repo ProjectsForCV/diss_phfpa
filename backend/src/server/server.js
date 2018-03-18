@@ -53,3 +53,6 @@ function createEndpoints() {
     assignment(app);
 
 }
+
+const sendEmail = require('./api/email/sendEmail');
+sendEmail({from:'wat',to:'dcooke06@qub.ac.uk',subject: 'Test', text: 'this is a test email'});
