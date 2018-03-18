@@ -33,6 +33,9 @@ app.listen(port, (err) =>{
         return console.log(err)
     }
 
+    app.get('/', (req, res) =>{
+        res.send('test');
+    });
     createEndpoints();
     console.log(`server is listening on ${port}`)
 });
