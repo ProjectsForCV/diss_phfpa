@@ -8,7 +8,7 @@ export class HttpBaseService {
 
   public HOST_ENDPOINT;
   public MOCK_HOST = 'https://localhost:12345/api';
-  public REAL_HOST = 'https://munkres.tk:12345/api';
+  public REAL_HOST = 'https://munkres.ml/api';
 
   constructor(public http: Http) {
     this.HOST_ENDPOINT = Globals.RunMode === Globals.AppRunModeEnum.MOCK ? this.MOCK_HOST : this.REAL_HOST;
