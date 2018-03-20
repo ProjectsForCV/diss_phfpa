@@ -1,8 +1,8 @@
 
 <div class="row">
-  <div class="col-xs-10 col-xs-offset-1">
+  <div class="col-xs-12">
 
-    <div class="col-xs-8">
+    <div class="col-xs-10">
 
       <label for="browse" class="my-file-upload col-xs-4">Choose a file
         <span class="glyphicon glyphicon-file"></span>
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="col-xs-1">
+    <div class="col-xs-2">
       <button class="btn btn-success" (click)="upload()">
         Upload
         <span class="glyphicon glyphicon-upload"></span>
@@ -24,11 +24,11 @@
 
 <br>
 <div class="row">
-  <div class="col-xs-6 col-xs-offset-1">
+
     <app-scroll-display
       [inputStrings]="strings"
       [title]="getDisplayTitle()"
     ></app-scroll-display>
-  </div>
+
 </div>
 

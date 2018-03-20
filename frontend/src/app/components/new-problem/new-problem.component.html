@@ -1,12 +1,13 @@
+
 <div class="container-fluid">
   <div class="row">
-
-    <div class="col-xs-10 col-xs-offset-1" style="!important; margin-bottom:10px;">
-
+    <div class="col-xs-12 col-md-12 col-lg-8 col-lg-offset-2">
       <ng-container *ngIf="page == 1">
+
+
         <div class="panel panel-default">
           <div class="panel-heading">
-            Assignment Details
+            <div class="panel-title sectionText">Assignment Details</div>
           </div>
           <div class="panel-body">
 
@@ -17,9 +18,11 @@
 
         </div >
 
+
+
         <div class="panel panel-default" style="margin-top:0;">
           <div class="panel-heading">
-            <h3 class="panel-title">Agents</h3>
+            <h3 class="panel-title sectionText">Agents</h3>
           </div>
           <div class="panel-body">
             <app-task-agents
@@ -33,13 +36,15 @@
             ></app-task-agents>
           </div>
         </div>
+
+
       </ng-container>
 
       <ng-container *ngIf="page == 2">
         <div class="panel panel-default">
 
           <div class="panel-heading">
-            Task Details
+            <div class="panel-title sectionText">Task Details</div>
           </div>
 
           <div class="panel-body">
@@ -57,28 +62,30 @@
         </div>
       </ng-container>
 
+
+      <div class="row">
+
+
+        <div class="pull-right ">
+          <div class="continue-button animated slideInRight" *ngIf="continueButtonVisible" (click)="next()">
+            {{continueButtonText}}
+            <span class="glyphicon glyphicon-arrow-right"></span>
+          </div>
+        </div>
+
+        <div class="pull-left" *ngIf="page > 1">
+
+          <div class="continue-button animated slideInRight" (click)="back()">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+
+            Back
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  <div class="row">
 
-    <div class="col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset2">
-      <div class="pull-right ">
-        <div class="continue-button animated slideInRight" *ngIf="continueButtonVisible" (click)="next()">
-          {{continueButtonText}}
-          <span class="glyphicon glyphicon-arrow-right"></span>
-        </div>
-      </div>
-
-      <div class="pull-left" *ngIf="page > 1">
-
-        <div class="continue-button animated slideInRight" (click)="back()">
-          <span class="glyphicon glyphicon-arrow-left"></span>
-
-          Back
-        </div>
-      </div>
-    </div>
-  </div>
 
 </div>

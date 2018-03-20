@@ -1,27 +1,49 @@
 <form [formGroup]="formGroup">
-  <div class="col-xs-3 pull-left">
-    <app-upload-icon></app-upload-icon>
-  </div>
-  <div class="form-group row">
+  <div class="row">
+    <div class="col-sm-3 col-sm-pull-0 col-xs-12 text-center">
+      <app-upload-icon></app-upload-icon>
+    </div>
+    <div class="visible-xs" style="display: block; margin-bottom: 8%;">
 
-
-    <label class="col-xs-5" for="title">Title</label>
-    <div class="col-xs-7">
-      <input type="text" id="title" name="title" class="form-control" formControlName="title">
+      <div class="row"></div>
     </div>
 
-
-    <label for="title" class="col-xs-5">Organiser Name</label>
-    <div class="col-xs-7">
-      <input type="text" id="orgName" name="orgName" class="form-control" formControlName="name">
-    </div>
+    <div class="col-sm-9 col-xs-12">
+      <div class="form-group">
 
 
 
-    <label class="col-xs-5" for="orgEmail">Organiser Email</label>
 
-    <div class="col-xs-7">
-      <input type="text" id="orgEmail" name="orgEmail" class="form-control" formControlName="email">
+        <label for="title" class="hidden-xs col-sm-5 labelDesktop">Title</label>
+        <label for="title" class="visible-xs col-xs-12 labelMobile">Title</label>
+        <div class="col-xs-12 col-sm-7">
+          <input type="text" id="title" name="title" class="form-control" formControlName="title">
+        </div>
+
+        <div style="display: block; margin-bottom: 4%;">
+          <div class="row"></div>
+        </div>
+
+        <label for="orgName" class="hidden-xs col-sm-5 labelDesktop">Organiser Name</label>
+        <label for="orgName" class="visible-xs col-xs-12 labelMobile">Organiser Name</label>
+        <div class="col-xs-12 col-sm-7">
+          <input type="text" id="orgName" name="orgName" class="form-control" formControlName="name">
+        </div>
+
+        <div style="display: block; margin-bottom: 4%;">
+
+          <div class="row"></div>
+        </div>
+
+        <label for="orgEmail" class="hidden-xs col-sm-5 labelDesktop">Organiser Email</label>
+        <label for="orgEmail" class="visible-xs col-xs-12 labelMobile">Organiser Email</label>
+
+        <div class="col-xs-12 col-sm-7">
+          <input type="text" id="orgEmail" name="orgEmail" class="form-control" formControlName="email">
+        </div>
+
+
+      </div>
     </div>
 
 

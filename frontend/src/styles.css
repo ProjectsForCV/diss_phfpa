@@ -43,3 +43,72 @@
 .continue-button:hover {
   color: #E8F3DC;
 }
+
+.helpText {
+  color: #82A3A1;
+  font-family: 'Oswald', serif;
+  font-size: 18pt;
+
+}
+
+.sectionText{
+  font-size: 20pt;
+  font-family: 'Arvo', bold;
+  color: #777777;
+}
+
+.sectionText-sm{
+  font-size: 12pt;
+  font-family: 'Arvo', bold;
+  color: #777777;
+}
+
+.panel {
+  border: 0;
+}
+.panel
+.panel-heading {
+  background: white;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+
+}
+
+.titleBar {
+  margin-top:0;
+  background: #1b6d85;
+  display: block;
+  margin-bottom: 5%;
+}
+
+.bottomBar {
+  margin-top:5%;
+  background: #1b6d85;
+  display: block;
+
+}
+
+.titleBar-mobile {
+
+}
+.panel
+.panel-body {
+  border: 0;
+  margin-bottom: 5%;
+}
+
+.labelDesktop {
+  font-size: 14pt;
+  font-family: 'Arvo', bold;
+  color: #777777;
+}
+.labelMobile {
+  font-size: 12pt;
+  font-family: 'Arvo', bold;
+  color: #777777;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

@@ -1,41 +1,91 @@
 
-<div class="container">
-  <p>
-    {{getManualEntryHelptext()}}
-  </p>
+<div class="container-fluid">
+
+
 
   <div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-1">
+
+
+      <div class="text-center" style="margin-bottom:5%;">
+        <p class="helpText">
+          {{getManualEntryHelptext()}}
+        </p>
+      </div>
+
 
       <app-enter-task-agents
-       (stringsChanged)="manualStringsChanged($event)"
-       [strings]="manualStrings"
+        (stringsChanged)="manualStringsChanged($event)"
+        [strings]="manualStrings"
         [mode]="mode"
       ></app-enter-task-agents>
-    </div>
+
   </div>
 
-  <hr>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
 
-  <p>
-    OR
-  </p>
 
-  <hr>
-
-  <p>
-    {{getCsvHelptext()}}
-  </p>
   <div class="row">
 
-    <app-upload-task-agents
-      [mode]="mode"
-      [strings]="csvUploadStrings"
-      [fileName]="csvFilename"
-      (stringsChanged)="csvUploadStringsChanged($event)"
-      (filenameChanged)="csvFilenameChangedEvent($event)"
+      <div class="col-xs-12 text-center">
+        <p class="helpText">
+          OR
+        </p>
+      </div>
 
-    ></app-upload-task-agents>
+  </div>
+
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+
+
+  <div class="row">
+
+
+      <div class=" text-center">
+        <p class="helpText">
+          {{getCsvHelptext()}}
+        </p>
+      </div>
+
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+
+
+      <app-upload-task-agents
+        [mode]="mode"
+        [strings]="csvUploadStrings"
+        [fileName]="csvFilename"
+        (stringsChanged)="csvUploadStringsChanged($event)"
+        (filenameChanged)="csvFilenameChangedEvent($event)"
+
+      ></app-upload-task-agents>
+
+
 
   </div>
 

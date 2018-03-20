@@ -7,7 +7,7 @@ import { Globals } from '../../components/Globals';
 export class HttpBaseService {
 
   public HOST_ENDPOINT;
-  public MOCK_HOST = 'https://localhost:12345/api';
+  public MOCK_HOST = 'http://localhost:12345/api';
   public REAL_HOST = 'https://munkres.ml/api';
 
   constructor(public http: Http) {
