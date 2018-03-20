@@ -34,6 +34,10 @@ app.listen(port, (err) =>{
     }
 
 
+    app.get('/', (req, res) => {
+       console.log('Hit endpoint');
+       res.send('Hello you have hit the endpoint \n');
+    });
     createEndpoints();
     console.log(`server is listening on ${port}`)
 });
