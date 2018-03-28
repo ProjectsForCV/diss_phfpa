@@ -14,22 +14,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
-  animations: [
-    trigger('continueButton', [
-      state('hide', style({
-        opacity: 0
-      })),
-
-      state('show', style({
-        opacity: 1
-      })),
-
-      transition('hide => show' , animate('1000ms ease-in')),
-      transition('show => hide' , animate('1000ms ease-out'))
-
-    ])
-  ]
+  styleUrls: ['./home-page.component.css']
 })
 
 export class HomePageComponent implements OnInit {
@@ -72,6 +57,15 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  /*
+   DCOOKE 28/03/2018 - used to scroll the screen to the specified element
+  /*
+
+
+   */
+  scrollTo(el) {
+    el.scrollIntoView();
+  }
   /*
    DCOOKE 28/01/2018 - navigates away from this route to the specified route in the param
    */

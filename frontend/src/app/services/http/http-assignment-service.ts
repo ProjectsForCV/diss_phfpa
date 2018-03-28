@@ -18,5 +18,9 @@ export class HttpAssignmentService extends HttpBaseService {
     return this.post('/assignment', assignmentDetails, options);
   }
 
+  public getSurveyInfo(surveyId: string) {
+
+  }
+
 
 }

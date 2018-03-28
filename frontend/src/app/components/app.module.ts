@@ -33,6 +33,8 @@ import { TaskAgentsComponent } from './new-problem/task-agents/task-agents.compo
 import { ScrollDisplayComponent } from './new-problem/task-agents/upload-task-agents/scroll-display/scroll-display.component';
 import { HttpAssignmentService } from '../services/http/http-assignment-service';
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 
 /*
@@ -61,7 +63,8 @@ const appRoutes: Routes = [
     ScrollDisplayComponent,
     AlertServiceComponent,
     AssignmentDetailsComponent,
-    AgentLandingPageComponent
+    AgentLandingPageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true}
     ),
-    PlaygroundModule
+    PlaygroundModule,
+    NgxDnDModule
   ],
   providers: [
     AlertService,

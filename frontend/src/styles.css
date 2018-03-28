@@ -9,6 +9,8 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css?family=Arvo');
 
+@import '../node_modules/@swimlane/ngx-dnd/release/index.css';
+
 .my-file-upload{
   background:#1b6d85;
   display: inline-block;
@@ -40,8 +42,12 @@
   color: #9FC490;
 }
 
+.btn-light{
+  font-family: 'Arvo', bold;
+}
+
 .continue-button:hover {
-  color: #E8F3DC;
+  color: #F45B69;
 }
 
 .helpText {
@@ -76,21 +82,66 @@
 
 .titleBar {
   margin-top:0;
-  background: #1b6d85;
+  padding: 0px;
+  margin: 0;
+  background: #114B5F;
   display: block;
-  margin-bottom: 5%;
 }
 
-.bottomBar {
-  margin-top:5%;
-  background: #1b6d85;
-  display: block;
 
+
+.footer-main {
+
+  background: #114B5F;
 }
 
+.footer-sub {
+  background: #346878;
+}
+li{
+  list-style: none;
+}
+
+.router-container {
+
+
+  z-index: 999;
+
+}
 .titleBar-mobile {
 
 }
+h1 {
+  font-size: 70pt;
+  font-family: 'Lobster' , cursive;
+  text-align: center;
+  color: white;
+  margin-bottom:4%;
+}
+
+h2 {
+  font-size: 55pt;
+  font-family: 'Lobster' , cursive;
+  text-align: center;
+  color: white;
+  margin-bottom:4%;
+}
+
+h3 {
+  font-size: 18pt;
+  font-family: 'Arvo';
+  text-align: center;
+  color: white;
+}
+
+h4 {
+  font-size: 32pt;
+  font-family: 'Lobster' , cursive;
+  text-align: center;
+  color: white;
+  margin-bottom:4%;
+}
+
 .panel
 .panel-body {
   border: 0;
@@ -108,7 +159,31 @@
   color: #777777;
 }
 
-body {
+
+p {
+  color: #82A3A1;
+  font-family: 'Oswald', serif;
+  font-size: 21pt;
+  text-align: center;
+}
+
+a {
+  color: #9FC490;
+}
+
+
+hr {
+  border-color: #2c3847;
+  border-radius: 2px;
+}
+
+
+
+html, body {
   margin: 0;
+  min-height: 100%;
+  height: 100%;
+  position: relative;
   padding: 0;
+  background: white;
 }

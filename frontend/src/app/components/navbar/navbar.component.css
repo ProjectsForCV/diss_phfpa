@@ -1,0 +1,37 @@
+.navbar-container {
+  width: 100%;
+  display: block;
+  background:#114B5F;
+  padding:0px;
+  text-align: center;
+}
+
+
+li {
+  display: inline;
+  font-family: 'Arvo';
+  color: white;
+  font-size: 20pt;
+
+}
+
+
+.active-tab {
+  color: white;
+  text-decoration: underline;
+
+}
+
+.tab:hover {
+  color: #9FC490;
+  cursor: pointer;
+}
+
+.tab {
+  background: #114B5F;
+  padding: 8px;
+
+  z-index: -1;
+}
+
+

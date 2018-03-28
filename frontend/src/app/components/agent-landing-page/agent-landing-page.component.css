@@ -4,3 +4,15 @@ p {
   font-size: 21pt;
   text-align: center;
 }
+
+.panel-heading{
+  background: #114B5F;
+  color:white;
+  font-family: 'Oswald', serif;
+  font-size: 21pt;
+  text-align: center;
+}
+
+.panel {
+  border: 1px solid black;
+}

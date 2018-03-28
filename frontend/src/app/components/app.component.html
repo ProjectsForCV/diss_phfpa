@@ -1,25 +1,53 @@
 <app-alert-service></app-alert-service>
-<div class="col-xs-12 titleBar hidden-xs animated fadeInDown">
 
-  <h1>Assignment Optimiser</h1>
+<ng-container *ngIf="mainSite()">
+  <div class="col-xs-12 titleBar hidden-xs animated fadeInDown">
+
+    <h1>Assignment Optimiser</h1>
+
+    <app-navbar></app-navbar>
+  </div>
+
+  <div class="col-xs-12 titleBar visible-xs animated fadeInDown">
+
+    <h4>Assignment Optimiser</h4>
+    <app-navbar></app-navbar>
+  </div>
+
+</ng-container>
+
+
+
+<div class="router-container">
+  <router-outlet></router-outlet>
 </div>
 
-<div class="col-xs-12 titleBar visible-xs animated fadeInDown">
 
-  <h4>Assignment Optimiser</h4>
-</div>
+<ng-container *ngIf="mainSite()">
+  <div class=" footer-main hidden-xs">
+    <div class="container">
+      <div class="row ">
+        <ul>
+          <li><h3>by Daniel Cooke</h3></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-sub hidden-xs">
+    <div class="container">
+      <div class="row ">
+        <ul>
+          <li><h3>github</h3></li>
+          <li><h3>Linkedin</h3></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 
 
-<router-outlet></router-outlet>
 
-<div class="col-xs-12 bottomBar hidden-xs">
-
-  <h3>by Daniel Cooke</h3>
-
-  <hr>
-
-  <h3>github</h3>
-  <h3>linkedin</h3>
-</div>
-
+</ng-container>
 
