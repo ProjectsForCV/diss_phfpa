@@ -35,7 +35,7 @@ export class NewProblemComponent implements OnInit {
   public taskMode = AgentTaskMode.TASK;
 
   public continueButtonVisible = false;
-  public continueButtonText = 'Continue';
+  public continueButtonText = 'Next';
   public page = 1;
 
   public assignmentDetailsFormState: FormGroup;
@@ -113,13 +113,16 @@ export class NewProblemComponent implements OnInit {
 
   next() {
     if (this.page === 1) {
-      this.agents = this.agentComponent.getAllStrings().map(s => {return {email: s}; });
+
       this.organiserEmail = this.assignmentDetailsFormState.get('email').value;
       this.organiserName = this.assignmentDetailsFormState.get('name').value;
       this.assignmentTitle = this.assignmentDetailsFormState.get('title').value;
 
     }
     if (this.page === 2) {
+      this.agents = this.agentComponent.getAllStrings().map(s => {return {email: s}; });
+    }
+    if (this.page === 3) {
       this.tasks = this.taskComponent.getAllStrings();
     }
     this.page++;
@@ -134,19 +137,25 @@ export class NewProblemComponent implements OnInit {
   private updatePageState() {
     const page = this.page;
 
-    if (page === 1 && this.agentDetailsComplete && this.assignmentDetailsComplete) {
+    if (page === 1 && this.assignmentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Continue';
+      this.continueButtonText = 'Next';
       return;
     }
 
-    if (page === 2 && this.taskComponent && this.tasksComplete) {
+    if (page === 2 && this.agentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Finish & Send Survey to Agents';
+      this.continueButtonText = 'Next';
       return;
     }
 
-    if (page === 3) {
+    if (page === 3 && this.taskComponent && this.tasksComplete) {
+      this.continueButtonVisible = true;
+      this.continueButtonText = 'Finish';
+      return;
+    }
+
+    if (page === 4) {
       this.createAssignmentProblem();
     }
 

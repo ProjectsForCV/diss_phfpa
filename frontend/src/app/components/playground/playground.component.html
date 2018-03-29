@@ -1,32 +1,49 @@
-<div class="container">
-
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="panel panel-default">
-        <div class="panel panel-body">
-
-          <app-generator
-            [matrixSubscription]="matrixSubscriber"
-
-          ></app-generator>
 
 
+
+  <div class="container" style="padding-top:10%;">
+
+    <div class="row">
+      <br>
+    </div>
+
+    <div  style="margin-top: 10%">
+      <h2 class="sectionText">Generate a random cost matrix or upload your own CSV.</h2>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <br>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel panel-body">
+
+            <app-generator
+              [matrixSubscription]="matrixSubscriber"
+
+            ></app-generator>
+
+
+          </div>
         </div>
       </div>
     </div>
+
+
   </div>
 
-
-
-  <div class="row">
-    <div class="col-xs-12" style="text-align: center">
-      <app-matrix [matrixListener]="matrixSubscriber"
-                  [solutionListener]="solutionSubscriber"
-      ></app-matrix>
-    </div>
-  </div>
-
-
+  <app-matrix [matrixListener]="matrixSubscriber"
+              [solutionListener]="solutionSubscriber"
+  ></app-matrix>
 
   <div class="row" *ngIf="matrix">
     <div class="col-xs-12">
@@ -36,4 +53,8 @@
     </div>
   </div>
 
-</div>
+  <div style="height:400px;"></div>
+
+
+
+

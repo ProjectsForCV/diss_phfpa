@@ -51,9 +51,9 @@
 }
 
 .helpText {
-  color: #82A3A1;
-  font-family: 'Oswald', serif;
-  font-size: 18pt;
+  color: #777777;
+  font-family: 'Arvo';
+  font-size: 14pt;
 
 }
 
@@ -88,6 +88,9 @@
   display: block;
 }
 
+hr {
+  border: 1px solid #ddd;
+}
 
 
 .footer-main {
@@ -172,10 +175,6 @@ a {
 }
 
 
-hr {
-  border-color: #2c3847;
-  border-radius: 2px;
-}
 
 
 

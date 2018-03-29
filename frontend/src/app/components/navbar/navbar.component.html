@@ -1,15 +1,15 @@
 <div class="navbar-container">
   <ul class="row">
     <span class="col-xs-4">
-      <li class="active-tab">Home</li>
+      <li class="{{homeCss}}" (click)="navigate('/')">Home</li>
     </span>
 
     <span class="col-xs-4">
-      <li class="tab">Playground</li>
+      <li class="{{playgroundCss}}" (click)="navigate('/playground')">Playground</li>
 
     </span>
     <span class="col-xs-4">
-      <li class="tab">New Assignment</li>
+      <li class="{{assignmentCss}}" (click)="navigate('/new-problem')" >New Assignment</li>
 
     </span>
 

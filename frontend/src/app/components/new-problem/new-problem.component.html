@@ -1,95 +1,105 @@
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-8 col-lg-offset-2">
-      <ng-container *ngIf="page == 1">
+
+  <div class="container-fluid" >
+    <div class="row">
 
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-title sectionText">Assignment Details</div>
-          </div>
-          <div class="panel-body">
+      <div class="col-xs-12 col-md-12 col-lg-8 col-lg-offset-2">
+        <ng-container *ngIf="page == 1">
 
-            <app-assignment-details
-              (formState)="assignmentDetailsChanged($event)"></app-assignment-details>
+          <div class="animated fadeIn">
+            <div class="panel panel-default" style="min-height: 700px;">
+              <div class="panel-heading">
+                <div class="panel-title "><h3 class="sectionText">Assignment Details</h3></div>
+              </div>
+              <div class="panel-body">
 
-          </div>
+                <app-assignment-details
+                  (formState)="assignmentDetailsChanged($event)"></app-assignment-details>
 
-        </div >
+              </div>
 
-
-
-        <div class="panel panel-default" style="margin-top:0;">
-          <div class="panel-heading">
-            <h3 class="panel-title sectionText">Agents</h3>
-          </div>
-          <div class="panel-body">
-            <app-task-agents
-              [mode]="agentMode"
-              [manualStrings]="manualEmails"
-              [csvFilename]="csvEmailsFilename"
-              [csvUploadStrings]="csvEmails"
-              (stringsChanged)="taskAgentChanged($event)"
-              #agent
-
-            ></app-task-agents>
-          </div>
-        </div>
-
-
-      </ng-container>
-
-      <ng-container *ngIf="page == 2">
-        <div class="panel panel-default">
-
-          <div class="panel-heading">
-            <div class="panel-title sectionText">Task Details</div>
+            </div >
           </div>
 
-          <div class="panel-body">
-
-            <app-task-agents
-              [mode]="taskMode"
-              [manualStrings]="manualTasks"
-              [csvFilename]="csvTaskFilename"
-              [csvUploadStrings]="csvTasks"
-              (stringsChanged)="taskAgentChanged($event)"
-              #task
-
-            ></app-task-agents>
-          </div>
-        </div>
-      </ng-container>
-
-      <div class="row" style="display: block">
 
 
-        <div class="col-xs-12">
-          <div class="pull-right ">
-            <div class="continue-button animated slideInRight" *ngIf="continueButtonVisible" (click)="next()">
-              {{continueButtonText}}
-              <span class="glyphicon glyphicon-arrow-right"></span>
+
+
+
+
+
+        </ng-container>
+
+        <ng-container *ngIf="page==2">
+          <div class="panel panel-default" style="margin-top:0;">
+            <div class="panel-heading">
+              <h3 class="panel-title sectionText">Agents</h3>
+            </div>
+            <div class="panel-body">
+              <app-task-agents
+                [mode]="agentMode"
+                [manualStrings]="manualEmails"
+                [csvFilename]="csvEmailsFilename"
+                [csvUploadStrings]="csvEmails"
+                (stringsChanged)="taskAgentChanged($event)"
+                #agent
+
+              ></app-task-agents>
             </div>
           </div>
+        </ng-container>
 
-          <div class="pull-left" *ngIf="page > 1">
+        <ng-container *ngIf="page == 3">
+          <div class="panel panel-default animated slideInRight">
 
-            <div class="continue-button animated slideInRight" (click)="back()">
-              <span class="glyphicon glyphicon-arrow-left"></span>
+            <div class="panel-heading">
+              <div class="panel-title sectionText">Task Details</div>
+            </div>
 
-              Back
+            <div class="panel-body">
+
+              <app-task-agents
+                [mode]="taskMode"
+                [manualStrings]="manualTasks"
+                [csvFilename]="csvTaskFilename"
+                [csvUploadStrings]="csvTasks"
+                (stringsChanged)="taskAgentChanged($event)"
+                #task
+
+              ></app-task-agents>
             </div>
           </div>
+        </ng-container>
 
+        <div class="row" style="display: block">
+
+
+          <div class="col-xs-12">
+            <div class="pull-right ">
+              <div class="continue-button animated fadeIn" *ngIf="continueButtonVisible" (click)="next()">
+                {{continueButtonText}}
+
+              </div>
+            </div>
+
+            <div class="pull-left" *ngIf="page > 1">
+
+              <div class="continue-button animated fadeIn" (click)="back()">
+
+
+                Back
+              </div>
+            </div>
+
+          </div>
         </div>
-        </div>
 
 
+      </div>
     </div>
+
+
+
   </div>
-
-
-
-</div>
 

@@ -8,6 +8,7 @@
  */
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-matrix',
@@ -38,13 +39,16 @@ export class MatrixComponent implements OnInit {
    used in the template.
    */
   public grid: number[][];
+  private colWidth: string;
+  private gettingMatrix: Subscription;
   constructor() { }
 
   ngOnInit() {
 
-    this.matrixListener.subscribe(
+    this.gettingMatrix = this.matrixListener.subscribe(
       (matrix) => {
         this.matrix = matrix;
+
         this.solution = undefined;
         this.resetGridInTemplate();
 
@@ -82,7 +86,7 @@ export class MatrixComponent implements OnInit {
       return;
     }
 
-
+    this.colWidth = this.getWidth();
     this.grid = this.matrix.slice();
   }
 
@@ -93,5 +97,17 @@ export class MatrixComponent implements OnInit {
   valueChanged(row, col, val) {
     this.grid[row][col] = parseInt(val, 10);
     this.matrixListener.next(this.grid);
+  }
+
+  /*
+   DCOOKE 28/03/2018 - Gets the width for a cell based on the number of rows and columns
+   */
+  getWidth() {
+    const rows = this.matrix.length;
+    const cols = this.matrix[0].length;
+
+    console.log(100 / cols);
+
+    return `${100 / cols}%`;
   }
 }

@@ -40,6 +40,28 @@ export class TaskAgentsComponent implements OnInit {
   getCsvHelptext() {
     return this.mode === AgentTaskMode.TASK ? 'Upload a CSV containing task names.' : 'Upload a CSV containing agent email addresses.';
   }
+
+  getInfoTextMain() {
+    return this.mode === AgentTaskMode.TASK
+    ? `A task is a piece of work that needs done. `
+    : `An agent is a person or thing that will take an active role. `;
+  }
+
+  getInfoTextExamples() {
+    return this.mode === AgentTaskMode.TASK
+    ? `Examples include: Jobs, Courses, Modules, Projects.`
+           : `Examples include: Students, Workers, Developers.`;
+  }
+
+  getInfoTextInstructions() {
+    return this.mode === AgentTaskMode.TASK
+      ? ` Please enter the name for a task in your scenario.`
+           : ` Please enter the name for an agent in your scenario.`;
+  }
+  getAliasText() {
+    return this.mode === AgentTaskMode.TASK
+      ? `Task` : `Agent`;
+  }
   manualStringsChanged(strings: string[]) {
     this.manualStrings = strings;
     this.stringsChanged.emit( {strings: this.manualStrings, mode: this.mode});
@@ -52,6 +74,10 @@ export class TaskAgentsComponent implements OnInit {
 
   csvFilenameChangedEvent(name: string) {
     this.csvFilename = name;
+  }
+
+  isAgentMode() {
+    return this.mode === AgentTaskMode.AGENT;
   }
 
   ngOnInit() {

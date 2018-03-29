@@ -10,7 +10,8 @@ export class ErrorHandlingService {
   }
 
   public handleError(r: Response) {
-    if (r.status === 0){
+
+    if (r.status === 0) {
       this.alertService.error('There was a problem contacting the server. Please try again later.');
     }
 

@@ -8,6 +8,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpCostMatrixService } from '../../services/http/http-cost-matrix';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AlertService } from '../../services/alert-service/alert-service';
+import { ErrorHandlingService } from '../../services/error-handling-service/error-handling-service';
 
 @Component({
   selector: 'app-playground',
@@ -33,7 +35,7 @@ export class PlaygroundComponent implements OnInit {
    */
   public solutionSubscriber: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>(null);
 
-  constructor(public http: HttpCostMatrixService) { }
+  constructor(public http: HttpCostMatrixService, public errorService: ErrorHandlingService) { }
 
 
   /*
@@ -48,7 +50,7 @@ export class PlaygroundComponent implements OnInit {
         (res) => {
           this.solutionSubscriber.next(res.json());
         },
-          err => console.error(err),
+          err => this.errorService.handleError(err),
         () => console.dir('HTTP Post complete')
       );
   }

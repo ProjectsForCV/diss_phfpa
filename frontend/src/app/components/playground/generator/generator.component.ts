@@ -9,6 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
 import {  FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ErrorHandlingService } from '../../../services/error-handling-service/error-handling-service';
 
 @Component({
   selector: 'app-generator',
@@ -29,7 +30,7 @@ export class GeneratorComponent implements OnInit {
   public matrixSubscription: BehaviorSubject<number[][]>;
 
 
-  constructor(public http: HttpCostMatrixService) { }
+  constructor(public http: HttpCostMatrixService, public errorService: ErrorHandlingService) { }
 
   ngOnInit() {
     this.setupForm();
@@ -59,7 +60,7 @@ export class GeneratorComponent implements OnInit {
             this.updateMatrix(res.json());
           },
           (err) => {
-            console.error(err);
+            this.errorService.handleError(err);
           },
           () => {
             console.dir('HTTP Call complete');
