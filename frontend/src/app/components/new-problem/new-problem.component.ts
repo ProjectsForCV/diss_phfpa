@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AgentTaskMode } from './AgentTaskMode';
 import { TaskAgentsComponent } from './task-agents/task-agents.component';
 import { HttpAssignmentService } from '../../services/http/http-assignment-service';
 import { Agent } from '../../services/http/interfaces/Agent';
 import { NewAssignment } from '../../services/http/interfaces/NewAssignment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-new-problem',
@@ -45,7 +46,9 @@ export class NewProblemComponent implements OnInit {
 
 
   private tasksComplete = false;
-  constructor(public http: HttpAssignmentService) { }
+  private confirmFinishModalRef: any;
+  private agentAlias: string;
+  constructor(public http: HttpAssignmentService, public modal: BsModalService) { }
 
   assignmentDetailsChanged(form: FormGroup) {
     this.assignmentDetailsFormState = form;
@@ -111,7 +114,7 @@ export class NewProblemComponent implements OnInit {
   ngOnInit() {
   }
 
-  next() {
+  next(modalRef) {
     if (this.page === 1) {
 
       this.organiserEmail = this.assignmentDetailsFormState.get('email').value;
@@ -120,13 +123,22 @@ export class NewProblemComponent implements OnInit {
 
     }
     if (this.page === 2) {
+      this.agentAlias = this.agentComponent.getAlias();
       this.agents = this.agentComponent.getAllStrings().map(s => {return {email: s}; });
     }
     if (this.page === 3) {
-      this.tasks = this.taskComponent.getAllStrings();
+      this.confirmFinishModalRef = this.modal.show(modalRef);
+      return;
+
     }
     this.page++;
     this.updatePageState();
+  }
+
+  finish() {
+    this.confirmFinishModalRef.hide();
+    this.tasks = this.taskComponent.getAllStrings();
+    this.createAssignmentProblem();
   }
 
   back() {
@@ -155,9 +167,6 @@ export class NewProblemComponent implements OnInit {
       return;
     }
 
-    if (page === 4) {
-      this.createAssignmentProblem();
-    }
 
 
     this.continueButtonVisible = false;
@@ -169,13 +178,19 @@ export class NewProblemComponent implements OnInit {
       organiserEmail: this.organiserEmail,
       organiserName: this.organiserName,
       agents: this.agents,
-      tasks: this.tasks
+      tasks: this.tasks,
+      agentAlias: this.agentAlias,
+      taskAlias: this.taskComponent.getAlias()
     };
     this.http.postNewAssignment(assignment)
       .subscribe(
-        res => console.log(res),
+        res => this.problemCreated(res),
               err => console.error(err),
         () => console.dir('Finished')
       );
+  }
+
+  private problemCreated(res: Response) {
+
   }
 }

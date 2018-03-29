@@ -6,4 +6,7 @@ export interface NewAssignment {
   organiserEmail: string;
   agents: Agent[];
   tasks: string[];
+
+  agentAlias: string;
+  taskAlias: string;
 }

@@ -28,6 +28,8 @@ export class TaskAgentsComponent implements OnInit {
   public csvFilename: string;
 
 
+  public alias: string;
+
   public getAllStrings() {
     return this.manualStrings.concat(this.csvUploadStrings);
   }
@@ -61,6 +63,10 @@ export class TaskAgentsComponent implements OnInit {
   getAliasText() {
     return this.mode === AgentTaskMode.TASK
       ? `Task` : `Agent`;
+  }
+
+  getAlias() {
+    return this.alias;
   }
   manualStringsChanged(strings: string[]) {
     this.manualStrings = strings;

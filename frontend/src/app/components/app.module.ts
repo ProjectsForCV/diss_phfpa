@@ -35,6 +35,8 @@ import { HttpAssignmentService } from '../services/http/http-assignment-service'
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
+import { ModalModule } from 'ngx-bootstrap';
+import { ProblemCreatedComponent } from './problem-created/problem-created.component';
 
 
 /*
@@ -64,7 +66,8 @@ const appRoutes: Routes = [
     AlertServiceComponent,
     AssignmentDetailsComponent,
     AgentLandingPageComponent,
-    NavbarComponent
+    NavbarComponent,
+    ProblemCreatedComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,8 @@ const appRoutes: Routes = [
       { enableTracing: true}
     ),
     PlaygroundModule,
-    NgxDnDModule
+    NgxDnDModule,
+    ModalModule.forRoot()
   ],
   providers: [
     AlertService,
