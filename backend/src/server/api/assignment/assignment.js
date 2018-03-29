@@ -1,18 +1,125 @@
+/***********************************************************************
+ * Date: 29/03/2018
+ * Author: Daniel Cooke
+ ***********************************************************************/
+/*
+    assignment.js is used as the api endpoint for all assignment related tasks
+ */
+/* ================================================================================================================== */
+/*  IMPORTS  -   29/03/2018  -   DCOOKE
+/* ================================================================================================================== */
 const mysql = require('mysql');
 const fs = require('fs');
 const connection = require('../../data/dbSettings');
+
+/* ================================================================================================================== */
+/*  FUNCTIONS -   29/03/2018  -   DCOOKE
+/* ================================================================================================================== */
+/*
+ DCOOKE 29/03/2018 - the main function which takes the express server object to setup various api endpoints
+ */
 function assignment(app) {
 
-    app.post('/api/assignment', (req, res) => {
+    app.post('/api/assignment', (req, clientResponse) => {
 
         const assignment = req.body;
-        beginTransaction(assignment);
+        createAssignmentProblem(assignment, clientResponse);
 
-    })
+    });
+
+    app.get('/api/assignment', (req, clientResponse) => {
+
+        let assignment = {
+            assignmentId: req.query.assignmentId
+        };
+
+        const db = mysql.createConnection(connection);
+
+        db.query(`SELECT * FROM problems WHERE ProblemID=?`, assignment.assignmentId, (err, res) => {
+
+            if(err || !res[0]) {
+                clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
+                clientResponse.end(`An error occurred when contacting the database`);
+
+            }
+            // will always return 1 row
+            data = res[0];
+            assignment.assignmentTitle = data.Name;
+            assignment.organiserId = data.OrganiserID;
+            assignment.taskAlias = data.TaskAlias;
+            assignment.agentAlias = data.AgentAlias;
+
+            console.log(assignment)
+            db.query(`SELECT * FROM organisers WHERE OrganiserID =?`, assignment.organiserId , (err, res) =>{
+                if(err || !res) {
+                    clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
+                    clientResponse.end(`An error occurred when contacting the database`);
+
+                }
+                // will always return 1 row
+                const data = res[0];
+                assignment.organiserName = data.Name;
+                assignment.organiserEmail = data.Email;
+
+                db.query(`SELECT * FROM problem_agents WHERE ProblemID =?`, assignment.assignmentId , (err, res) =>{
+                    if(err || !res[0]) {
+                        clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
+                        clientResponse.end(`An error occurred when contacting the database`);
+
+                    }
+                    const data = res;
+                    // DCOOKE 29/03/2018 - Create list of agents
+                    assignment.agents = data.map(
+                        row =>{
+
+                            return {
+                                agentId: row.AgentID,
+                                completed: !!row.Completed
+
+                            }
+                        }
+                    );
+
+                    // DCOOKE 29/03/2018 - map to just ids for IN clause
+                    const agentIds = assignment.agents.map(agent => agent.agentId);
+
+                    db.query(`SELECT * FROM agents WHERE AgentID IN (?)`, agentIds, (err, res) => {
+
+                        const data = res;
+                        if(err || !res[0]) {
+                            clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
+                            clientResponse.end(`An error occurred when contacting the database`);
+
+                        }
+
+                        for(let i = 0 ; i < data.length; i ++) {
+                            assignment.agents[i].email = data[i].Email;
+                        }
+
+
+                        /*
+                         DCOOKE 29/03/2018 - TODO : THIS IS WHERE U GOT TO - finish getting task details and surveys
+
+                         TODO _ PERHAPS WAIT UNTIL YOU HAVE FINISHED THE SURVEY FUNCTIONALITY
+                         */
+                    })
+
+
+
+
+                })
+            })
+        })
+    });
+
 
 
 }
 
+/*
+ DCOOKE 29/03/2018 - rollback is used to undo an ongoing SQL Transaction in the case of an error - this way the database
+                     integrity is protected.
+ */
 function rollback(db, error, query) {
     db.rollback(() => {
         console.error('ERROR WITH QUERY: ' + query);
@@ -20,8 +127,12 @@ function rollback(db, error, query) {
     })
 }
 
-function beginTransaction(assignment) {
-    // Create entry in database
+/*
+ DCOOKE 29/03/2018 - createAssignmentProblem is used to add a new assignment problem to the database, it takes place
+                     in stages. If one stage fails the transaction is rolled back.
+ */
+function createAssignmentProblem(assignment, clientRes) {
+
     const db = mysql.createConnection(connection);
 
     db.connect();
@@ -41,7 +152,7 @@ function beginTransaction(assignment) {
 
 
             //IF ProblemID is null set equal to 1;
-            const problemID = results[0]['MAX(ProblemID)'] || 1;
+            const problemID = (results[0]['MAX(ProblemID)'] || 1) + 1;
 
 
             // Get next task id
@@ -89,8 +200,8 @@ function beginTransaction(assignment) {
                             }
 
                             // Create problem
-                            let problemQuery = db.query(`INSERT INTO problems(ProblemID, Name, OrganiserID) VALUES (?, ?, ?)`
-                                ,[problemID, assignment.assignmentTitle, organiserID], (err, res) => {
+                            let problemQuery = db.query(`INSERT INTO problems(ProblemID, Name, OrganiserID, TaskAlias, AgentAlias) VALUES (?, ?, ?, ?, ?)`
+                                ,[problemID, assignment.assignmentTitle, organiserID, assignment.taskAlias, assignment.agentAlias], (err, res) => {
                                     // Create agents and surveys
                                     // Get highest agent id
                                     db.query(`SELECT MAX(AgentID) FROM agents`, (err, res) => {
@@ -171,6 +282,10 @@ function beginTransaction(assignment) {
                                                                 }
 
                                                                 console.log(`Assignment : ${assignment.assignmentTitle} added to database. Successfully`);
+
+
+                                                                ret = {problemId: problemID};
+                                                                clientRes.json(ret);
                                                             })
                                                         })
 
@@ -206,4 +321,7 @@ function beginTransaction(assignment) {
 
 
 }
+
+
+
 module.exports = exports = assignment;

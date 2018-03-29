@@ -1,4 +1,17 @@
+/***********************************************************************
+ * Date: 29/03/2018
+ * Author: Daniel Cooke
+ ***********************************************************************/
+/*
+ DCOOKE 29/03/2018 - randomMat.js is used to return a random array to the client , called from the Playground
+ */
 
+/* ================================================================================================================== */
+/*  FUNCTIONS -   29/03/2018  -   DCOOKE
+/* ================================================================================================================== */
+/*
+ DCOOKE 29/03/2018 - randomMat sets up the main GET endpoint to be called from the client
+ */
 function randomMat(app){
     app.get('/api/costMatrix/randomMat/:rows/:cols', (request, response) => {
 
@@ -17,6 +30,10 @@ function randomMat(app){
     });
 
 }
+
+/*
+ DCOOKE 29/03/2018 - createRandomCostArray creates a shuffled 1D array with values in range 1...size
+ */
 
 function createRandomCostArray(size) {
     let start = 0;

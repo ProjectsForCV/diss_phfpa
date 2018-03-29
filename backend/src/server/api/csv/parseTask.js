@@ -1,8 +1,22 @@
+/***********************************************************************
+ * Date: 29/03/2018
+ * Author: Daniel Cooke
+ ***********************************************************************/
+/*
+ DCOOKE 29/03/2018 - parseTask.js is used to parse csv
+ */
+/* ================================================================================================================== */
+/*  IMPORTS -   29/03/2018  -   DCOOKE
+/* ================================================================================================================== */
 const formidable = require('formidable');
 const parse = require('csv-parse');
 const fs = require('fs');
 
-function parseEmail(app) {
+/*
+ DCOOKE 29/03/2018 - parseTask is used to setup the endpoint and parse task csv
+ */
+function parseTask(app) {
+
     app.post('/api/csv/parseTask', (req, res) =>{
 
         const form = new formidable.IncomingForm();
@@ -58,4 +72,4 @@ function parseEmail(app) {
 
 }
 
-exports = module.exports = parseEmail;
+exports = module.exports = parseTask;
