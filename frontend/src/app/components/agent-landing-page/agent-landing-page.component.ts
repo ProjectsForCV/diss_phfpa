@@ -26,7 +26,7 @@ export class AgentLandingPageComponent implements OnInit {
   public selectedTasks: string[] = [];
 
   public availableTaskFilter = '';
-  private filteredList: string[];
+  public filteredList: string[];
   constructor(public http: HttpAssignmentService, public route: ActivatedRoute) { }
 
 
@@ -42,9 +42,9 @@ export class AgentLandingPageComponent implements OnInit {
   }
 
 
-  filterList(val) {
+  filterList(filter) {
 
-    this.availableTaskFilter = val;
+    this.availableTaskFilter = filter;
     this.filteredList =  this.availableTasks.filter(val => val.includes(this.availableTaskFilter));
   }
   getSurveyInfo(id: string) {
