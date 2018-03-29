@@ -8,7 +8,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NewProblemComponent } from './new-problem/new-problem.component';
@@ -36,7 +35,8 @@ import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-pa
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { ModalModule } from 'ngx-bootstrap';
-import { ProblemCreatedComponent } from './problem-created/problem-created.component';
+import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 /*
@@ -47,7 +47,11 @@ const appRoutes: Routes = [
   { path: '',                           component: HomePageComponent},
   { path: 'playground',                           component: PlaygroundComponent},
   { path: 'new-problem',                           component: NewProblemComponent},
-  { path: 'survey/:surveyId',                       component: AgentLandingPageComponent}
+  { path: 'survey/:surveyId',                       component: AgentLandingPageComponent},
+  { path: 'assignment/:assignmentId',                       component: OrganiserLandingPageComponent},
+
+
+
 
 
 ];
@@ -67,12 +71,12 @@ const appRoutes: Routes = [
     AssignmentDetailsComponent,
     AgentLandingPageComponent,
     NavbarComponent,
-    ProblemCreatedComponent
+    OrganiserLandingPageComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     ReactiveFormsModule,
     NgUploaderModule,
     RouterModule.forRoot(

@@ -1,6 +1,6 @@
 import { Agent } from './Agent';
 
-export interface NewAssignment {
+export interface Assignment {
   assignmentTitle: string;
   organiserName: string;
   organiserEmail: string;
@@ -9,4 +9,6 @@ export interface NewAssignment {
 
   agentAlias: string;
   taskAlias: string;
+
+  completed?: boolean;
 }

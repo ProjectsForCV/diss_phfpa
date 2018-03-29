@@ -1,7 +1,10 @@
-import { Http, RequestOptions } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Globals } from '../../components/Globals';
+import { RequestOptions } from 'http';
+import { Http, RequestOptionsArgs } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class HttpBaseService {
@@ -10,14 +13,16 @@ export class HttpBaseService {
   public MOCK_HOST = 'http://localhost:12345/api';
   public REAL_HOST = 'https://munkres.ml/api';
 
-  constructor(public http: Http) {
+  constructor(public http: HttpClient) {
     this.HOST_ENDPOINT = Globals.RunMode === Globals.AppRunModeEnum.MOCK ? this.MOCK_HOST : this.REAL_HOST;
   }
-  public get(resourcePath: string) : Observable<any>{
-    return this.http.get(this.HOST_ENDPOINT + resourcePath);
+  public get(resourcePath: string, options?: any): Observable<any> {
+
+    return this.http.get(this.HOST_ENDPOINT + resourcePath, options);
+
   }
 
-  public post(resourcePath: string, paylod: any, options?: RequestOptions): Observable<any> {
+  public post(resourcePath: string, paylod: any, options?: any): Observable<any> {
     return this.http.post(this.HOST_ENDPOINT + resourcePath, paylod, options);
   }
 

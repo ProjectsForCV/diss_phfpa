@@ -4,8 +4,9 @@ import { AgentTaskMode } from './AgentTaskMode';
 import { TaskAgentsComponent } from './task-agents/task-agents.component';
 import { HttpAssignmentService } from '../../services/http/http-assignment-service';
 import { Agent } from '../../services/http/interfaces/Agent';
-import { NewAssignment } from '../../services/http/interfaces/NewAssignment';
+import { Assignment } from '../../services/http/interfaces/Assignment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-problem',
@@ -48,7 +49,11 @@ export class NewProblemComponent implements OnInit {
   private tasksComplete = false;
   private confirmFinishModalRef: any;
   private agentAlias: string;
-  constructor(public http: HttpAssignmentService, public modal: BsModalService) { }
+
+  constructor(public http: HttpAssignmentService,
+              public modal: BsModalService,
+              public router: Router
+  ) { }
 
   assignmentDetailsChanged(form: FormGroup) {
     this.assignmentDetailsFormState = form;
@@ -173,7 +178,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   private createAssignmentProblem() {
-    const assignment: NewAssignment = {
+    const assignment: Assignment = {
       assignmentTitle: this.assignmentTitle,
       organiserEmail: this.organiserEmail,
       organiserName: this.organiserName,
@@ -191,6 +196,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   private problemCreated(res: Response) {
-
+    const problemID = res.json()['problemId'];
+    this.router.navigate(['/assignment', problemID] );
   }
 }
