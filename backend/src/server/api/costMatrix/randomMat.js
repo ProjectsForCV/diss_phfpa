@@ -1,5 +1,4 @@
-const PythonShell = require('python-shell');
-const PYTHON_PATH =  process.env.PYTHON_PATH;
+
 function randomMat(app){
     app.get('/api/costMatrix/randomMat/:rows/:cols', (request, response) => {
 
@@ -7,25 +6,24 @@ function randomMat(app){
         const rows = request.params['rows'];
         const cols = request.params['cols'];
 
-        let options = {
-            mode: 'json',
-            pythonPath: PYTHON_PATH,
-            scriptPath: 'python/assign',
-            args: [rows, cols]
-        };
+        const retArr = Array.from({length: rows}, () => createRandomCostArray(cols));
 
-        const shell = new PythonShell('random_mat.py', options);
 
-        shell.on('message', (message) => {
-            response.send(JSON.stringify(message))
-            console.log(message)
-        })
+        response.writeHead(200, {'Content-Type': 'text/json'});
 
-        shell.on('error', (err) =>{
-            console.error(err);
-        })
+
+        response.end(JSON.stringify(retArr));
+
     });
 
+}
+
+function createRandomCostArray(size) {
+    let start = 0;
+    return Array.from({length: size}, () => {
+        start += 1;
+        return start;
+    }).sort(() => Math.random() - 0.5)
 }
 
 exports = module.exports = randomMat;
