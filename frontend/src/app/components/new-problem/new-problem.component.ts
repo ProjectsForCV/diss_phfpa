@@ -7,6 +7,8 @@ import { Agent } from '../../services/http/interfaces/Agent';
 import { Assignment } from '../../services/http/interfaces/Assignment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
+import { SurveyOptionsComponent } from '../survey-options/survey-options.component';
+import { SurveyOptions } from '../../services/http/interfaces/SurveyOptions';
 
 @Component({
   selector: 'app-new-problem',
@@ -17,6 +19,7 @@ export class NewProblemComponent implements OnInit {
 
   @ViewChild('task') taskComponent: TaskAgentsComponent;
   @ViewChild('agent') agentComponent: TaskAgentsComponent;
+  @ViewChild('surveyOptions') surveyOptionsComponent: SurveyOptionsComponent;
 
   public manualEmails: string[] = [];
   public csvEmails: string[] = [];
@@ -49,6 +52,9 @@ export class NewProblemComponent implements OnInit {
   private tasksComplete = false;
   private confirmFinishModalRef: any;
   private agentAlias: string;
+  private taskAlias: string;
+
+  public surveyOptions: SurveyOptions;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
@@ -67,6 +73,7 @@ export class NewProblemComponent implements OnInit {
     this.updatePageState();
 
   }
+
 
   taskAgentChanged(data: any) {
 
@@ -108,6 +115,8 @@ export class NewProblemComponent implements OnInit {
 
         // Store csv task filename
         this.csvTaskFilename = this.taskComponent.csvFilename;
+
+        this.tasks = this.manualTasks.concat(this.csvTasks);
       }
 
     }
@@ -131,7 +140,13 @@ export class NewProblemComponent implements OnInit {
       this.agentAlias = this.agentComponent.getAlias();
       this.agents = this.agentComponent.getAllStrings().map(s => {return {email: s}; });
     }
+
     if (this.page === 3) {
+      this.tasks = this.taskComponent.getAllStrings();
+      this.taskAlias = this.taskComponent.getAlias();
+    }
+    if (this.page === 4) {
+      this.surveyOptions = this.surveyOptionsComponent.getSurveyOptions();
       this.confirmFinishModalRef = this.modal.show(modalRef);
       return;
 
@@ -142,7 +157,6 @@ export class NewProblemComponent implements OnInit {
 
   finish() {
     this.confirmFinishModalRef.hide();
-    this.tasks = this.taskComponent.getAllStrings();
     this.createAssignmentProblem();
   }
 
@@ -166,7 +180,16 @@ export class NewProblemComponent implements OnInit {
       return;
     }
 
-    if (page === 3 && this.taskComponent && this.tasksComplete) {
+
+    if (page === 3 &&  this.tasks.length > 0) {
+
+
+      this.continueButtonVisible = true;
+      this.continueButtonText = 'Next';
+      return;
+    }
+
+    if (page === 4 && this.surveyOptionsComponent && this.surveyOptionsComponent.complete) {
       this.continueButtonVisible = true;
       this.continueButtonText = 'Finish';
       return;
@@ -185,7 +208,8 @@ export class NewProblemComponent implements OnInit {
       agents: this.agents,
       tasks: this.tasks,
       agentAlias: this.agentAlias,
-      taskAlias: this.taskComponent.getAlias()
+      taskAlias: this.taskAlias,
+      surveyOptions: this.surveyOptions
     };
     this.http.postNewAssignment(assignment)
       .subscribe(
@@ -196,7 +220,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   private problemCreated(res: Response) {
-    const problemID = res.json()['problemId'];
+    const problemID = res['problemId'];
     this.router.navigate(['/assignment', problemID] );
   }
 }

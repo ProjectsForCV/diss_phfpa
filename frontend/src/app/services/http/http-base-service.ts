@@ -2,8 +2,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Globals } from '../../components/Globals';
-import { RequestOptions } from 'http';
-import { Http, RequestOptionsArgs } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -23,6 +21,7 @@ export class HttpBaseService {
   }
 
   public post(resourcePath: string, paylod: any, options?: any): Observable<any> {
+    console.log(paylod);
     return this.http.post(this.HOST_ENDPOINT + resourcePath, paylod, options);
   }
 

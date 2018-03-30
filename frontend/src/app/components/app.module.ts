@@ -37,6 +37,8 @@ import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { ModalModule } from 'ngx-bootstrap';
 import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpSurveyService } from '../services/http/http-survey-service';
+import { SurveyOptionsComponent } from './survey-options/survey-options.component';
 
 
 /*
@@ -71,7 +73,8 @@ const appRoutes: Routes = [
     AssignmentDetailsComponent,
     AgentLandingPageComponent,
     NavbarComponent,
-    OrganiserLandingPageComponent
+    OrganiserLandingPageComponent,
+    SurveyOptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ const appRoutes: Routes = [
     HttpCSVService,
     HttpCostMatrixService,
     ErrorHandlingService,
-    HttpAssignmentService
+    HttpAssignmentService,
+    HttpSurveyService
   ],
   bootstrap: [AppComponent]
 })

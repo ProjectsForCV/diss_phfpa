@@ -1,7 +1,7 @@
 
-<div class="jumbotron">
+<div class="jumbotron animated slideInDown">
   <p>
-    Please order the {{getTaskAlias()}} by your preference.
+    Please order the {{taskAlias}}'s by your preference.
   </p>
   <p>(You do not need to select them all)</p>
 
@@ -9,7 +9,7 @@
 
 
 
-<div class="container">
+<div class="container animated fadeIn" *ngIf="availableTasks && availableTasks.length > 0">
   <div class="col-xs-10 col-xs-offset-1">
 
 
@@ -17,12 +17,13 @@
       <div class="col-xs-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            AVAILABLE {{getTaskAlias().toUpperCase()}}
+            AVAILABLE {{taskAlias.toUpperCase()}}'S
           </div>
           <div class="panel-body" style="max-height: 500px; overflow: auto;">
             <input type="text" class="form-control" placeholder="Search" (input)="filterList($event.target.value)" [ngModel]="availableTaskFilter">
             <ngx-dnd-container
               [model]="filteredList"
+
 
               dropZone="test"
 
@@ -36,9 +37,17 @@
       <div class="col-xs-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            SELECTED {{getTaskAlias().toUpperCase()}}
+              PREFERRED {{taskAlias.toUpperCase()}}'S
           </div>
           <div class="panel-body">
+            <div class="row text-center">
+              <span class="helpText">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+                HIGHEST PREFERENCE
+                <span class="glyphicon glyphicon-arrow-up"></span>
+
+              </span>
+            </div>
             <ngx-dnd-container
               [model]="selectedTasks"
 
@@ -47,13 +56,70 @@
 
             >
             </ngx-dnd-container>
+            <div class="row text-center">
+              <span class="helpText">
+                <span class="glyphicon glyphicon-arrow-down"></span>
+                LOWEST PREFERENCE
+                <span class="glyphicon glyphicon-arrow-down"></span>
+              </span>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
+
+    <div class="row" *ngIf="surveyOptions && surveyOptions.allowOptOut">
+      <div class="col-xs-6 col-xs-offset-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            I DO NOT WISH TO DO THE FOLLOWING {{taskAlias.toUpperCase()}}'S
+          </div>
+          <div class="panel-body" style="max-height: 500px; overflow: auto;">
+
+            <ngx-dnd-container
+              [model]="negativeTasks"
+
+              dropZone="test"
+
+            >
+            </ngx-dnd-container>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <br>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-3 pull-right">
+
+        <div class="sendButton animated fadeIn" *ngIf="selectedTasks.length > 0" (click)="send()">
+          SEND   <span class="glyphicon glyphicon-ok-circle"></span>
+        </div>
+      </div>
+
+      <div class="col-xs-3 pull-right">
+        <div class="resetButton animated fadeIn" (click)="reset()" *ngIf="selectedTasks.length > 0 || negativeTasks.length > 0">
+          RESET   <span class="glyphicon glyphicon-refresh"></span>
+        </div>
+      </div>
+
+    </div>
+
+
   </div>
+
 </div>
+
+
+
+
+
 
 
 

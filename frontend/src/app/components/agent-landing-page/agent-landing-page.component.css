@@ -16,3 +16,36 @@ p {
 .panel {
   border: 1px solid black;
 }
+
+.sendButton {
+  font-family: 'Oswald', bold;
+
+
+  padding: 4%;
+  text-align: center;
+  font-size: 21pt;
+  color: white;
+  border-radius: 10px;
+  background: #4CAF50;
+
+}
+
+.sendButton:hover {
+  background: #36743a;
+}
+
+.resetButton {
+  font-family: 'Oswald', bold;
+
+
+  padding: 4%;
+  text-align: center;
+  font-size: 21pt;
+  color: white;
+  border-radius: 10px;
+  background: #af8444;
+}
+
+.resetButton:hover {
+  background: #815e39;
+}

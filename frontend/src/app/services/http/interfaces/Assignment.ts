@@ -1,4 +1,5 @@
 import { Agent } from './Agent';
+import { SurveyOptions } from './SurveyOptions';
 
 export interface Assignment {
   assignmentTitle: string;
@@ -10,5 +11,6 @@ export interface Assignment {
   agentAlias: string;
   taskAlias: string;
 
+  surveyOptions: SurveyOptions;
   completed?: boolean;
 }

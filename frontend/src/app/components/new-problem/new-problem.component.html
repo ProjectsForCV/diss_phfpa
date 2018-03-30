@@ -1,5 +1,4 @@
 
-
   <div class="container-fluid" >
     <div class="row">
 
@@ -72,6 +71,15 @@
           </div>
         </ng-container>
 
+        <ng-container *ngIf="page == 4" class="animated fadeIn">
+
+          <app-survey-options #surveyOptions
+                              (detailsChanged)="updatePageState()"
+
+          >
+
+          </app-survey-options>
+        </ng-container>
         <div class="row" style="display: block">
 
 

@@ -1,0 +1,81 @@
+<div class="container-fluid">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="sectionText">Survey Options</h3>
+    </div>
+
+    <div class="panel-body">
+      <div class="jumbotron">
+        <p class="helpText">Agents will be sent a survey where they will be asked to rank tasks in their order of preference</p>
+      </div>
+
+
+      <div class="row">
+        <label class="col-xs-8 labelDesktop">How many tasks will an agent be allowed to select? (Leave blank for all) </label>
+        <div class="col-xs-4">
+          <input type="text" class="form-control" [(ngModel)]="selectedMax">
+        </div>
+      </div>
+
+      <div class="row">
+        <br>
+      </div>
+      <div class="row">
+        <br>
+      </div>
+      <div class="row">
+        <br>
+      </div>
+
+      <div class="row">
+        <label class="col-xs-8 labelDesktop">Enter a message for the agents (optional)</label>
+        <div class="col-xs-4">
+          <textarea  class="form-control" style="resize:none;" rows="3" [(ngModel)]="message"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <br>
+      </div>
+      <div class="row">
+        <br>
+      </div>
+      <div class="row">
+        <br>
+      </div>
+
+      <div class="row ">
+
+        <label class="col-xs-8 labelDesktop ">Allow agents to opt-out of certain tasks?</label>
+        <div class="col-xs-4">
+          <select name="optOut" id="optOut" class="form-control" [(ngModel)] = "optOut" (change)="optOutChanged()">
+            <option [ngValue] ="false" selectedt>No</option>
+            <option [ngValue] ="true">Yes</option>
+          </select>
+        </div>
+      </div>
+
+
+      {{optOut || json}}
+      <div class="row animated fadeIn" *ngIf="optOut" >
+        <div class="row">
+          <br>
+        </div>
+        <div class="row">
+          <br>
+        </div>
+        <div class="row">
+          <br>
+        </div>
+        <label class="col-xs-8 labelDesktop">How many tasks is an agent allowed to opt-out of?
+          <span class="labelDesktop" style="color:red" *ngIf="optOutMax.length < 1">*</span>
+        </label>
+        <div class="col-xs-4">
+          <input type="text" class="form-control" [(ngModel)]="optOutMax" required (change)="optOutMaxChanged()">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

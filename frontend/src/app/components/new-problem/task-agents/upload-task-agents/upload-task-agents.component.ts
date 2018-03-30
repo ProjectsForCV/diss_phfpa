@@ -75,14 +75,22 @@ export class UploadTaskAgentsComponent implements OnInit {
   }
 
   handleResponse(response) {
-    const json = response.json();
+
+    const json = response;
     if (this.mode === AgentTaskMode.AGENT) {
       const emails = json['emails'];
       this.buildStringList(emails);
+      if (json['emailsRemoved']) {
+        this.alertService.error('Some emails have been removed due to length constraints.');
+      }
     }
     if (this.mode === AgentTaskMode.TASK) {
       const tasks = json['tasks'];
       this.buildStringList(tasks);
+      if (json['tasksRemoved']) {
+        this.alertService.error('Some tasks have been removed due to length constraints.');
+      }
+
     }
   }
 
