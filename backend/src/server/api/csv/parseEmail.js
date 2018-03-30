@@ -65,17 +65,22 @@ function readCSV(err, fields, files) {
                     // flatten 2d array into 1d array
                     items = [].concat.apply([], out);
                     emailList = items.filter((item) => item.includes('@'));
-                    emailList = emailList.map(email => email.trim());
+                    emaliListFilteredForLength = emailList.filter(email => email.length < 50);
+
+                    const emailsRemovedDueToLength = emaliListFilteredForLength.length !== emailList.length;
+
+                    emailList = emaliListFilteredForLength.map(email => email.trim());
 
                     if(emailList && emailList.length > 0){
 
                         response.json({
-                            emails : emailList
+                            emails : emailList,
+                            emailsRemoved: emailsRemovedDueToLength
                         })
 
                     }
 
-                })
+                });
 
                 // Delete temp file
                 fs.unlink(path);

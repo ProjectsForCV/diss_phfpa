@@ -45,10 +45,15 @@ function parseTask(app) {
 
                             items = items.filter(n => n !== '' && n !== undefined);
 
+                            tasksFilteredForLength = items.filter(item => item.length < 50);
+                            const tasksRemoved = tasksFilteredForLength.length !== items.length;
+
+                            console.log(`Tasks Removed: ${tasksRemoved}`);
                             if(items && items.length > 0){
 
                                 res.json({
-                                    tasks : items
+                                    tasks : tasksFilteredForLength,
+                                    tasksRemoved: tasksRemoved
                                 })
 
                             }
