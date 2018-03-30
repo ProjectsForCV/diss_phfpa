@@ -10,7 +10,7 @@ import { Assignment } from '../../services/http/interfaces/Assignment';
 })
 export class OrganiserLandingPageComponent implements OnInit {
 
-  private assignmentId: string;
+  public assignmentId: string;
 
   constructor(public route: ActivatedRoute, public http: HttpAssignmentService) {
 
