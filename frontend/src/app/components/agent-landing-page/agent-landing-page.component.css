@@ -5,17 +5,96 @@ p {
   text-align: center;
 }
 
-.panel-heading{
+.panel-heading.desktop{
   background: #114B5F;
   color:white;
+  border-radius: 25px;
   font-family: 'Oswald', serif;
   font-size: 21pt;
   text-align: center;
 }
 
-.panel {
-  border: 1px solid black;
+.panel-heading.mobile{
+  background: #114B5F;
+  color:white;
+  border-radius: 25px;
+  font-family: 'Oswald', serif;
+  font-size: 12pt;
+  text-align: center;
 }
+
+.panel {
+  border: 1px solid #eee;
+  border-radius: 25px;
+  box-shadow: 7px 5px #f9f9f9;
+}
+
+
+
+.dragHelpText {
+
+  opacity: 0.2;
+  z-index:0;
+}
+.ngx-dnd-container {
+  background-color: white;
+  margin: 10px;
+  font-family: 'Oswald';
+  font-size: 20pt;
+  padding: 10px; }
+
+
+@media (max-width: 500px) {
+  .scrollBody {
+    height: 400px;
+    overflow: auto;
+  }
+}
+.no-mobile-support-message{
+
+  height:100%;
+  width:100%;
+  font-size: 21pt;
+  font-family: 'Oswald';
+}
+
+
+
+.ngx-dnd-container.gu-empty {
+  border: 2px dotted #eee; }
+.ngx-dnd-container .ex-moved {
+  background-color: #e74c3c; }
+.ngx-dnd-container .ex-over {
+  background-color: rgba(237, 237, 238, 0.3); }
+.ngx-dnd-container .handle {
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: move; }
+
+.ngx-dnd-item {
+  text-align: center;
+  margin: 10px;
+  color: #85a4a2;
+  z-index:1;
+  padding: 10px;
+  background-color: rgb(237, 237, 238);
+  transition: opacity 0.4s ease-in-out;
+  border: 3px solid #eee;
+  border-radius: 25px;
+  display: block; }
+.ngx-dnd-item:not(.has-handle):not(.move-disabled),
+.ngx-dnd-item.has-handle [ngxdraghandle],
+.ngx-dnd-item.has-handle [ngxDragHandle] {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab; }
+.ngx-dnd-item .ngx-dnd-content {
+  user-select: none; }
+.ngx-dnd-item:hover {
+  border: 1px solid blue; }
+
 
 .sendButton {
   font-family: 'Oswald', bold;

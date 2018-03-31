@@ -33,12 +33,13 @@ import { ScrollDisplayComponent } from './new-problem/task-agents/upload-task-ag
 import { HttpAssignmentService } from '../services/http/http-assignment-service';
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { NgxDnDModule } from '@swimlane/ngx-dnd';
-import { ModalModule } from 'ngx-bootstrap';
+import { DrakeStoreService, NgxDnDModule } from '@swimlane/ngx-dnd';
+import { DraggableItemService, ModalModule } from 'ngx-bootstrap';
 import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpSurveyService } from '../services/http/http-survey-service';
 import { SurveyOptionsComponent } from './survey-options/survey-options.component';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 
 /*
@@ -88,7 +89,8 @@ const appRoutes: Routes = [
     ),
     PlaygroundModule,
     NgxDnDModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DeviceDetectorModule.forRoot()
   ],
   providers: [
     AlertService,

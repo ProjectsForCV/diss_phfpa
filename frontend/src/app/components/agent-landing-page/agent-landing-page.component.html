@@ -1,125 +1,294 @@
 
-<div class="jumbotron animated slideInDown">
-  <p>
-    Please order the {{taskAlias}}'s by your preference.
-  </p>
-  <p>(You do not need to select them all)</p>
 
-</div>
+<ng-container *ngIf="!completed; else completed">
+  <ng-container *ngIf="isSupportedDevice(); else notSupported">
+    <div class="jumbotron animated slideInDown">
+      <p>
+        Please order the {{taskAlias}}'s by your preference.
+      </p>
+      <p>(You do not need to select them all)</p>
 
-
-
-<div class="container animated fadeIn" *ngIf="availableTasks && availableTasks.length > 0">
-  <div class="col-xs-10 col-xs-offset-1">
+    </div>
 
 
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            AVAILABLE {{taskAlias.toUpperCase()}}'S
+
+    <div class="container animated fadeIn" *ngIf="availableTasks && availableTasks.length > 0">
+      <div class="col-xs-10 col-xs-offset-1">
+
+
+        <div class="row">
+
+          <!-- START -- DRE011 DCOOKE 31/03/2018 - AVAILABLE TESTS -->
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-heading mobile visible-xs">
+                AVAILABLE {{taskAlias.toUpperCase()}}'S
+              </div>
+              <div class="panel-heading desktop hidden-xs">
+                AVAILABLE {{taskAlias.toUpperCase()}}'S
+              </div>
+              <div class="panel-body scrollBody" >
+                <input type="text" class="form-control" placeholder="Search" (input)="filterList($event.target.value)" [ngModel]="availableTaskFilter">
+
+
+                <div
+                  ngxDroppable="test"
+                  [model]="filteredList"
+                  [copy]="false"
+                  [ngClass]="{ 'gu-empty': !filteredList?.length }"
+                  [removeOnSpill]="false"
+                  class='ngx-dnd-container'>
+                  <ng-container *ngIf="filteredList">
+                    <ng-container *ngFor="let item of filteredList; let i = index">
+                      <div class="ngx-dnd-item"
+                           ngxDraggable
+                           (drag)="availableTaskDrag($event, i)"
+                           [model]="item"
+                      >
+                        {{item}}
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+
+
+
+
+
+
+              </div>
+            </div>
+
           </div>
-          <div class="panel-body" style="max-height: 500px; overflow: auto;">
-            <input type="text" class="form-control" placeholder="Search" (input)="filterList($event.target.value)" [ngModel]="availableTaskFilter">
-            <ngx-dnd-container
-              [model]="filteredList"
+
+          <!-- END -- DRE013 DCOOKE 31/03/2018 - AVAILABLE TESTS -->
 
 
-              dropZone="test"
 
-            >
-            </ngx-dnd-container>
-          </div>
-        </div>
 
-      </div>
 
-      <div class="col-xs-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-              PREFERRED {{taskAlias.toUpperCase()}}'S
-          </div>
-          <div class="panel-body">
-            <div class="row text-center">
+          <!-- START -- DRE011 DCOOKE 31/03/2018 - PREFERRED TESTS & NEGATIVE TESTS (2ND cOLUMN) -->
+          <div class="col-xs-6">
+
+
+
+
+
+
+
+
+            <!-- START -- DRE011 DCOOKE 31/03/2018 - PREFERRED TESTS -->
+            <div class="panel panel-default">
+              <div class="panel-heading mobile visible-xs">
+                PREFERRED {{taskAlias.toUpperCase()}}'S
+              </div>
+              <div class="panel-heading desktop hidden-xs">
+                PREFERRED {{taskAlias.toUpperCase()}}'S
+              </div>
+              <div class="panel-body">
+                <div class="row text-center">
               <span class="helpText">
                 <span class="glyphicon glyphicon-arrow-up"></span>
                 HIGHEST PREFERENCE
                 <span class="glyphicon glyphicon-arrow-up"></span>
 
               </span>
-            </div>
-            <ngx-dnd-container
-              [model]="selectedTasks"
+                </div>
 
-              dropZone="test"
-              (drag)="taskDragged($event)"
+                <div
+                  ngxDroppable="test"
+                  [model]="selectedTasks"
+                  [copy]="false"
+                  [ngClass]="{ 'gu-empty': !selectedTasks?.length }"
+                  [removeOnSpill]="false"
+                  (drop)="selectedTaskDrop($event)"
 
-            >
-            </ngx-dnd-container>
-            <div class="row text-center">
+                  class='ngx-dnd-container'>
+                  <p *ngIf="selectedTasks.length < 1" class="dragHelpText">
+                    <span class="glyphicon glyphicon-hand-down"></span>
+                    DRAG ITEMS HERE
+                    <span class="glyphicon glyphicon-hand-down"></span>
+                  </p>
+                  <ng-container *ngIf="selectedTasks">
+                    <ng-container *ngFor="let item of selectedTasks; let i = index">
+                      <div class="ngx-dnd-item"
+                           ngxDraggable
+                           [model]="item"
+
+
+
+
+                      >
+                        {{item}}
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+                <div class="row text-center">
               <span class="helpText">
                 <span class="glyphicon glyphicon-arrow-down"></span>
                 LOWEST PREFERENCE
                 <span class="glyphicon glyphicon-arrow-down"></span>
               </span>
+                </div>
+              </div>
             </div>
+
+            <!-- END -- DRE013 DCOOKE 31/03/2018 - PREFERRED TESTS -->
+
+
+
+
+
+
+
+
+            <!-- START -- DRE011 DCOOKE 31/03/2018 - NEGATIVE TESTS -->
+            <div class="col-xs-12" *ngIf="surveyOptions && surveyOptions.allowOptOut">
+              <div class="panel panel-default ">
+                <div class="panel-heading mobile visible-xs">
+                  I DO NOT WISH TO DO THE FOLLOWING {{taskAlias.toUpperCase()}}'S
+                </div>
+                <div class="panel-heading desktop hidden-xs">
+                  I DO NOT WISH TO DO THE FOLLOWING {{taskAlias.toUpperCase()}}'S
+                </div>
+                <div class="panel-body" style="max-height: 500px; overflow: auto;">
+
+                  <div
+                    ngxDroppable="test"
+                    [model]="negativeTasks"
+                    [copy]="false"
+                    [ngClass]="{ 'gu-empty': !negativeTasks?.length }"
+                    [removeOnSpill]="false"
+                    (drop)="negativeTaskDrop($event)"
+
+                    class='ngx-dnd-container'>
+                    <p *ngIf="negativeTasks.length < 1" class="dragHelpText">
+                      <span class="glyphicon glyphicon-hand-down"></span>
+                      DRAG ITEMS HERE
+                      <span class="glyphicon glyphicon-hand-down"></span>
+                    </p>
+                    <ng-container *ngIf="negativeTasks">
+                      <ng-container *ngFor="let item of negativeTasks; let i = index">
+                        <div class="ngx-dnd-item"
+                             ngxDraggable
+                             [model]="item"
+
+
+
+
+                        >
+                          {{item}}
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- END -- DRE013 DCOOKE 31/03/2018 - NEGATIVE TESTS -->
+
+            <!-- START -- DRE011 DCOOKE  - BUTTONS -->
+            <div class="col-xs-12">
+
+              <div class="col-xs-4 col-xs-offset-4">
+
+                <button class="btn btn-success animated fadeIn" *ngIf="selectedTasks.length > 0" (click)="confirmSend(confirmSendModal)">
+                  SEND   <span class="glyphicon glyphicon-ok-circle"></span>
+                </button>
+              </div>
+
+              <div class="col-xs-4">
+                <button class="btn btn-danger animated fadeIn" (click)="reset()" *ngIf="selectedTasks.length > 0 || negativeTasks.length > 0">
+                  RESET   <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+              </div>
+
+            </div>
+
+
+
           </div>
+          <!-- END -- DRE013 DCOOKE 31/03/2018 - PREFFERRED TESTS NEGATIVE TESTS -->
         </div>
 
-      </div>
-    </div>
-
-    <div class="row" *ngIf="surveyOptions && surveyOptions.allowOptOut">
-      <div class="col-xs-6 col-xs-offset-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            I DO NOT WISH TO DO THE FOLLOWING {{taskAlias.toUpperCase()}}'S
-          </div>
-          <div class="panel-body" style="max-height: 500px; overflow: auto;">
-
-            <ngx-dnd-container
-              [model]="negativeTasks"
-
-              dropZone="test"
-
-            >
-            </ngx-dnd-container>
-          </div>
+        <div class="row">
+          <br>
         </div>
 
+        <div class="row">
+          <br>
+        </div>
+        <div class="row">
+          <br>
+        </div>
+        <div class="row">
+          <br>
+        </div>
+        <div class="row">
+          <br>
+        </div>
+
+
+
       </div>
+
     </div>
 
+
+
+
+  </ng-container>
+</ng-container>
+
+<ng-template #completed>
+  <h2 class="sectionText">Thank you!</h2>
+  <p>You will receive your allocated {{taskAlias}} via email once all other {{agentAlias}}'s have completed their surveys.</p>
+</ng-template>
+<ng-template #confirmSendModal>
+
+  <div class="modal-header">
     <div class="row">
-      <br>
-    </div>
+      <div class="col-xs-5">
+        <h3 class="modal-title sectionText">Are you sure?</h3>
 
-    <div class="row">
-
-      <div class="col-xs-3 pull-right">
-
-        <div class="sendButton animated fadeIn" *ngIf="selectedTasks.length > 0" (click)="send()">
-          SEND   <span class="glyphicon glyphicon-ok-circle"></span>
-        </div>
       </div>
-
-      <div class="col-xs-3 pull-right">
-        <div class="resetButton animated fadeIn" (click)="reset()" *ngIf="selectedTasks.length > 0 || negativeTasks.length > 0">
-          RESET   <span class="glyphicon glyphicon-refresh"></span>
-        </div>
+      <div class="col-xs-2 col-xs-offset-5">
+        <button type="button" class="close sectionText pull-right" aria-label="Close" (click)="confirmModalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-
     </div>
+  </div>
+
+  <div class="modal-body">
+    <p class="helpText">Make sure you have chosen correctly, you will not be able to edit your response after sending.</p>
+
 
 
   </div>
 
-</div>
+  <div class="modal-footer">
+    <button class="btn-success" (click)="send()">
+      Continue
+    </button>
+
+    <button class="btn-danger" (click)="confirmModalRef.hide()">
+      Back
+    </button>
+  </div>
+
+</ng-template>
 
 
+<ng-template   #notSupported>
+  <div class="jumbotron animated slideInDown">
+    <h1 class="sectionText">Oops!</h1>
+    <p>Looks like your device is not supported. Open this link on a desktop computer. </p>
 
-
-
-
-
+  </div>
+</ng-template>
 

@@ -5,7 +5,7 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 @Injectable()
 export class HttpSurveyService extends HttpBaseService {
 
-  public postSurveyAnswers() {
+  public postSurveyAnswers(answers: any) {
 
     const headers = new HttpHeaders();
 
@@ -13,7 +13,7 @@ export class HttpSurveyService extends HttpBaseService {
     // headers.append('Content-Type', 'multipart/form-data');
     const options = { headers: headers };
 
-    return false;
+    return this.post('/survey/answers/', answers, options);
   }
 
   public getSurveyQuestions(surveyID: string) {
