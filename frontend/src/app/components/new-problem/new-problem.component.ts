@@ -9,6 +9,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 import { SurveyOptionsComponent } from '../survey-options/survey-options.component';
 import { SurveyOptions } from '../../services/http/interfaces/SurveyOptions';
+import { HttpEmailService } from '../../services/http/http-email-service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-new-problem',
@@ -55,10 +57,12 @@ export class NewProblemComponent implements OnInit {
   private taskAlias: string;
 
   public surveyOptions: SurveyOptions;
+  private emailSubscription: Subscription;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
-              public router: Router
+              public router: Router,
+              public httpEmail: HttpEmailService
   ) { }
 
   assignmentDetailsChanged(form: FormGroup) {
@@ -220,6 +224,13 @@ export class NewProblemComponent implements OnInit {
   }
 
   private problemCreated(res: Response) {
+
+    this.emailSubscription = this.httpEmail.sendSurveyLinksToAgents(res['agents'])
+      .subscribe(
+        (emailResponse: Response) => {
+          console.log(emailResponse);
+        }
+      );
     const problemID = res['problemId'];
     this.router.navigate(['/assignment', problemID] );
   }

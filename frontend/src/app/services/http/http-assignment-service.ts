@@ -26,9 +26,6 @@ export class HttpAssignmentService extends HttpBaseService {
     return this.get('/assignment/', options);
   }
 
-  public getSurveyInfo(surveyId: string) {
-
-  }
 
 
 }

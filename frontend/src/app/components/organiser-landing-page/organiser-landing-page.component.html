@@ -1,3 +1,14 @@
-<p>
-  organiser-landing-page works! AssignmentID : {{assignmentId}}
-</p>
+
+<div class="container-fluid">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="sectionText" *ngIf="assignment">{{assignment.assignmentTitle}}</h2>
+    </div>
+  </div>
+
+</div>
+
+{{assignment | json}}
+
+<button class="btn-success" (click)="sendEmail()">Send Email</button>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpAssignmentService } from '../../services/http/http-assignment-service';
 import { Assignment } from '../../services/http/interfaces/Assignment';
+import { HttpEmailService } from '../../services/http/http-email-service';
 
 @Component({
   selector: 'app-organiser-landing-page',
@@ -12,7 +13,14 @@ export class OrganiserLandingPageComponent implements OnInit {
 
   public assignmentId: string;
 
-  constructor(public route: ActivatedRoute, public http: HttpAssignmentService) {
+  public assignment: Assignment;
+  constructor(public route: ActivatedRoute,
+              public http: HttpAssignmentService
+  ) {
+
+  }
+
+  sendEmail() {
 
   }
 
@@ -29,7 +37,8 @@ export class OrganiserLandingPageComponent implements OnInit {
     this.http.getAssignmentInfo(this.assignmentId)
       .subscribe(
         (res: Assignment) => {
-          console.log(res.assignmentTitle);
+          this.assignment = res;
+          console.log(this.assignment);
         }
       );
   }

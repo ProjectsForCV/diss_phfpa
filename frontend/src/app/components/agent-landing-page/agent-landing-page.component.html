@@ -1,6 +1,6 @@
 
 
-<ng-container *ngIf="!completed; else completed">
+<ng-container *ngIf="!completed; else NeedsCompleted">
   <ng-container *ngIf="isSupportedDevice(); else notSupported">
     <div class="jumbotron animated slideInDown">
       <p>
@@ -12,7 +12,7 @@
 
 
 
-    <div class="container animated fadeIn" *ngIf="availableTasks && availableTasks.length > 0">
+    <div class="container animated fadeIn" *ngIf="availableTasks">
       <div class="col-xs-10 col-xs-offset-1">
 
 
@@ -28,7 +28,7 @@
                 AVAILABLE {{taskAlias.toUpperCase()}}'S
               </div>
               <div class="panel-body scrollBody" >
-                <input type="text" class="form-control" placeholder="Search" (input)="filterList($event.target.value)" [ngModel]="availableTaskFilter">
+                <input type="text" class="form-control" placeholder="Search" (input)="filterList()" [(ngModel)]="availableTaskFilter">
 
 
                 <div
@@ -37,6 +37,7 @@
                   [copy]="false"
                   [ngClass]="{ 'gu-empty': !filteredList?.length }"
                   [removeOnSpill]="false"
+                  (drop)="availableTasksDrop($event)"
                   class='ngx-dnd-container'>
                   <ng-container *ngIf="filteredList">
                     <ng-container *ngFor="let item of filteredList; let i = index">
@@ -244,7 +245,7 @@
   </ng-container>
 </ng-container>
 
-<ng-template #completed>
+<ng-template #NeedsCompleted>
   <h2 class="sectionText">Thank you!</h2>
   <p>You will receive your allocated {{taskAlias}} via email once all other {{agentAlias}}'s have completed their surveys.</p>
 </ng-template>

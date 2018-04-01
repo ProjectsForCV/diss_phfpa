@@ -14,9 +14,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 export class AgentLandingPageComponent implements OnInit {
 
   public surveyID;
-  public availableTasks: string[] = [
-
-  ];
+  public allTasks: string[];
+  public availableTasks: string[];
   public selectedTasks: string[] = [];
   public negativeTasks: string[] = [];
   public taskAlias = '';
@@ -34,7 +33,6 @@ export class AgentLandingPageComponent implements OnInit {
   constructor(public http: HttpSurveyService,
               public route: ActivatedRoute,
               public error: ErrorHandlingService,
-              public cdr: ChangeDetectorRef,
               public dd: DeviceDetectorService,
               public modal: BsModalService,
               ) {
@@ -92,7 +90,7 @@ export class AgentLandingPageComponent implements OnInit {
     const remainingCosts = this.filteredList.map((task) => {
       return {
         taskName: task,
-        cost: this.surveyOptions.maxSelection + 1
+        cost: this.surveyOptions.maxSelection ? this.surveyOptions.maxSelection + 1 : this.allTasks.length
       };
     });
 
@@ -105,31 +103,41 @@ export class AgentLandingPageComponent implements OnInit {
     console.log(post);
     this.http.postSurveyAnswers(post)
       .subscribe(
-        res => this.refreshPage()
+        res => {
+          this.refreshPage();
+        },
+        err => console.error(err)
       );
   }
 
   refreshPage() {
-    window.location.reload();
+      window.location.reload();
   }
   reset() {
-    console.log(this.availableTasks);
-    this.filteredList = this.availableTasks;
+
+    console.log(this.allTasks);
+    this.availableTasks = this.allTasks.slice();
     this.negativeTasks = [];
     this.selectedTasks = [];
-    this.filterList('');
+    this.filterList();
   }
 
   availableTaskDrag(e, index) {
     this.lastAvailableTaskDraggedIndex = index;
   }
+
+  availableTasksDrop(e) {
+
+    this.availableTasks.push(e.value);
+    this.filterList();
+  }
   selectedTaskDrop(e) {
 
-    if (this.selectedTasks.length <= this.surveyOptions.maxSelection) {
+    if ((this.selectedTasks.length <= this.surveyOptions.maxSelection) || this.surveyOptions.maxSelection === 0) {
 
       // Remove from all tasks
       this.availableTasks.splice(this.lastAvailableTaskDraggedIndex, 1);
-      this.filterList('');
+      this.filterList();
 
     } else {
       // If they have reached the max number of selected tasks don't allow any more to be added
@@ -137,7 +145,7 @@ export class AgentLandingPageComponent implements OnInit {
 
 
 
-      this.filterList('');
+      this.filterList();
     }
   }
   negativeTaskDrop(e) {
@@ -153,11 +161,10 @@ export class AgentLandingPageComponent implements OnInit {
   }
 
 
-  filterList(filter) {
+  filterList() {
 
-    this.availableTaskFilter = filter;
-    this.filteredList =  this.availableTasks.filter(val => val.includes(this.availableTaskFilter));
-    this.cdr.detectChanges();
+    this.filteredList =  this.availableTasks.filter(val => val.toUpperCase().includes(this.availableTaskFilter.toUpperCase()));
+
   }
 
   getSurveyInfo(id: string) {
@@ -167,7 +174,8 @@ export class AgentLandingPageComponent implements OnInit {
         (response) => {
 
           console.log(response);
-          this.availableTasks = response['tasks'];
+          this.allTasks = response['tasks'];
+          this.availableTasks = response['tasks'].slice();
           this.taskAlias = response['taskAlias'];
           this.agentAlias = response['agentAlias'];
           this.completed = response['completed'];
@@ -178,7 +186,7 @@ export class AgentLandingPageComponent implements OnInit {
           this.agentAlias = !!this.agentAlias ? this.agentAlias : 'Agent';
 
 
-          this.filterList('');
+          this.filterList();
         },
         (err) => this.error.handleError(err),
         () => console.dir('HTTP survey call finished')
