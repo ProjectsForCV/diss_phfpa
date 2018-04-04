@@ -310,19 +310,16 @@ def __logFinalResult__(rownames, colnames):
     for i in range(inputN):
         for j in range(inputM):
             if maskMatrix[i][j] == 1:
-                if rownames > -1 and colnames > -1:
+                if rownames != -1 and colnames != -1:
                     resultPairs[rownames[i]] = colnames[j]
                 else:
                     resultPairs[i] = j
 
-    print('=========================')
-    print('The optimum assignment has be found.')
-    print()
     for i in range(len(resultPairs)):
-        if rownames > -1 and colnames > -1:
-            print(rownames[i] + " -> " + resultPairs[rownames[i]])
+        if rownames != -1 and colnames != -1:
+            print(rownames[i] + "\t" + resultPairs[rownames[i]])
         else:
-            print(str(i) + " -> " + str(resultPairs[i]))
+            print(str(i) + "\t" + str(resultPairs[i]))
 
 
 def __logMaskMatrix__():
@@ -340,5 +337,11 @@ def __logCostMatrix__():
 
 
 matrix = ast.literal_eval(sys.argv[1])
+if(len(sys.argv) > 2):
 
-print(__buildOutputString__(minimise(matrix).tolist()))
+    rows = sys.argv[2].split(',')
+    cols = sys.argv[3].split(',')
+    minimise(matrix, rows, cols)
+    __logFinalResult__(rows, cols)
+else:
+    print(__buildOutputString__(minimise(matrix).tolist()))

@@ -43,16 +43,14 @@ function postSurveyAnswers(surveyID, answers, clientRes) {
             const answerID = (res[0]['MAX(AnswerID)'] || 1) + 1;
 
 
+            console.log(`${answers}`);
+            
             const answerInsert = answers.map(
                 answer => {
-                    return [answerID, answer.taskName, answer.cost]
+                    return [answerID, answer.TaskID, answer.cost]
                 }
             );
 
-            // DCOOKE - TODO: Change database to allow duplicate task names - ERROR WITH QUERY: insert into survey_answers values (4, 'test2', 1), (4, 'test4', 3), (4, 'test4', 3)
-            //
-            //	4-test4 is listed here twice, so the database will reject this entry because TaskName is a composite key, which is a terrible idea tbh
-            //
             
             let answerQuery = db.query(`insert into survey_answers values ?`, [answerInsert], (err, res) => {
 
@@ -110,7 +108,9 @@ function getSurveyQuestions(surveyId, clientResponse) {
                 console.log(taskQuery.sql);
                 console.log(res);
                 const responseJson = {
-                    tasks: res.map(row => row.Name),
+                    tasks: res.map(row => {
+                        return {taskName: row.Name, taskId: row.TaskID}
+                    }),
 
                 };
 

@@ -45,14 +45,17 @@ app.listen(port, (err) =>{
 function createEndpoints() {
     const randomMat = require('./api/costMatrix/randomMat');
     const solveMat = require('./api/costMatrix/solveMat');
+    const solveProblem = require('./api/costMatrix/solveProblem');
     const parseEmail  = require('./api/csv/parseEmail');
     const parseTask = require('./api/csv/parseTask');
     const assignment = require('./api/assignment/assignment');
     const survey = require('./api/survey/survey');
     const email = require('./api/email/sendEmail');
 
+
     randomMat(app);
     solveMat(app);
+    solveProblem(app);
 
     parseEmail(app);
     parseTask(app);

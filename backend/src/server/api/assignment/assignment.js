@@ -448,6 +448,10 @@ function getProblemDetails(databaseConnection, problemID, callback) {
         problemDetails.organiserId = data.OrganiserID;
         problemDetails.taskAlias = data.TaskAlias;
         problemDetails.agentAlias = data.AgentAlias;
+        problemDetails.surveyOptions = {};
+        problemDetails.surveyOptions.maxSelection = data.MaxSelection;
+        problemDetails.surveyOptions.allowOptOut = data.AllowOptOut;
+        
 
         callback(problemDetails, undefined);
 
@@ -481,7 +485,8 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
         )
 
 
-        let answerQuery = db.query(`SELECT * FROM survey_answers where AnswerID IN (?)`, [answerIDs], (err, res) => {
+        let answerQuery = db.query(`SELECT * FROM survey_answers JOIN (tasks) ON (survey_answers.AnswerID IN (?) AND tasks.TaskID = survey_answers.TaskID)`, 
+        [answerIDs], (err, res) => {
 
             if (err) {
                 callback(undefined, err);
@@ -493,10 +498,13 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
             const surveyAnswers = data.map(row => {
                 return {
                     answerId: row.AnswerID,
-                    taskName: row.TaskName,
+                    taskId: row.TaskID,
+                    taskName: row.Name,
                     cost: row.Cost
                 }
             })
+
+          
             
             for (let i = 0; i < returnedAgentWithAnswers.length; i++){
                 returnedAgentWithAnswers[i].answers = surveyAnswers.filter(answer => answer.answerId === returnedAgentWithAnswers[i].answerId);
