@@ -1,0 +1,34 @@
+<div class="panel panel-default" >
+  <div class="panel-heading">
+    <div class="helpText panel-title">
+      Emails
+    </div>
+  </div>
+  <div class="panel-body">
+
+    <button class="btn btn-success" [disabled]="surveysComplete">Resend Surveys</button>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="helpText panel-title">
+      Solve
+    </div>
+  </div>
+  <div class="panel-body">
+    <label class="labelDesktop">Algorithm </label>
+
+    <select name="algorithmSelect" id="algorithmSelect" class="form-control">
+      <option [ngValue]="'Hungarian'">Hungarian</option>
+    </select>
+
+    <div class="row">
+      <hr>
+
+    </div>
+
+    <button class="btn btn-success" [disabled]="!surveysComplete">Find Optimum Assignment</button>
+  </div>
+</div>

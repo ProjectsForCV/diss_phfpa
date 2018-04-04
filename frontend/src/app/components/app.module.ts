@@ -34,7 +34,7 @@ import { HttpAssignmentService } from '../services/http/http-assignment-service'
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, ProgressbarModule, TabsModule } from 'ngx-bootstrap';
 import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpSurveyService } from '../services/http/http-survey-service';
@@ -42,6 +42,11 @@ import { SurveyOptionsComponent } from './survey-options/survey-options.componen
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { HttpEmailService } from '../services/http/http-email-service';
 import { NgBusyModule } from 'ng-busy';
+import { ProgressComponent } from './organiser-landing-page/progress/progress.component';
+import { ActionsComponent } from './organiser-landing-page/actions/actions.component';
+import { StatsComponent } from './organiser-landing-page/stats/stats.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 /*
@@ -77,12 +82,16 @@ const appRoutes: Routes = [
     AgentLandingPageComponent,
     NavbarComponent,
     OrganiserLandingPageComponent,
-    SurveyOptionsComponent
+    SurveyOptionsComponent,
+    ProgressComponent,
+    ActionsComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     NgUploaderModule,
     RouterModule.forRoot(
@@ -92,8 +101,11 @@ const appRoutes: Routes = [
     PlaygroundModule,
     NgxDnDModule,
     NgBusyModule,
+    TabsModule.forRoot(),
     ModalModule.forRoot(),
-    DeviceDetectorModule.forRoot()
+    ProgressbarModule.forRoot(),
+    DeviceDetectorModule.forRoot(),
+    NgxChartsModule
   ],
   providers: [
     AlertService,

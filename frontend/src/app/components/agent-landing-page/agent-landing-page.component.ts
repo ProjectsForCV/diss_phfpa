@@ -5,6 +5,7 @@ import { ErrorHandlingService } from '../../services/error-handling-service/erro
 import { SurveyOptions } from '../../services/http/interfaces/SurveyOptions';
 import { DeviceDetectorService, DeviceInfo } from 'ngx-device-detector';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Task } from 'app/services/http/interfaces/Task';
 
 @Component({
   selector: 'app-agent-landing-page',
@@ -14,14 +15,14 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 export class AgentLandingPageComponent implements OnInit {
 
   public surveyID;
-  public allTasks: string[];
-  public availableTasks: string[];
-  public selectedTasks: string[] = [];
-  public negativeTasks: string[] = [];
+  public allTasks: Task[];
+  public availableTasks: Task[];
+  public selectedTasks: Task[] = [];
+  public negativeTasks: Task[] = [];
   public taskAlias = '';
 
   public availableTaskFilter = '';
-  public filteredList: string[];
+  public filteredList: Task[];
   private surveyOptions: SurveyOptions;
   private lastAvailableTaskDraggedIndex: number;
   private deviceInfo: DeviceInfo;
@@ -48,7 +49,7 @@ export class AgentLandingPageComponent implements OnInit {
       this.getSurveyInfo(this.surveyID);
     });
 
-    this.filteredList = this.availableTasks;
+
 
   }
 
@@ -70,11 +71,12 @@ export class AgentLandingPageComponent implements OnInit {
   }
   send() {
 
+
     this.confirmModalRef.hide();
     // DCOOKE 30/03/2018 - map selectedTasks to their index - ie cost
     const leastCost = this.selectedTasks.map((task, index) => {
       return {
-        taskName: task,
+        TaskID: task.taskId,
         cost: index + 1
       };
     });
@@ -82,14 +84,14 @@ export class AgentLandingPageComponent implements OnInit {
     // DCOOKE 30/03/2018 - map negativeTasks to a high number so they aren't chosen
     const mostCost = this.negativeTasks.map((task) => {
       return {
-        taskName: task,
+        TaskID: task.taskId,
         cost: 999
       };
     });
 
     const remainingCosts = this.filteredList.map((task) => {
       return {
-        taskName: task,
+        TaskID: task.taskId,
         cost: this.surveyOptions.maxSelection ? this.surveyOptions.maxSelection + 1 : this.allTasks.length
       };
     });
@@ -163,7 +165,8 @@ export class AgentLandingPageComponent implements OnInit {
 
   filterList() {
 
-    this.filteredList =  this.availableTasks.filter(val => val.toUpperCase().includes(this.availableTaskFilter.toUpperCase()));
+
+    this.filteredList =  this.availableTasks.filter(val => val.taskName.toUpperCase().includes(this.availableTaskFilter.toUpperCase()));
 
   }
 

@@ -1,14 +1,94 @@
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="assignment">
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2 class="sectionText" *ngIf="assignment">{{assignment.assignmentTitle}}</h2>
+  <div class="col-xs-10 col-xs-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+        <div class="row">
+          <br>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="jumbotron">
+          <h1 class="sectionText">{{assignment.assignmentTitle}}</h1>
+          <h2 class="sectionText">Welcome, {{assignment.organiserName}}
+          </h2>
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+
+
+        <span class="sectionText">Progress</span>
+        <span class="sectionText-sm">- {{numberOfCompletedSurveys}} / {{assignment.agents.length}} COMPLETED</span>
+        <span *ngIf="allSurveysFinished" class="sectionText-sm" style="color:#48a215;">
+          <span class="glyphicon glyphicon-ok-circle"></span> ALL {{assignment.agentAlias.toUpperCase()}}'S HAVE ANSWERED.
+        </span>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <app-progress
+          [agents]="assignment.agents"
+          [agentAlias] = "assignment.agentAlias"
+        ></app-progress>
+
+        <hr>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+
+
+    <div class="row">
+     <tabset>
+       <tab class="sectionText-sm">
+         <ng-template tabHeading>
+           <span class="glyphicon glyphicon-stats"></span>
+           Stats
+         </ng-template>
+
+         <div class="row">
+
+           <app-stats
+            [assignment]="assignment"
+           ></app-stats>
+         </div>
+       </tab>
+
+       <tab class="sectionText-sm">
+         <ng-template tabHeading>
+           <span class="glyphicon glyphicon-send"></span>
+           Actions
+         </ng-template>
+
+         <div class="row">
+
+           <app-actions
+             [surveysComplete]="allSurveysFinished"
+           ></app-actions>
+         </div>
+       </tab>
+
+
+     </tabset>
     </div>
   </div>
 
+
+
 </div>
 
-{{assignment | json}}
+<button class="btn-success" (click)="solveMat()">Solve</button>
+
 
 <button class="btn-success" (click)="sendEmail()">Send Email</button>
