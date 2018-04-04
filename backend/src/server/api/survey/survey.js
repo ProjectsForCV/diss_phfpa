@@ -3,74 +3,155 @@ const connection = require('../../data/dbSettings');
 
 function survey(app) {
 
-    app.get('/api/survey/questions', (req, res) =>{
+    app.get('/api/survey/questions', (req, res) => {
 
 
         const surveyId = req.query.surveyId;
         getSurveyQuestions(surveyId, res);
+    });
+
+    app.post('/api/survey/answers', (req, res) => {
+
+        const requestBody = req.body;
+        const surveyID = requestBody['surveyID'];
+        const answers = requestBody['answers'];
+        postSurveyAnswers(surveyID, answers, res);
+
+
     })
 }
 
-function getSurveyQuestions(surveyId, clientResponse) {
+function rollback(db, error, query) {
+    db.rollback(() => {
+        console.error('ERROR WITH QUERY: ' + query);
+        throw error;
+    })
+}
 
+function postSurveyAnswers(surveyID, answers, clientRes) {
     const db = mysql.createConnection(connection);
-    db.query(`SELECT AgentID FROM agents where SurveyID= ? ` ,surveyId , (err, res) => {
 
-        const agentID = res[0]['AgentID'];
-        db.query(`SELECT ProblemID from problem_agents where AgentID= ?` , agentID, (err, res) => {
-
-            const problemID = res[0]['ProblemID'];
-
-            db.query(`select TaskID from problem_tasks where ProblemID= ?` , problemID, (err, res) => {
-
-                const ids = res.map(row => row.TaskID);
+    db.beginTransaction((err) => {
 
 
-                console.log(ids);
-                let taskQuery = db.query(`select * from tasks where TaskID IN (?)`, [ids], (err, res) => {
+        console.log(answers);
+        db.query(`SELECT MAX(AnswerID) from survey_answers`, (err, res) => {
 
-                    console.log(taskQuery.sql);
-                    console.log(res);
-                    const responseJson = {
-                        tasks: res.map(row => row.Name),
-
-                    };
-
-                    db.query(`select TaskAlias from problems where ProblemID = ?` , problemID, (err, res) => {
+            if (err) {
+                rollback(db, err);
+            }
+            const answerID = (res[0]['MAX(AnswerID)'] || 1) + 1;
 
 
-                        const alias = res[0]['TaskAlias'];
+            const answerInsert = answers.map(
+                answer => {
+                    return [answerID, answer.taskName, answer.cost]
+                }
+            );
 
-                        responseJson.taskAlias = alias;
+            // DCOOKE - TODO: Change database to allow duplicate task names - ERROR WITH QUERY: insert into survey_answers values (4, 'test2', 1), (4, 'test4', 3), (4, 'test4', 3)
+            //
+            //	4-test4 is listed here twice, so the database will reject this entry because TaskName is a composite key, which is a terrible idea tbh
+            //
+            
+            let answerQuery = db.query(`insert into survey_answers values ?`, [answerInsert], (err, res) => {
 
-                        db.query(`select MaxSelection, MessageForAgents, AllowOptOut, OptOutMax from problems where ProblemID= ?`,problemID
-                            ,(err,res) =>{
+                if (err) {
+                    rollback(db, err, answerQuery.sql);
+                }
 
-                            if(err){
-                                throw err;
-                            }
-                                const data = res[0];
-                                const surveyOptions = {
-                                    maxSelection: data['MaxSelection'],
-                                    message: data['MessageForAgents'],
-                                    allowOptOut: data['AllowOptOut'],
-                                    maxOptOut: data['OptOutMax']
-                                };
+                let q = db.query(`update problem_agents set AnswerID = ?, Completed = ? where SurveyID =?`, [answerID, 1, surveyID], (err, res) => {
+                    if (err) {
+                        rollback(db, err, q);
 
-                                responseJson.surveyOptions = surveyOptions;
-                                clientResponse.json(responseJson);
+                    }
 
-                            }
-                        );
 
-                    })
+
+
+
+                    db.commit();
+                    console.log(`Survey ${surveyID} answers added. Answer ID ${answerID}`);
+
+
+
+
+                    clientRes.json(res)
+
 
                 })
 
             })
 
         })
-    } )
+
+
+    });
+
+}
+
+function getSurveyQuestions(surveyId, clientResponse) {
+
+    const db = mysql.createConnection(connection);
+
+    db.query(`SELECT ProblemID, Completed from problem_agents where SurveyID= ?`, surveyId, (err, res) => {
+
+        const problemID = res[0]['ProblemID'];
+        const completed = res[0]['Completed'];
+
+
+        db.query(`select TaskID from problem_tasks where ProblemID= ?`, problemID, (err, res) => {
+
+            const taskIds = res.map(row => row.TaskID);
+
+
+            let taskQuery = db.query(`select * from tasks where TaskID IN (?)`, [taskIds], (err, res) => {
+
+                console.log(taskQuery.sql);
+                console.log(res);
+                const responseJson = {
+                    tasks: res.map(row => row.Name),
+
+                };
+
+                db.query(`select TaskAlias, AgentAlias from problems where ProblemID = ?`, problemID, (err, res) => {
+
+
+                    const taskAlias = res[0]['TaskAlias'];
+                    const agentAlias = res[0]['AgentAlias'];
+
+                    responseJson.taskAlias = taskAlias;
+                    responseJson.agentAlias = agentAlias;
+
+
+                    db.query(`select MaxSelection, MessageForAgents, AllowOptOut, OptOutMax from problems where ProblemID= ?`, problemID, (err, res) => {
+
+                        if (err) {
+                            throw err;
+                        }
+                        const data = res[0];
+                        const surveyOptions = {
+                            maxSelection: data['MaxSelection'],
+                            message: data['MessageForAgents'],
+                            allowOptOut: !!data['AllowOptOut'],
+                            maxOptOut: data['OptOutMax']
+                        };
+
+                        responseJson.completed = completed;
+
+                        responseJson.surveyOptions = surveyOptions;
+                        clientResponse.json(responseJson);
+
+                    });
+
+                })
+
+            })
+
+        })
+
+    })
+
 }
 
 module.exports = exports = survey;

@@ -49,6 +49,7 @@ function createEndpoints() {
     const parseTask = require('./api/csv/parseTask');
     const assignment = require('./api/assignment/assignment');
     const survey = require('./api/survey/survey');
+    const email = require('./api/email/sendEmail');
 
     randomMat(app);
     solveMat(app);
@@ -58,6 +59,7 @@ function createEndpoints() {
 
     assignment(app);
     survey(app);
+    email(app);
 
 }
 
