@@ -315,10 +315,11 @@ def __logFinalResult__(rownames, colnames):
                 else:
                     resultPairs[i] = j
 
-    for i in range(len(resultPairs)):
-        if rownames != -1 and colnames != -1:
-            print(rownames[i] + "\t" + resultPairs[rownames[i]])
-        else:
+    if rownames != -1 and colnames != -1:
+        for key in resultPairs:
+                print(key + "\t" + resultPairs[key] )
+    else:
+        for i in range(len(resultPairs)):
             print(str(i) + "\t" + str(resultPairs[i]))
 
 

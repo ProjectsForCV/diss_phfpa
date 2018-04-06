@@ -36,6 +36,35 @@ function assignmentObject(app) {
         getAssignmentProblem(assignment, clientResponse);
     });
 
+    app.get('/api/assignment/results', (req, clientResponse) => {
+
+        const problemID = req.query.assignmentId;
+
+        getAssignmentResults(problemID, (err, res) => {
+
+            if (err) {
+                clientResponse.status(500).send('An error occured when fetching the results');
+                throw err;
+            }
+
+
+            clientResponse.json(res.map(row => {
+                return {
+                    agent: {
+                        email: row.Email
+                    },
+                    task: {
+                        taskName: row.Name
+                    },
+                    cost: row.Cost
+                    
+                }
+            }));
+
+
+        })
+    })
+
 
 
 }
@@ -343,7 +372,6 @@ function getAssignmentProblem(assignment, clientResponseStream) {
 }
 
 
-
 function getAgentDetails(databaseConnection, problemID, callback) {
 
     const db = databaseConnection;
@@ -429,7 +457,8 @@ function getProblemDetails(databaseConnection, problemID, callback) {
 
     const db = databaseConnection;
 
-    db.query(`SELECT * FROM problems WHERE ProblemID=?`, problemID, (err, res) => {
+    db.query(`
+    SELECT * FROM problems WHERE ProblemID=?`, problemID, (err, res) => {
 
 
         if (err) {
@@ -451,9 +480,28 @@ function getProblemDetails(databaseConnection, problemID, callback) {
         problemDetails.surveyOptions = {};
         problemDetails.surveyOptions.maxSelection = data.MaxSelection;
         problemDetails.surveyOptions.allowOptOut = data.AllowOptOut;
+        problemDetails.finished = data.Finished;
         
+        db.query(`SELECT tasks.TaskID, Name from tasks
+        join problem_tasks
+        WHERE tasks.TaskID = problem_tasks.TaskID
+        and problem_tasks.ProblemID = ?`,problemID, (err, res) => {
 
-        callback(problemDetails, undefined);
+            if (err) {
+                callback(unedfined, err)
+            }
+
+            const tasks = res.map(row => {
+                return {
+                    taskId: row.TaskID,
+                    taskName: row.Name
+                }
+            })
+            problemDetails.tasks = tasks;
+            callback(problemDetails, undefined);
+        })
+
+        
 
 
     })
@@ -518,6 +566,22 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
     })
 }
 
+function getAssignmentResults(problemID, callback) {
+    const db = mysql.createConnection(connection);
+
+    let results = {};
+    db.query(`
+    SELECT agents.Email, tasks.Name, tasks.TaskID, problem_agents.AnswerID, survey_answers.Cost
+    FROM assignments
+    left OUTER JOIN (agents, tasks, problem_agents, survey_answers) ON assignments.ProblemID=?
+    and agents.AgentID = assignments.AgentID
+    and tasks.TaskID = assignments.TaskID
+    and problem_agents.AgentID = assignments.AgentID
+    and survey_answers.AnswerID = problem_agents.AnswerID
+    and survey_answers.TaskID = tasks.TaskID
+    `, problemID , callback);
+ 
+}
 function handleError(error, clientRes) {
     if (error) {
         clientRes.writeHead(500, {
