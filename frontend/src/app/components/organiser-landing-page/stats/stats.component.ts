@@ -10,17 +10,25 @@ export class StatsComponent implements OnInit {
 
   @Input()
   public assignment: Assignment;
+  @Input()
+  public assignmentId: string;
 
   public mostPopularTask: SurveyAnswer;
 
+  public maxSelection;
+
   public firstChoiceTasks: SurveyAnswer[];
-  public firstChoiceTasksGraphData : any;
+  public mostPopularTasksGraphData: any;
   private leastPopularTask: SurveyAnswer;
+  private leastPopularTasks: SurveyAnswer[];
+  public leastPopularTasksGraphData: any;
 
   constructor() { }
 
   getMostPopularTask(): SurveyAnswer {
-    const answers: SurveyAnswer[][] = this.assignment.agents.map(agent => agent.answers);
+    const answers: SurveyAnswer[][] = this.assignment.agents.map(agent => agent.answers)
+      .filter(ans => !!ans);
+
 
 
     // Get a list of all the tasks that have been chosen as first choices
@@ -28,7 +36,8 @@ export class StatsComponent implements OnInit {
       return popular.filter(answer => answer.cost === 1)[0];
     });
 
-    this.firstChoiceTasks = mostPopularTasks;
+
+    this.firstChoiceTasks = mostPopularTasks.slice();
 
 
     return this.mode(mostPopularTasks);
@@ -36,17 +45,30 @@ export class StatsComponent implements OnInit {
   }
 
   getLeastPopularTask(): SurveyAnswer {
-    const answers: SurveyAnswer[][] = this.assignment.agents.map(agent => agent.answers);
+    const answers: SurveyAnswer[][] = this.assignment.agents.map(agent => agent.answers)
+      .filter(ans => !!ans);
 
 
-    // Get a list of all the tasks that have been chosen as first choices
-    const leastPopularTasks = answers.map(popular => {
-      return popular.filter(answer => answer.cost > this.assignment.surveyOptions.maxSelection)[0];
-    });
+    let leastPopularTasks = [];
+    // If the survey allowed agents to select a task that they do not wish to complete, check for the
+    // most opted out task
+    if (!this.assignment.surveyOptions.allowOptOut) {
 
-    // DCOOKE 04/04/2018 - TODO: Fix this 
 
-    return leastPopularTasks[0];
+      leastPopularTasks = answers.map(leastPopular => {
+        return leastPopular.filter(answer => answer.cost === this.maxSelection)[0];
+      });
+    } else {
+      leastPopularTasks = answers.map(leastPopular => {
+        return leastPopular.filter(answer => answer.cost === 999)[0];
+      });
+    }
+
+    this.leastPopularTasks = leastPopularTasks.slice();
+
+
+
+    return this.mode(leastPopularTasks);
   }
 
   tallyTasks(taskList: SurveyAnswer[], cost: number): TaskTally[] {
@@ -75,7 +97,8 @@ export class StatsComponent implements OnInit {
     return tally;
   }
 
-  getFirstChoiceTasksGraphData() {
+  getMostPopularTasksGraphData() {
+
 
     const tally = this.tallyTasks(this.firstChoiceTasks, 1);
     return tally.map(tallyEntry => {
@@ -87,10 +110,27 @@ export class StatsComponent implements OnInit {
 
   }
 
-  firstChoiceTooltipFunction(val) {
+  getLeastPopularTasksGraphData() {
 
 
+    const tally = this.tallyTasks(this.leastPopularTasks, this.assignment.surveyOptions.allowOptOut
+      ? 999 : this.maxSelection);
+    return tally.map(tallyEntry => {
+      return {
+        name: tallyEntry.taskName,
+        value: tallyEntry.tally
+      };
+    });
+
+  }
+
+  mostPopularChoiceTooltipFunction(val) {
     return `Picked as 1st choice ${val.data['value']} times`;
+  }
+
+  leastPopularChoiceTooltipFunction(val) {
+
+    return `Not selected ${val.data['value']} times`;
 
   }
   mode(arr: SurveyAnswer[]) {
@@ -102,9 +142,13 @@ export class StatsComponent implements OnInit {
 
   ngOnInit() {
     this.mostPopularTask = this.getMostPopularTask();
-    this.firstChoiceTasksGraphData = this.getFirstChoiceTasksGraphData();
+    this.mostPopularTasksGraphData = this.getMostPopularTasksGraphData();
+
+    this.maxSelection = this.assignment.surveyOptions.maxSelection === 0
+      ? this.assignment.tasks.length : this.assignment.surveyOptions.maxSelection;
 
     this.leastPopularTask = this.getLeastPopularTask();
+    this.leastPopularTasksGraphData = this.getLeastPopularTasksGraphData();
   }
 
 }

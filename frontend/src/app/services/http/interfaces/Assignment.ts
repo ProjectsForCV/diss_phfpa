@@ -12,5 +12,5 @@ export interface Assignment {
   taskAlias: string;
 
   surveyOptions: SurveyOptions;
-  completed?: boolean;
+  finished?: boolean;
 }

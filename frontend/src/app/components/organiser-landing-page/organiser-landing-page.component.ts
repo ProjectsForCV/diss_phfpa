@@ -19,6 +19,7 @@ export class OrganiserLandingPageComponent implements OnInit {
 
   public numberOfCompletedSurveys: number;
   private allSurveysFinished: boolean;
+  private atLeastOneSurveyAnswered: boolean;
   constructor(public route: ActivatedRoute,
               public http: HttpAssignmentService,
               public httpCostMatrix: HttpCostMatrixService
@@ -50,21 +51,13 @@ export class OrganiserLandingPageComponent implements OnInit {
       .subscribe(
         (res: Assignment) => {
           this.assignment = res;
+          this.atLeastOneSurveyAnswered =
+            this.assignment.agents.map(agent => agent.answers).filter(answer => !!answer).length > 0;
+
           this.areAllSurveysFinished();
           console.log(this.assignment);
         }
       );
-  }
-
-  solveMat() {
-
-    if (this.numberOfCompletedSurveys === this.assignment.agents.length) {
-      this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents)
-        .subscribe(
-          res => console.log(res)
-        );
-    }
-
   }
 
 

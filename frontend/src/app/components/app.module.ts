@@ -34,7 +34,7 @@ import { HttpAssignmentService } from '../services/http/http-assignment-service'
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
-import { ModalModule, ProgressbarModule, TabsModule } from 'ngx-bootstrap';
+import { ModalModule, ProgressbarModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpSurveyService } from '../services/http/http-survey-service';
@@ -47,6 +47,10 @@ import { ActionsComponent } from './organiser-landing-page/actions/actions.compo
 import { StatsComponent } from './organiser-landing-page/stats/stats.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResultsComponent } from './organiser-landing-page/results/results.component';
+import { ResultStatsComponent } from './organiser-landing-page/result-stats/result-stats.component';
+import { GroupsComponent } from './organiser-landing-page/groups/groups.component';
+import { NewGroupComponent } from './organiser-landing-page/groups/new-group/new-group.component';
 
 
 /*
@@ -85,7 +89,11 @@ const appRoutes: Routes = [
     SurveyOptionsComponent,
     ProgressComponent,
     ActionsComponent,
-    StatsComponent
+    StatsComponent,
+    ResultsComponent,
+    ResultStatsComponent,
+    GroupsComponent,
+    NewGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +113,8 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     ProgressbarModule.forRoot(),
     DeviceDetectorModule.forRoot(),
-    NgxChartsModule
+    NgxChartsModule,
+    TooltipModule.forRoot()
   ],
   providers: [
     AlertService,

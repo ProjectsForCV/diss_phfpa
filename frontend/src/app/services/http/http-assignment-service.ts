@@ -26,6 +26,13 @@ export class HttpAssignmentService extends HttpBaseService {
     return this.get('/assignment/', options);
   }
 
+  public getAssignmentResults(assignmentId: string) {
+    const options = assignmentId ?
+      { params: new HttpParams().set('assignmentId', assignmentId)} : {};
+
+    return this.get('/assignment/results', options);
+  }
+
 
 
 }

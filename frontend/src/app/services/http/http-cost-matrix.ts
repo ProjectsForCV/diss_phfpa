@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpBaseService } from './http-base-service';
 import { Agent } from './interfaces/Agent';
+import { GeneticOptions } from './interfaces/GeneticOptions';
 
 @Injectable()
-export class HttpCostMatrixService extends HttpBaseService{
+export class HttpCostMatrixService extends HttpBaseService {
 
 
   public getRandomMatrix(rows: number, cols: number) {
@@ -14,10 +15,11 @@ export class HttpCostMatrixService extends HttpBaseService{
     return this.post('/costMatrix/solveMat' , matrix);
   }
 
-  public postSolveAssignmentProblem(assignmentId: string, completedAgents: Agent[]) {
+  public postSolveAssignmentProblem(assignmentId: string, completedAgents: Agent[], geneticOptions?: GeneticOptions) {
     const postObject = {
       problemId: assignmentId,
-      agents: completedAgents
+      agents: completedAgents,
+      geneticOptions: geneticOptions
     };
     return this.post('/costMatrix/solveProblem', postObject );
   }

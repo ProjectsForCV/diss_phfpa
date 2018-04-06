@@ -51,16 +51,17 @@
 
     <div class="row">
      <tabset>
-       <tab class="sectionText-sm">
+       <tab class="sectionText-sm" *ngIf="atLeastOneSurveyAnswered">
          <ng-template tabHeading>
            <span class="glyphicon glyphicon-stats"></span>
            Stats
          </ng-template>
 
-         <div class="row">
+         <div class="row" >
 
            <app-stats
             [assignment]="assignment"
+            [assignmentId]="assignmentId"
            ></app-stats>
          </div>
        </tab>
@@ -75,7 +76,27 @@
 
            <app-actions
              [surveysComplete]="allSurveysFinished"
+             [assignmentId] ="assignmentId"
+             [assignment]="assignment"
+             [assignmentFinished]="assignment.finished"
+             (refreshPage)="getAssignment()"
            ></app-actions>
+         </div>
+       </tab>
+
+       <tab class="sectionText-sm" *ngIf="assignment.finished" [active]="true">
+         <ng-template tabHeading>
+           <span class="glyphicon glyphicon-list-alt"></span>
+           Results
+         </ng-template>
+
+         <div class="row">
+
+           <app-results
+             [assignmentId]="assignmentId"
+
+           ></app-results>
+
          </div>
        </tab>
 
@@ -88,7 +109,3 @@
 
 </div>
 
-<button class="btn-success" (click)="solveMat()">Solve</button>
-
-
-<button class="btn-success" (click)="sendEmail()">Send Email</button>

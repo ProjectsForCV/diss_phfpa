@@ -1,0 +1,63 @@
+
+<div class="row">
+  <br>
+
+</div>
+
+
+<div class="center-block">
+  <div class="col-xs-12">
+
+
+      <table class="table" >
+
+        <thead>
+          <th scope="col" (click)="sort(columnStrings.agent, !currentSort.ascending)">
+            Agent
+            <span class="glyphicon glyphicon-sort-by-alphabet"
+                        *ngIf="currentSort.column === columnStrings.agent && currentSort.ascending">
+            </span>
+            <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                  *ngIf="currentSort.column === columnStrings.agent && !currentSort.ascending"></span>
+          </th>
+          <th scope="col" (click)="sort(columnStrings.task, !currentSort.ascending)">
+            Assigned Task
+            <span class="glyphicon glyphicon-sort-by-alphabet"
+                  *ngIf="currentSort.column === columnStrings.task && currentSort.ascending">
+            </span>
+            <span class="glyphicon glyphicon-sort-by-alphabet-alt"
+                  *ngIf="currentSort.column === columnStrings.task && !currentSort.ascending"></span>
+          </th>
+          <th scope="col" (click)="sort(columnStrings.choice, !currentSort.ascending)" >
+            Choice
+            <span class="glyphicon glyphicon-sort-by-order"
+                  *ngIf="currentSort.column === columnStrings.choice && currentSort.ascending">
+            </span>
+            <span class="glyphicon glyphicon-sort-by-order-alt"
+                  *ngIf="currentSort.column === columnStrings.choice && !currentSort.ascending"></span>
+          </th>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let result of results">
+            <td>
+              {{result.agent.email}}
+            </td>
+            <td>
+              {{result.task.taskName}}
+            </td>
+
+            <td class="{{getCostClass(result.cost)}}">{{result.cost}}</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+
+
+  </div>
+
+
+</div>

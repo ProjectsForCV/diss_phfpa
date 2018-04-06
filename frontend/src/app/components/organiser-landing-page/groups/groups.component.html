@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="helpText panel-title">
+      Groups
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <p class="helpText">Assign constraints to certain tasks.</p>
+
+    <div class="row">
+      <button class="btn btn-primary" (click)="addGroup()">Create Group</button>
+    </div>
+
+    <div class="row">
+      <hr>
+    </div>
+
+    <ng-container *ngFor="let group of groups" class="container-fluid">
+      <div class="col-xs-12 col-sm-6">
+        <app-new-group
+          [group]="group"
+          [tasks]="tasks"
+        ></app-new-group>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+{{groups | json}}
