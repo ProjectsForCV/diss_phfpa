@@ -16,4 +16,6 @@ export class Globals {
   // DCOOKE 28/01/2018 - This is the run mode which determines which endpoitns the application will attempt to call
   public static RunMode = Globals.AppRunModeEnum.MOCK;
 
+  public static WS = Globals.RunMode === Globals.AppRunModeEnum.MOCK ? 'localhost:4200/api' : 'munkres.ml/api';
+
 }

@@ -51,6 +51,7 @@ import { ResultsComponent } from './organiser-landing-page/results/results.compo
 import { ResultStatsComponent } from './organiser-landing-page/result-stats/result-stats.component';
 import { GroupsComponent } from './organiser-landing-page/groups/groups.component';
 import { NewGroupComponent } from './organiser-landing-page/groups/new-group/new-group.component';
+import { GeneticResultsComponent } from './organiser-landing-page/actions/genetic-results/genetic-results.component';
 
 
 /*
@@ -93,7 +94,8 @@ const appRoutes: Routes = [
     ResultsComponent,
     ResultStatsComponent,
     GroupsComponent,
-    NewGroupComponent
+    NewGroupComponent,
+    GeneticResultsComponent
   ],
   imports: [
     BrowserModule,

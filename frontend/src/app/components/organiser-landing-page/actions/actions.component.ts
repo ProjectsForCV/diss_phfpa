@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GeneticOptions } from '../../../services/http/interfaces/GeneticOptions';
 import { Assignment } from '../../../services/http/interfaces/Assignment';
 import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
+import { GeneticAssignmentResults } from '../../../services/http/interfaces/GeneticAssignmentResults';
 
 @Component({
   selector: 'app-actions',
@@ -26,6 +27,8 @@ export class ActionsComponent implements OnInit {
   public selectedAlgorithm = 'hungarian';
   public geneticOptions: GeneticOptions = <GeneticOptions>{};
 
+  public geneticResults: GeneticAssignmentResults[];
+
   constructor(public httpCostMatrix: HttpCostMatrixService) { }
 
   solve() {
@@ -40,9 +43,9 @@ export class ActionsComponent implements OnInit {
     } else {
       this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents, this.geneticOptions)
         .subscribe(
-          res => {
-            this.refreshPage.emit();
-          }
+          (res: GeneticAssignmentResults[]) => {
+            this.geneticResults = res;
+          }, err => console.error(err), () => console.dir(`Genetic Results returned`)
         );
     }
   }

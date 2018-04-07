@@ -1,0 +1,70 @@
+<div class="col-xs-12">
+
+
+  <div class="panel panel-default" *ngFor="let geneticResult of geneticResults; let i = index">
+    <div class="panel-heading">
+
+      <div class="row">
+        <label class="labelDesktop col-xs-3">Result #{{i + 1}}</label>
+
+
+        <label class="labelDesktop col-xs-2">Total Cost: </label>
+        <label class="labelMobile col-xs-1">{{geneticResult.totalCost}}</label>
+
+
+
+
+        <label class="labelDesktop col-xs-2">Distance: </label>
+        <label class="labelMobile col-xs-1">{{geneticResult.distance}}</label>
+
+        <div class="col-xs-3">
+          <button class="btn btn-primary">
+            <span class="glyphicon glyphicon-list"></span>
+            View Assignments
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel-body">
+
+
+
+
+      <table class="table" >
+
+        <thead>
+        <th scope="col">
+          Agent
+        </th>
+        <th scope="col">
+          Assigned Task
+        </th>
+        <th scope="col" >
+          Choice
+        </th>
+
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let result of geneticResult.assignment">
+          <td>
+            {{result.agent.email}}
+          </td>
+          <td>
+            {{result.task.taskName}}
+          </td>
+
+          <td class="{{getCostClass(result.cost)}}">{{result.cost}}</td>
+        </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div>

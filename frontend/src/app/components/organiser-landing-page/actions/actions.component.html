@@ -72,6 +72,11 @@
         <div class="col-xs-6">
           <input type="number"  [(ngModel)]="geneticOptions.returnedCandidates" class="form-control">
         </div>
+
+        <label class="labelMobile col-xs-6">Distance Threshold</label>
+        <div class="col-xs-6">
+          <input type="number"  [(ngModel)]="geneticOptions.distanceThreshold" class="form-control">
+        </div>
       </div>
       <div class="col-xs-12">
         <br>
@@ -85,6 +90,23 @@
         >
 
         </app-groups>
+      </div>
+
+      <div class="row">
+        <hr>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="helpText panel-title">
+            Results
+          </div>
+        </div>
+
+        <app-genetic-results
+          [geneticResults]="geneticResults"
+          *ngIf="geneticResults && geneticResults.length > 0"
+        ></app-genetic-results>
       </div>
     </ng-container>
   </div>

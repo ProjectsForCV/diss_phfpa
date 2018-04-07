@@ -9,8 +9,10 @@ function solveProblem(app) {
 
         
         const completedAgents = req.body['agents'];
+        
         const problemID = req.body['problemId'];
         const geneticOptions = req.body['geneticOptions'];
+        
 
         const mat = completedAgents.map(agent => {
             return agent.answers.map(answer => {
@@ -43,19 +45,27 @@ function solveProblem(app) {
             case true: {
                 startGeneticSolver(completedAgents, geneticOptions, (results, error)=> {
 
+                    if (error) {
+                        clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
+                        clientResponse.end('Error: The genetic algorithm failed.');
+                        throw err;
+                    }
+                    clientResponse.json(results);
                 })
             }
         }
-        
 
-
-
-        
     });
 }
 
 function startGeneticSolver(completedAgents, geneticOptions, callback) {
     const results = geneticSolver(completedAgents, geneticOptions)
+
+    if (results === -1) {
+        return callback(undefined, 'The genetic algorithm failed.');
+    }
+
+    return callback(results, undefined);
 
 }
 function  startHungarian(mat, completedAgents, callback) {

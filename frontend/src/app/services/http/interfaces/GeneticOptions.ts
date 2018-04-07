@@ -6,5 +6,7 @@ export interface GeneticOptions {
   returnedCandidates: number;
   populationSize: number;
 
+  distanceThreshold: number;
+
   groups: Group[];
 }
