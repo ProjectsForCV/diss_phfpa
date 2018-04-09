@@ -227,13 +227,13 @@ export class NewProblemComponent implements OnInit {
   }
 
   private problemCreated(res: Response) {
-
-    this.emailSubscription = this.httpEmail.sendSurveyLinksToAgents(res['agents'])
-      .subscribe(
-        (emailResponse: Response) => {
-          console.log(emailResponse);
-        }
-      );
+    //
+    // this.emailSubscription = this.httpEmail.sendSurveyLinksToAgents(res['agents'])
+    //   .subscribe(
+    //     (emailResponse: Response) => {
+    //       console.log(emailResponse);
+    //     }
+    //   );
     const problemID = res['problemId'];
     this.router.navigate(['/assignment', problemID] );
   }
