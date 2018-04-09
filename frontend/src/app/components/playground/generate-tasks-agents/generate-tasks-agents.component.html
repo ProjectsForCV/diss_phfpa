@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title "><h3 class="sectionText">Generate Tasks/Agents</h3></div>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <label class="hidden-xs col-sm-5 labelDesktop">Number of Agents</label>
+      <label class="visible-xs col-xs-12 labelMobile">Number of Agents</label>
+
+      <div class="col-sm-7 col-xs-12">
+        <input type="number" class="form-control" [(ngModel)]="generationOptions.numberAgents">
+      </div>
+
+      <label class="hidden-xs col-sm-5 labelDesktop">Number of Tasks</label>
+      <label class="visible-xs col-xs-12 labelMobile">Number of Tasks</label>
+
+      <div class="col-sm-7 col-xs-12">
+        <input type="number" class="form-control" [(ngModel)]="generationOptions.numberTasks">
+      </div>
+    </div>
+
+  </div>
+</div>
