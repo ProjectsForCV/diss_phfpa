@@ -207,7 +207,12 @@ function advanceGeneration(population, mutationChance, groups, rows, cols) {
         (cand) => distance(cand, groups)));
 
     const parents = selectParents(mutatedCandidates);
-    const nextGeneration = crossover(parents);
+    let nextGeneration = crossover(parents);
+    if (nextGeneration.length < population.length) {
+        // No offspring where created
+        console.log(`No offspring created`);
+        nextGeneration = mutatedCandidates;
+    }
     return nextGeneration.map(c => distance(c, groups));
 
 
@@ -295,6 +300,7 @@ function getNamedAssignments(data, finalResult, returnCandidates) {
                     cost: matrix.cost
                 }
             })
+            
         }
     })
 }
@@ -312,16 +318,30 @@ function getMaxAssignmentsIfConstrainedColumns() {
 function start(data, geneticOptions) {
 
     try {
-        const matrix = data.map(agent => {
-            return agent.answers.map(answer => {
-                return answer.cost
+
+        let matrix = [];
+
+        let rowNames, colNames = [];
+        const realAgents = !!data[0].answers;
+
+        if (realAgents) {
+            matrix = data.map(agent => {
+                return agent.answers.map(answer => {
+                    return answer.cost
+                })
+    
             })
 
-        })
+            rowNames = data.map(agent => agent.agentId);
+            colNames = data[0].answers.map(answer => answer.taskId);
+        } else {
+            matrix = data;
+            colNames = data.map(row => row).map((cost, index) => {
+                return ""+index
+            });
+        }
 
 
-        const rowNames = data.map(agent => agent.agentId);
-        const colNames = data[0].answers.map(answer => answer.taskId);
         rows = matrix.length;
         cols = matrix[0].length;
         costMatrix = matrix;
@@ -338,6 +358,7 @@ function start(data, geneticOptions) {
 
         let population = generatePopulation(matrix, rows, cols, geneticOptions.populationSize);
 
+        let bestPopulation = population;
         while (generation < geneticOptions.maxGenerations) {
 
             console.log(`\n\n\nGeneration ${generation+1} =================================\n`);
@@ -350,6 +371,8 @@ function start(data, geneticOptions) {
             ));
 
             console.log(`\tBest Distance: ${population[0].distance}\n`);
+            bestPopulation = Math.min(population[0].distance, bestPopulation[0].distance) === population[0].distance ?
+                population : bestPopulation;
             if (population[0].distance < geneticOptions.distanceThreshold) {
                 // Optimum stopping distance
                 break;
@@ -366,10 +389,14 @@ function start(data, geneticOptions) {
 
 
 
+        if (realAgents) {
+            return getNamedAssignments(data, population, geneticOptions.returnedCandidates);
+        } else {
+            return getSolvedMatrix(matrix, population, geneticOptions.returnedCandidates);
+        }
 
 
 
-        return getNamedAssignments(data, population, geneticOptions.returnedCandidates);
     } catch (err) {
         return -1;
     }
@@ -378,6 +405,40 @@ function start(data, geneticOptions) {
 
 }
 
+function getSolvedMatrix(mat, finalResult, returned) {
+    finalResult = new Set((finalResult.sort((a, b) => a.distance - b.distance)));
+    
+    finalResult = Array.from(finalResult).slice(0, returned);
+        
+    
+    const mapMatrix = 
+    Array.from({length: finalResult.length}, () => {
+        return Array.from({length: mat.length}, 
+            () => Array.from({length: mat[0].length}, 
+                () => 0))
+    }).map(
+        (solution, i) => getSolution(solution, finalResult[i].assignment)
+    );
+
+
+
+    function getSolution(emptyMatrix, assignment){
+        for (let i = 0; i < assignment.length; i++) {
+            emptyMatrix[assignment[i].row][assignment[i].col] = 1;
+        }
+
+        return emptyMatrix;
+    }
+    return finalResult.map((result, index) => {
+            return {
+                solution: mapMatrix[index],
+                totalCost: result.totalCost,
+                distance: result.distance
+            }
+        })
+    
+    
+}
 
 
 

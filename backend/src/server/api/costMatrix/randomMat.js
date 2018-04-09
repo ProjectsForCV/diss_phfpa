@@ -44,5 +44,4 @@ function createRandomCostArray(size) {
 }
 
 exports = module.exports = randomMat;
-exports = module.exports = createRandomCostArray;
 
