@@ -18,7 +18,7 @@ export class AlertServiceComponent implements OnInit {
   remove(alert: Alert) {
 
 
-    debugger;
+
     if (alert.type === AlertType.Error) {
       this.alertService.removeError(alert);
     }

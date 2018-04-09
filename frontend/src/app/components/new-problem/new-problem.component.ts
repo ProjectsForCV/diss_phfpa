@@ -133,6 +133,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   next(modalRef) {
+    window.scroll(0, 0);
     if (this.page === 1) {
 
       this.organiserEmail = this.assignmentDetailsFormState.get('email').value;
@@ -174,13 +175,13 @@ export class NewProblemComponent implements OnInit {
 
     if (page === 1 && this.assignmentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Next';
+      this.continueButtonText = 'NEXT';
       return;
     }
 
     if (page === 2 && this.agentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Next';
+      this.continueButtonText = 'NEXT';
       return;
     }
 
@@ -189,13 +190,15 @@ export class NewProblemComponent implements OnInit {
 
 
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Next';
+      this.continueButtonText = 'NEXT';
       return;
     }
 
-    if (page === 4 && this.surveyOptionsComponent && this.surveyOptionsComponent.complete) {
+
+
+    if (page === 4) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'Finish';
+      this.continueButtonText = 'FINISH';
       return;
     }
 

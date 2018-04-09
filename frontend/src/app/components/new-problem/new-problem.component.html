@@ -1,5 +1,6 @@
 
   <div class="container-fluid" >
+
     <div class="row">
 
 
@@ -33,6 +34,9 @@
         <ng-container *ngIf="page==2">
           <div class="panel panel-default" style="margin-top:0;">
             <div class="panel-heading">
+              <div class="continue-button animated fadeIn" (click)="back()">
+                BACK
+              </div>
               <h3 class="panel-title sectionText">Agents</h3>
             </div>
             <div class="panel-body">
@@ -50,10 +54,18 @@
         </ng-container>
 
         <ng-container *ngIf="page == 3">
-          <div class="panel panel-default animated slideInRight">
+          <div class="panel panel-default animated fadeIn">
 
             <div class="panel-heading">
-              <div class="panel-title sectionText">Task Details</div>
+              <div class="continue-button animated fadeIn" (click)="back()">
+                BACK
+              </div>
+
+              <h3 class="panel-title sectionText">Task Details</h3>
+
+
+
+
             </div>
 
             <div class="panel-body">
@@ -73,6 +85,10 @@
 
         <ng-container *ngIf="page == 4" class="animated fadeIn">
 
+          <div class="continue-button animated fadeIn" (click)="back()">
+            BACK
+          </div>
+
           <app-survey-options #surveyOptions
                               (detailsChanged)="updatePageState()"
 
@@ -83,24 +99,19 @@
         <div class="row" style="display: block">
 
 
-          <div class="col-xs-12">
-            <div class="pull-right ">
-              <div class="continue-button animated fadeIn" *ngIf="continueButtonVisible" (click)="next(confirmFinishModal)">
-                {{continueButtonText}}
 
-              </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="pull-right ">
+            <div class="continue-button animated fadeIn" *ngIf="continueButtonVisible" (click)="next(confirmFinishModal)">
+              {{continueButtonText}}
+
             </div>
-
-            <div class="pull-left" *ngIf="page > 1">
-
-              <div class="continue-button animated fadeIn" (click)="back()">
-
-
-                Back
-              </div>
-            </div>
-
           </div>
+
+
+
         </div>
 
 
@@ -146,3 +157,9 @@
     </div>
 
   </ng-template>
+
+  <div class="col-xs-12">
+    <br>
+
+  </div>
+

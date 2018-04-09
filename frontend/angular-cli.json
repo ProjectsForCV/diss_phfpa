@@ -19,7 +19,9 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/@swimlane/ngx-dnd/release/index.css"
+        "../node_modules/@swimlane/ngx-dnd/release/index.css",
+        "../node_modules/ng-busy/src/style/busy.css",
+        "../node_modules/@fortawesome/fontawesome/styles.css"
       ],
       "scripts": [],
       "environmentSource" : "environments/environment.ts",

@@ -1,59 +1,190 @@
 
 
 
-  <div class="container" style="padding-top:10%;">
+<div class="container" style="padding-top:10%;" >
 
-    <div class="row">
+  <div class="row">
+    <br>
+  </div>
+
+  <div  style="margin-top: 10%">
+    <h2 class="sectionText">Generate a random cost matrix or upload your own CSV.</h2>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+
+      <tabset>
+        <tab>
+          <ng-template tabHeading>
+            <span class="glyphicon glyphicon-stats"></span>
+            Generator
+          </ng-template>
+
+          <div class="row" >
+
+            <div class="panel panel-default">
+
+              <div class="panel panel-body">
+
+                <app-generator
+                  [matrixSubscription]="matrixSubscriber"
+
+                ></app-generator>
+
+
+              </div>
+            </div>
+          </div>
+        </tab>
+
+        <tab>
+          <ng-template tabHeading>
+            <span class="glyphicon glyphicon-send"></span>
+            CSV
+          </ng-template>
+
+          <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+              <app-csv-matrix [matrixSubscription]="matrixSubscriber"></app-csv-matrix>
+            </div>
+          </div>
+        </tab>
+
+
+      </tabset>
+
+
+
+
+    </div>
+
+    <div class="col-xs-12">
+      <br>
+      <br>
       <br>
     </div>
 
-    <div  style="margin-top: 10%">
-      <h2 class="sectionText">Generate a random cost matrix or upload your own CSV.</h2>
-    </div>
-    <div class="row">
-      <br>
-    </div>
-    <div class="row">
-      <br>
-    </div>
-    <div class="row">
-      <br>
-    </div>
-    <div class="row">
-      <br>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel panel-body">
+    <div class="col-xs-12 " *ngIf="matrix" >
 
-            <app-generator
-              [matrixSubscription]="matrixSubscriber"
+      <tabset>
+        <tab>
+          <ng-template tabHeading>
+            Cost Matrix
+          </ng-template>
+          <div class="panel panel-default ">
 
-            ></app-generator>
+            <div class="panel-body">
+
+              <app-matrix [matrixListener]="matrixSubscriber"
+
+              ></app-matrix>
+
+            </div>
+
 
 
           </div>
+        </tab>
+
+        <tab>
+          <ng-template tabHeading>
+            Options <span class="glyphicon glyphicon-cog"></span>
+
+
+          </ng-template>
+
+          <app-solve-options
+
+            [options]="options"
+            [matrix]="matrix"
+          >
+
+          </app-solve-options>
+
+
+
+        </tab>
+      </tabset>
+
+      <div class="row">
+        <div class="text-center">
+          <div class="btn btn-success" style="margin-bottom:5%;font: 21pt 'Oswald';" (click)="solve()">
+            Solve <i class="{{solveIconClass}}"></i>
+          </div>
         </div>
+
       </div>
     </div>
 
-
-  </div>
-
-  <app-matrix [matrixListener]="matrixSubscriber"
-              [solutionListener]="solutionSubscriber"
-  ></app-matrix>
-
-  <div class="row" *ngIf="matrix">
-    <div class="col-xs-12">
-      <button class="btn btn-primary" (click)="solve()">
-        Find Optimum Assignment
-      </button>
+    <div class="row">
+      <hr>
     </div>
+
+      <app-expandable-panel
+        *ngIf="solution && matrix"
+      >
+
+        <span head>Hungarian Results</span>
+        <div body  >
+          <app-matrix [matrixListener]="matrixSubscriber"
+                      [solutionListener]="solutionSubscriber"
+
+                      (totalCostChanged)="hungarianTotalCostChanged($event)"
+
+          ></app-matrix>
+
+          <div class="row">
+            <h3 class="sectionText">Total Cost = {{totalCost}} </h3>
+          </div>
+        </div>
+
+
+      </app-expandable-panel>
+
+
+
+      <app-expandable-panel
+        *ngIf="geneticMatrices"
+
+      >
+
+        <span head>Genetic Results</span>
+        <div body >
+          <app-display-genetic-matrices
+            [results] = "geneticMatrices"
+            [costMatrix]="matrix"
+
+          >
+
+          </app-display-genetic-matrices>
+        </div>
+      </app-expandable-panel>
+
+
+
+
+
+
   </div>
+
+</div>
 
   <div style="height:400px;"></div>
+
+
+
 
 
 

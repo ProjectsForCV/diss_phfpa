@@ -16,12 +16,14 @@ export class HttpBaseService {
   }
   public get(resourcePath: string, options?: any): Observable<any> {
 
+
     return this.http.get(this.HOST_ENDPOINT + resourcePath, options);
 
   }
 
   public post(resourcePath: string, paylod: any, options?: any): Observable<any> {
     console.log(paylod);
+
     return this.http.post(this.HOST_ENDPOINT + resourcePath, paylod, options);
   }
 

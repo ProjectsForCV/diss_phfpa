@@ -1,0 +1,64 @@
+.one-cost-color {
+  background: rgba(0, 255, 0, 0.51);
+  text-align: center;
+}
+
+.two-cost-color {
+  background: rgba(20, 200, 0, 0.5);
+  text-align: center;
+}
+
+.three-cost-color {
+  background: rgba(20, 130, 20, 0.5);
+  text-align: center;
+}
+
+.four-cost-color {
+  background: rgba(20, 100, 40, 0.5);
+  text-align: center;
+}
+
+.five-cost-color {
+  background: rgba(255, 240, 63, 0.51);
+  text-align: center;
+}
+
+.six-cost-color {
+  background: rgba(255, 200, 63, 0.5);
+  text-align: center;
+}
+
+.seven-cost-color {
+  background: rgba(255, 160, 63, 0.51);
+  text-align: center;
+}
+
+.eight-cost-color {
+  background: rgba(255, 120, 63, 0.51);
+  text-align: center;
+}
+
+.nine-cost-color {
+  background: rgba(255, 80, 63, 0.5);
+  text-align: center;
+}
+
+.ten-cost-color {
+  background: rgba(255, 50, 63, 0.51);
+  text-align: center;
+}
+
+
+table {
+  height: 100px;
+  overflow: auto;
+}
+tbody {
+  height: 100px;
+  overflow: auto;
+}
+
+
+.panel {
+  border: 2px solid #eee;
+}

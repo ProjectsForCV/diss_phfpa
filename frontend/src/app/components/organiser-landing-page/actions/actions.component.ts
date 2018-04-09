@@ -3,6 +3,8 @@ import { GeneticOptions } from '../../../services/http/interfaces/GeneticOptions
 import { Assignment } from '../../../services/http/interfaces/Assignment';
 import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
 import { GeneticAssignmentResults } from '../../../services/http/interfaces/GeneticAssignmentResults';
+import { SolveOptions } from '../../playground/SolveOptions';
+import { HttpEmailService } from '../../../services/http/http-email-service';
 
 @Component({
   selector: 'app-actions',
@@ -24,12 +26,17 @@ export class ActionsComponent implements OnInit {
   @Output()
   public refreshPage: EventEmitter<void> = new EventEmitter<void>();
 
+  public solveOptions: SolveOptions = <SolveOptions> {
+    algorithm: 'hungarian',
+    geneticOptions: <GeneticOptions>{}
+  };
+
   public selectedAlgorithm = 'hungarian';
-  public geneticOptions: GeneticOptions = <GeneticOptions>{};
+
 
   public geneticResults: GeneticAssignmentResults[];
 
-  constructor(public httpCostMatrix: HttpCostMatrixService) { }
+  constructor(public httpCostMatrix: HttpCostMatrixService, public httpEmail: HttpEmailService) { }
 
   solve() {
 
@@ -41,7 +48,7 @@ export class ActionsComponent implements OnInit {
           }
         );
     } else {
-      this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents, this.geneticOptions)
+      this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents, this.solveOptions.geneticOptions)
         .subscribe(
           (res: GeneticAssignmentResults[]) => {
             this.geneticResults = res;
@@ -50,15 +57,24 @@ export class ActionsComponent implements OnInit {
     }
   }
 
+  sendEmail() {
+    this.httpEmail.sendSurveyLinksToAgents(this.assignment.agents, this.assignment.taskAlias,
+      this.assignment.agentAlias, this.assignment.organiserName)
+      .subscribe(res => console.log(res),
+        err => console.error(err),
+      );
+  }
 
   ngOnInit() {
-    this.geneticOptions = <GeneticOptions> {
+    this.solveOptions.geneticOptions = <GeneticOptions> {
       mutationChance: 50,
       maxGenerations: 15,
       returnedCandidates: 3,
       populationSize: 40,
-      groups: []
+      groups: [],
+      distanceThreshold: 3
     };
+
   }
 
 }

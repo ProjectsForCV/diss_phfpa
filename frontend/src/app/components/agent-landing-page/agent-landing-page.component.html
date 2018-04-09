@@ -27,8 +27,8 @@
               <div class="panel-heading desktop hidden-xs">
                 AVAILABLE {{taskAlias.toUpperCase()}}'S
               </div>
-              <div class="panel-body scrollBody" >
-                <input type="text" class="form-control" placeholder="Search" (input)="filterList()" [(ngModel)]="availableTaskFilter">
+              <div class="panel-body " >
+                <input type="text" class="form-control" placeholder="Filter" (input)="filterList()" [(ngModel)]="availableTaskFilter">
 
 
                 <div
@@ -38,7 +38,7 @@
                   [ngClass]="{ 'gu-empty': !filteredList?.length }"
                   [removeOnSpill]="false"
                   (drop)="availableTasksDrop($event)"
-                  class='ngx-dnd-container'>
+                  class='ngx-dnd-container scrollBody'>
                   <ng-container *ngIf="filteredList">
                     <ng-container *ngFor="let item of filteredList; let i = index">
                       <div class="ngx-dnd-item"
@@ -56,14 +56,13 @@
 
 
 
-
-
               </div>
             </div>
 
           </div>
 
           <!-- END -- DRE013 DCOOKE 31/03/2018 - AVAILABLE TESTS -->
+
 
 
 
@@ -209,7 +208,6 @@
               </div>
 
             </div>
-
 
 
           </div>

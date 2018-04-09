@@ -1,0 +1,14 @@
+<label class="labelDesktop col-xs-12">Algorithm </label>
+
+<div class="col-xs-12">
+  <select name="algorithmSelect"
+          id="algorithmSelect"
+          class="form-control"
+          [(ngModel)]="options.algorithm"
+          [disabled]="disabled"
+  >
+    <option [ngValue]="'hungarian'">Hungarian</option>
+    <option [ngValue]="'genetic'">Genetic</option>
+
+  </select>
+</div>

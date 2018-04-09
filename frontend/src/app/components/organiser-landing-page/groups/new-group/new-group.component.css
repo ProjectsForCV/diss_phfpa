@@ -1,0 +1,13 @@
+.taskConstraint {
+  font-family: 'Oswald';
+  font-size: 18pt;
+  color: #eee;
+  padding: 5%;
+  border: 1px ridge #959595;
+}
+
+.taskRemove {
+  font-family: 'Oswald';
+  font-size: 11pt;
+  color: #eee;
+}

@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+
+    <h3 class="sectionText"><ng-content select="[head]"></ng-content><span class="pull-right icon">
+      <span class="glyphicon {{iconClass}}" (click)="toggleState()"></span>
+    </span></h3>
+
+  </div>
+
+
+    <div class="panel-body" [@panelState]="state" style="{{getStyle()}}">
+      <ng-content select="[body]"></ng-content>
+    </div>
+
+
+
+
+
+</div>

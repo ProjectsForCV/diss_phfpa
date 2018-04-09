@@ -6,6 +6,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lobster|Oswald');
 
+@import '../node_modules/@fortawesome/fontawesome/styles.css';
+@import '../node_modules/font-awesome/css/font-awesome.css';
+
 /* Fonts */
 @import url('https://fonts.googleapis.com/css?family=Arvo');
 
@@ -37,9 +40,9 @@
 }
 
 .continue-button {
-  font-family: 'Lobster' , cursive;
-  font-size: 28pt;
-  color: #9FC490;
+  font-family: 'Arvo';
+  font-size: 21pt;
+  color: #a9a9a9;
 }
 
 .btn-light{
@@ -47,7 +50,7 @@
 }
 
 .continue-button:hover {
-  color: #F45B69;
+  color: #114B5F;
 }
 
 .helpText {
@@ -171,7 +174,7 @@ p {
 }
 
 a {
-  color: #9FC490;
+  color: #777;
 }
 
 

@@ -15,7 +15,6 @@ import { NewProblemComponent } from './new-problem/new-problem.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { PlaygroundComponent } from './playground/playground.component';
-import { PlaygroundModule } from './playground/playground.module';
 import { UploadIconComponent } from './new-problem/upload-icon.component';
 import { NgUploaderModule } from 'ngx-uploader';
 
@@ -34,7 +33,7 @@ import { HttpAssignmentService } from '../services/http/http-assignment-service'
 import { AgentLandingPageComponent } from './agent-landing-page/agent-landing-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
-import { ModalModule, ProgressbarModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
+import { ButtonsModule, ModalModule, ProgressbarModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { OrganiserLandingPageComponent } from './organiser-landing-page/organiser-landing-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpSurveyService } from '../services/http/http-survey-service';
@@ -52,6 +51,15 @@ import { ResultStatsComponent } from './organiser-landing-page/result-stats/resu
 import { GroupsComponent } from './organiser-landing-page/groups/groups.component';
 import { NewGroupComponent } from './organiser-landing-page/groups/new-group/new-group.component';
 import { GeneticResultsComponent } from './organiser-landing-page/actions/genetic-results/genetic-results.component';
+import { GeneratorComponent } from './playground/generator/generator.component';
+import { MatrixComponent } from './playground/matrix/matrix.component';
+import { CsvMatrixComponent } from './playground/csv-matrix/csv-matrix.component';
+import { SolveOptionsComponent } from './playground/solve-options/solve-options.component';
+import { AlgorithmSelectComponent } from './organiser-landing-page/actions/algorithm-select/algorithm-select.component';
+import { GeneticOptionsComponent } from './organiser-landing-page/actions/genetic-options/genetic-options.component';
+import { DisplayGeneticMatricesComponent } from './playground/display-genetic-matrices/display-genetic-matrices.component';
+import { ExpandablePanelComponent } from './shared/expandable-panel/expandable-panel.component';
+import { GeneticAssignmentsComponent } from './organiser-landing-page/actions/genetic-assignments/genetic-assignments.component';
 
 
 /*
@@ -95,7 +103,17 @@ const appRoutes: Routes = [
     ResultStatsComponent,
     GroupsComponent,
     NewGroupComponent,
-    GeneticResultsComponent
+    PlaygroundComponent,
+    GeneratorComponent,
+    MatrixComponent,
+    GeneticResultsComponent,
+    CsvMatrixComponent,
+    SolveOptionsComponent,
+    GeneticOptionsComponent,
+    AlgorithmSelectComponent,
+    DisplayGeneticMatricesComponent,
+    ExpandablePanelComponent,
+    GeneticAssignmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -108,9 +126,9 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true}
     ),
-    PlaygroundModule,
     NgxDnDModule,
     NgBusyModule,
+    ButtonsModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ProgressbarModule.forRoot(),

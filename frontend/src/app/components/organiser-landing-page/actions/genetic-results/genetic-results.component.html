@@ -30,39 +30,10 @@
     <div class="panel-body">
 
 
+      <app-genetic-assignments [assignment]="geneticResult.assignment"></app-genetic-assignments>
 
 
-      <table class="table" >
 
-        <thead>
-        <th scope="col">
-          Agent
-        </th>
-        <th scope="col">
-          Assigned Task
-        </th>
-        <th scope="col" >
-          Choice
-        </th>
-
-        </thead>
-
-        <tbody>
-
-        <tr *ngFor="let result of geneticResult.assignment">
-          <td>
-            {{result.agent.email}}
-          </td>
-          <td>
-            {{result.task.taskName}}
-          </td>
-
-          <td class="{{getCostClass(result.cost)}}">{{result.cost}}</td>
-        </tr>
-
-
-        </tbody>
-      </table>
     </div>
   </div>
 

@@ -44,12 +44,12 @@ p {
   padding: 10px; }
 
 
-@media (max-width: 500px) {
-  .scrollBody {
-    height: 400px;
+
+.scrollBody {
+    max-height: 700px;
     overflow: auto;
-  }
 }
+
 .no-mobile-support-message{
 
   height:100%;

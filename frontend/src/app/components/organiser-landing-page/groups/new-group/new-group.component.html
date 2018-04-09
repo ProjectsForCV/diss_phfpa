@@ -8,14 +8,17 @@
     </div>
 
     <div class="row">
-      <span class="badge"
-            style="background-color:#449d44 ; color:white" *ngFor="let task of group.tasks">
-        {{task.taskName}} <span class="glyphicon glyphicon-remove" (click)="remove(task)"></span>
-      </span>
+      <button class="btn btn-primary" style="margin:4%;"
+            *ngFor="let task of group.tasks">
+        {{task.taskName}}
+        <span class="taskRemove">
+          <span class="glyphicon glyphicon-remove" (click)="remove(task)"></span>
+        </span>
+      </button>
     </div>
     <div class="row">
       <select name="tasks" id="tasks" [(ngModel)]="selectedTask" class="form-control">
-        <option>Select a task...</option>
+        <option [ngValue]="undefined">Select a task...</option>
         <option [ngValue]="task" *ngFor="let task of availableTasks">{{task.taskName}}</option>
       </select>
       <button class="btn btn-block" (click)="addTask()">Add Task <span class="glyphicon glyphicon-plus-sign"></span>

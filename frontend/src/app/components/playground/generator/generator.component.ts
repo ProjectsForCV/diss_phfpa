@@ -10,6 +10,7 @@ import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
 import {  FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ErrorHandlingService } from '../../../services/error-handling-service/error-handling-service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-generator',
@@ -21,13 +22,13 @@ export class GeneratorComponent implements OnInit {
 
   public rowsControl: FormControl;
   public colsControl: FormControl;
-  public fillControl: FormControl;
 
   /*
    DCOOKE 28/01/2018 - received from parent component, used to publish any newly generated matrices to the stream
    */
   @Input()
   public matrixSubscription: BehaviorSubject<number[][]>;
+  private gettingMatrix: Subscription;
 
 
   constructor(public http: HttpCostMatrixService, public errorService: ErrorHandlingService) { }
@@ -42,7 +43,6 @@ export class GeneratorComponent implements OnInit {
   setupForm () {
     this.rowsControl = new FormControl(0);
     this.colsControl = new FormControl(0);
-    this.fillControl = new FormControl(0);
   }
 
   /*
@@ -51,24 +51,22 @@ export class GeneratorComponent implements OnInit {
    */
   generate() {
 
-    if (this.fillControl.value) {
 
-      this.http.getRandomMatrix(this.rowsControl.value, this.colsControl.value)
-        .subscribe(
-          (res) => {
-            console.log(res.json());
-            this.updateMatrix(res.json());
-          },
-          (err) => {
-            this.errorService.handleError(err);
-          },
-          () => {
-            console.dir('HTTP Call complete');
-          }
-        );
-    } else {
-      // TODO: handle case where user does not want a randomly filled matrix
-    }
+    this.matrixSubscription.next(null);
+    this.gettingMatrix = this.http.getRandomMatrix(this.rowsControl.value, this.colsControl.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.updateMatrix(res);
+        },
+        (err) => {
+          this.errorService.handleError(err);
+        },
+        () => {
+          console.dir('HTTP Call complete');
+        }
+      );
+
 
   }
 

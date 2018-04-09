@@ -1,0 +1,42 @@
+<div id="geneticOptions"  class="animated slideInRight" >
+  <label class="labelMobile col-xs-6">Number of generations</label>
+  <div class="col-xs-6">
+    <input type="number" min="2" max="20" step="1" [(ngModel)]="geneticOptions.maxGenerations" class="form-control">
+  </div>
+
+  <label class="labelMobile col-xs-6">Mutation chance (%)</label>
+  <div class="col-xs-6">
+    <input type="number" min="0" max="100" step="5" [(ngModel)]="geneticOptions.mutationChance" class="form-control">
+  </div>
+
+  <label class="labelMobile col-xs-6">Population Size</label>
+  <div class="col-xs-6">
+    <input type="number" min="10" max="50" step="1"  [(ngModel)]="geneticOptions.populationSize" class="form-control">
+  </div>
+
+  <div class="col-xs-12">
+    <hr>
+  </div>
+  <label class="labelMobile col-xs-6">Results to return</label>
+  <div class="col-xs-6">
+    <input type="number"  [(ngModel)]="geneticOptions.returnedCandidates" class="form-control">
+  </div>
+
+  <label class="labelMobile col-xs-6">Distance Threshold</label>
+  <div class="col-xs-6">
+    <input type="number"  [(ngModel)]="geneticOptions.distanceThreshold" class="form-control">
+  </div>
+</div>
+<div class="col-xs-12">
+  <br>
+  <br>
+</div>
+<div id="geneticGroups" class="col-xs-12 animated fadeIn">
+
+  <app-groups
+    [groups]="geneticOptions.groups"
+    [tasks]="tasks"
+  >
+
+  </app-groups>
+</div>

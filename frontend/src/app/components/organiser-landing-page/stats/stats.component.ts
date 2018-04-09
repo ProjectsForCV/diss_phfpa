@@ -37,7 +37,7 @@ export class StatsComponent implements OnInit {
     });
 
 
-    this.firstChoiceTasks = mostPopularTasks.slice();
+    this.firstChoiceTasks = mostPopularTasks.slice() || [];
 
 
     return this.mode(mostPopularTasks);
@@ -55,16 +55,20 @@ export class StatsComponent implements OnInit {
     if (!this.assignment.surveyOptions.allowOptOut) {
 
 
+
       leastPopularTasks = answers.map(leastPopular => {
-        return leastPopular.filter(answer => answer.cost === this.maxSelection)[0];
+
+        return leastPopular.filter(answer => answer.cost >= this.maxSelection)[0] || [];
       });
     } else {
       leastPopularTasks = answers.map(leastPopular => {
-        return leastPopular.filter(answer => answer.cost === 999)[0];
+        return leastPopular.filter(answer => answer.cost === 999)[0] || [];
       });
     }
 
-    this.leastPopularTasks = leastPopularTasks.slice();
+
+
+    this.leastPopularTasks = leastPopularTasks.slice() || [];
 
 
 
@@ -72,6 +76,10 @@ export class StatsComponent implements OnInit {
   }
 
   tallyTasks(taskList: SurveyAnswer[], cost: number): TaskTally[] {
+    if (!taskList || taskList.length === 0) {
+      return;
+    }
+
     const tally: TaskTally[] = [];
 
     for (let i = 0; i < taskList.length; i ++) {
@@ -145,7 +153,7 @@ export class StatsComponent implements OnInit {
     this.mostPopularTasksGraphData = this.getMostPopularTasksGraphData();
 
     this.maxSelection = this.assignment.surveyOptions.maxSelection === 0
-      ? this.assignment.tasks.length : this.assignment.surveyOptions.maxSelection;
+      ? this.assignment.tasks.length + 1 : this.assignment.surveyOptions.maxSelection + 1;
 
     this.leastPopularTask = this.getLeastPopularTask();
     this.leastPopularTasksGraphData = this.getLeastPopularTasksGraphData();

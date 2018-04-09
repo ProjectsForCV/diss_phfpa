@@ -6,7 +6,8 @@
   </div>
   <div class="panel-body">
 
-    <button class="btn btn-success" [disabled]="surveysComplete">Resend Surveys</button>
+    <!-- NOTE: -- DRE013 DCOOKE  - TODO: change this back to surveysComplete -->
+    <button class="btn btn-success" [disabled]="!surveysComplete" (click)="sendEmail()">Resend Surveys</button>
 
     <button class="btn btn-success" [disabled]="!assignmentFinished">Send Assignment Emails</button>
   </div>
@@ -20,21 +21,12 @@
     </div>
   </div>
   <div class="panel-body">
-    <div class="col-xs-6">
-      <label class="labelDesktop col-xs-12">Algorithm </label>
+    <div class="col-xs-12">
+      <app-algorithm-select
+        [disabled]="!surveysComplete || assignmentFinished"
+        [options]="solveOptions"
+      ></app-algorithm-select>
 
-      <div class="col-xs-12">
-        <select name="algorithmSelect"
-                id="algorithmSelect"
-                class="form-control"
-                [disabled]="!surveysComplete || assignmentFinished"
-                [(ngModel)]="selectedAlgorithm"
-        >
-          <option [ngValue]="'hungarian'">Hungarian</option>
-          <option [ngValue]="'genetic'">Genetic</option>
-
-        </select>
-      </div>
 
       <div class="col-xs-12">
         <br>
@@ -47,68 +39,36 @@
 
     </div>
 
+    <div class="col-xs-12">
+      <ng-container id="genetics" *ngIf="solveOptions.algorithm === 'genetic'">
 
-    <ng-container id="genetics" *ngIf="selectedAlgorithm === 'genetic'">
-      <div id="geneticOptions"  class="col-xs-6 animated slideInRight" >
-        <label class="labelMobile col-xs-6">Number of generations</label>
-        <div class="col-xs-6">
-          <input type="number" min="2" max="20" step="1" [(ngModel)]="geneticOptions.maxGenerations" class="form-control">
-        </div>
 
-        <label class="labelMobile col-xs-6">Mutation chance (%)</label>
-        <div class="col-xs-6">
-          <input type="number" min="0" max="100" step="5" [(ngModel)]="geneticOptions.mutationChance" class="form-control">
-        </div>
+        <app-genetic-options
+          *ngIf="assignment"
+          [tasks]="assignment.tasks"
+          [geneticOptions]="solveOptions.geneticOptions"
+        ></app-genetic-options>
 
-        <label class="labelMobile col-xs-6">Population Size</label>
-        <div class="col-xs-6">
-          <input type="number" min="10" max="50" step="1"  [(ngModel)]="geneticOptions.populationSize" class="form-control">
-        </div>
-
-        <div class="col-xs-12">
+        <div class="row">
           <hr>
         </div>
-        <label class="labelMobile col-xs-6">Results to return</label>
-        <div class="col-xs-6">
-          <input type="number"  [(ngModel)]="geneticOptions.returnedCandidates" class="form-control">
+
+
+      </ng-container>
+    </div>
+
+    <div class="panel panel-default" *ngIf="geneticResults && geneticResults.length > 0">
+      <div class="panel-heading">
+        <div class="helpText panel-title">
+          Results
         </div>
-
-        <label class="labelMobile col-xs-6">Distance Threshold</label>
-        <div class="col-xs-6">
-          <input type="number"  [(ngModel)]="geneticOptions.distanceThreshold" class="form-control">
-        </div>
-      </div>
-      <div class="col-xs-12">
-        <br>
-        <br>
-      </div>
-      <div id="geneticGroups" class="col-xs-12 animated fadeIn">
-
-        <app-groups
-          [groups]="geneticOptions.groups"
-          [tasks]="assignment.tasks"
-        >
-
-        </app-groups>
       </div>
 
-      <div class="row">
-        <hr>
-      </div>
+      <app-genetic-results
+        [geneticResults]="geneticResults"
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="helpText panel-title">
-            Results
-          </div>
-        </div>
-
-        <app-genetic-results
-          [geneticResults]="geneticResults"
-          *ngIf="geneticResults && geneticResults.length > 0"
-        ></app-genetic-results>
-      </div>
-    </ng-container>
+      ></app-genetic-results>
+    </div>
   </div>
 
 

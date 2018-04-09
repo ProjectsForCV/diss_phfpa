@@ -133,9 +133,12 @@ export class AgentLandingPageComponent implements OnInit {
     this.availableTasks.push(e.value);
     this.filterList();
   }
+
+
   selectedTaskDrop(e) {
 
     if ((this.selectedTasks.length <= this.surveyOptions.maxSelection) || this.surveyOptions.maxSelection === 0) {
+
 
       // Remove from all tasks
       this.availableTasks.splice(this.lastAvailableTaskDraggedIndex, 1);
@@ -152,11 +155,14 @@ export class AgentLandingPageComponent implements OnInit {
   }
   negativeTaskDrop(e) {
     if (this.negativeTasks.length <= this.surveyOptions.maxOptOut) {
-      return;
+      // Remove from all tasks
+      this.availableTasks.splice(this.lastAvailableTaskDraggedIndex, 1);
+      this.filterList();
+
     } else {
       // If they have reached the max number of negative tasks don't allow any more to be added
       this.negativeTasks.splice(this.negativeTasks.findIndex(t => t === e.value), 1);
-      this.availableTasks.push(e.value);
+      this.filterList();
 
 
     }

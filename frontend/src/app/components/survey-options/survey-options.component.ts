@@ -9,7 +9,7 @@ import { SurveyOptions } from '../../services/http/interfaces/SurveyOptions';
 export class SurveyOptionsComponent implements OnInit {
 
   public optOut = false;
-  public optOutMax = '';
+  public optOutMax = '1';
   public selectedMax = '';
   public message = '';
 
@@ -18,7 +18,7 @@ export class SurveyOptionsComponent implements OnInit {
   @Output()
   public detailsChanged: EventEmitter<any> = new EventEmitter();
 
-  public getSurveyOptions() : SurveyOptions {
+  public getSurveyOptions(): SurveyOptions {
     return <SurveyOptions>{
       maxSelection: parseInt(this.selectedMax, 10),
       message: this.message,
@@ -29,28 +29,9 @@ export class SurveyOptionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  optOutChanged() {
-
-    if (this.optOut) {
-      this.complete = false;
-    } else {
-      this.complete = true;
-    }
-
     this.detailsChanged.emit();
   }
 
-  optOutMaxChanged() {
 
-    if (this.optOutMax.length > 0) {
-      this.complete = true;
-    } else {
-      this.complete = false;
-    }
-
-    this.detailsChanged.emit();
-  }
 
 }

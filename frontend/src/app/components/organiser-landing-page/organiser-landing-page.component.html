@@ -60,6 +60,7 @@
          <div class="row" >
 
            <app-stats
+             *ngIf="assignment && assignmentId"
             [assignment]="assignment"
             [assignmentId]="assignmentId"
            ></app-stats>

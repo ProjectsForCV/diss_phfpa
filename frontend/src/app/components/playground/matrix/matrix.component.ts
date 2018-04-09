@@ -6,7 +6,7 @@
  DCOOKE 28/01/2018 - This is the actual matrix component, or "grid" that the user can interact with to update the cost
  matrix.
  */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -41,6 +41,10 @@ export class MatrixComponent implements OnInit {
   public grid: number[][];
   private colWidth: string;
   private gettingMatrix: Subscription;
+
+  @Output()
+  public totalCostChanged: EventEmitter<number> = new EventEmitter<number>(null);
+  public totalCost = 0;
   constructor() { }
 
   ngOnInit() {
@@ -55,21 +59,42 @@ export class MatrixComponent implements OnInit {
       }
     );
 
-    this.solutionListener.subscribe(
-      (solution) => {
-        this.solution = solution;
-        this.resetGridInTemplate();
-      }
-    );
+    if (this.solutionListener) {
+      this.solutionListener.subscribe(
+        (solution) => {
+
+          this.totalCost = 0;
+          this.solution = solution;
+          this.totalCostChanged.emit(this.getTotalCost());
+          this.resetGridInTemplate();
+        }
+      );
+    }
   }
 
+  getTotalCost() {
+
+    if (this.matrix && this.solution) {
+      return this.matrix.reduce((acc, curr, i) => {
+
+        const solvedIndex = this.solution[i].findIndex((val) => val === 1);
+        if (solvedIndex && solvedIndex > 0) {
+
+
+          return acc + curr[solvedIndex];
+        } else {
+          return acc;
+        }
+      }, 1);
+    }
+  }
 
   /*
    DCOOKE 28/01/2018 - this class will be used to update the appearance of the grid in the event of a solution.
    */
   getClass(row, col) {
     if (this.solution && this.solution[row][col] === 1) {
-      return 'optimumCell';
+      return 'optimumCell ' + this.getCostColor(this.matrix[row][col]);
     } else {
       return 'regularCell';
     }
@@ -109,5 +134,25 @@ export class MatrixComponent implements OnInit {
     console.log(100 / cols);
 
     return `${100 / cols}%`;
+  }
+
+  private getCostColor(cost: number) {
+
+
+    switch (cost) {
+      case 1 : return 'one-cost-color';
+      case 2 : return `two-cost-color`;
+      case 3 : return 'three-cost-color';
+      case 4 : return 'four-cost-color';
+      case 5 : return 'five-cost-color';
+      case 6 : return 'six-cost-color';
+      case 7 : return 'seven-cost-color';
+      case 8 : return 'eight-cost-color';
+      case 9 : return 'nine-cost-color';
+      case 10 : return 'ten-cost-color';
+      default : return 'ten-cost-color';
+    }
+
+
   }
 }

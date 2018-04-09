@@ -21,6 +21,10 @@ export class NewGroupComponent implements OnInit {
   constructor() { }
 
   addTask() {
+    if (!this.selectedTask) {
+
+      return;
+    }
     this.group.tasks.push(this.selectedTask);
     this.availableTasks.splice(this.availableTasks.findIndex(val => val === this.selectedTask), 1);
   }
