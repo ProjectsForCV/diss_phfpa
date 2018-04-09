@@ -24,7 +24,7 @@ export class ResultsComponent implements OnInit {
     column: this.columnStrings.choice,
     ascending:  true
   };
-  private results: AssignmentResults[];
+  public results: AssignmentResults[];
 
   constructor(public http: HttpAssignmentService) {
 

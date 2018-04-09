@@ -63,7 +63,7 @@ export class PlaygroundComponent implements OnInit {
       mutationChance: 50
     }
   };
-  private solution: number[][];
+  public solution: number[][];
   private totalCost: number;
 
 

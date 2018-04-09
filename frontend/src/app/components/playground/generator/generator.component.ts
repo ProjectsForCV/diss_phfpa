@@ -28,7 +28,7 @@ export class GeneratorComponent implements OnInit {
    */
   @Input()
   public matrixSubscription: BehaviorSubject<number[][]>;
-  private gettingMatrix: Subscription;
+  public gettingMatrix: Subscription;
 
 
   constructor(public http: HttpCostMatrixService, public errorService: ErrorHandlingService) { }

@@ -19,15 +19,15 @@ export class AgentLandingPageComponent implements OnInit {
   public availableTasks: Task[];
   public selectedTasks: Task[] = [];
   public negativeTasks: Task[] = [];
+  public completed: boolean;
   public taskAlias = '';
-
   public availableTaskFilter = '';
   public filteredList: Task[];
+
   private surveyOptions: SurveyOptions;
   private lastAvailableTaskDraggedIndex: number;
   private deviceInfo: DeviceInfo;
   private confirmModalRef: BsModalRef;
-  private completed: boolean;
   private agentAlias: string;
 
 

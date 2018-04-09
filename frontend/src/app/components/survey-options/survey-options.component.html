@@ -49,7 +49,7 @@
 
         <label class="col-xs-8 labelDesktop ">Allow agents to opt-out of certain tasks?</label>
         <div class="col-xs-4">
-          <select name="optOut" id="optOut" class="form-control" [(ngModel)] = "optOut" (change)="optOutChanged()">
+          <select name="optOut" id="optOut" class="form-control" [(ngModel)] = "optOut">
             <option [ngValue] ="false" selectedt>No</option>
             <option [ngValue] ="true">Yes</option>
           </select>

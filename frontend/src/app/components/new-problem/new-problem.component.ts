@@ -57,7 +57,7 @@ export class NewProblemComponent implements OnInit {
   private taskAlias: string;
 
   public surveyOptions: SurveyOptions;
-  private emailSubscription: Subscription;
+  public emailSubscription: Subscription;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
