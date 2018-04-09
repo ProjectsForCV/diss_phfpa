@@ -30,6 +30,7 @@
     "animate.css": "^3.5.2",
     "bootstrap": "^3.0.0",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "ng-busy": "^1.4.6",
     "ngx-bootstrap": "^2.0.3",
     "ngx-device-detector": "^1.2.2",

@@ -24,7 +24,7 @@ function solveProblem(app) {
         switch(!!geneticOptions) {
             case false: {
                 startHungarian(mat, completedAgents, (agentTaskAssignment, error) => {
-                    if (err) {
+                    if (error) {
                         clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
                         clientResponse.end('Error: The assignment could not be solved, please try again later');
                         throw err;
@@ -41,6 +41,7 @@ function solveProblem(app) {
                             clientResponse.status(200).end();
                     });
                 })
+                break;
             }
             case true: {
                 startGeneticSolver(completedAgents, geneticOptions, (results, error)=> {
@@ -48,10 +49,11 @@ function solveProblem(app) {
                     if (error) {
                         clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
                         clientResponse.end('Error: The genetic algorithm failed.');
-                        throw err;
+                        throw error;
                     }
                     clientResponse.json(results);
                 })
+                break;
             }
         }
 

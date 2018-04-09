@@ -393,7 +393,8 @@ function getAgentDetails(databaseConnection, problemID, callback) {
 
                 return {
                     agentId: row.AgentID,
-                    completed: row.Completed
+                    completed: row.Completed,
+                    surveyId: row.SurveyID
 
                 }
             }
@@ -573,7 +574,7 @@ function getAssignmentResults(problemID, callback) {
     db.query(`
     SELECT agents.Email, tasks.Name, tasks.TaskID, problem_agents.AnswerID, survey_answers.Cost
     FROM assignments
-    left OUTER JOIN (agents, tasks, problem_agents, survey_answers) ON assignments.ProblemID=?
+    JOIN (agents, tasks, problem_agents, survey_answers) ON assignments.ProblemID=?
     and agents.AgentID = assignments.AgentID
     and tasks.TaskID = assignments.TaskID
     and problem_agents.AgentID = assignments.AgentID
