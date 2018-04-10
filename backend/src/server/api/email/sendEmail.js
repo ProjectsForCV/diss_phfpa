@@ -9,7 +9,7 @@ const isEmail = require('validator/lib/isEmail');
 
 function sendEmail(app) {
 
-    app.post('/api/email', (request, response) =>{
+    app.post('/api/email/agents', (request, response) =>{
 
         // Need email address of all agents
         const agents = request.body['agents'];
@@ -27,8 +27,10 @@ function sendEmail(app) {
 
            execFile(`printf`,[emailContent], (err, out, stderr) => {
 
-            
-            const mail = spawn('erwerew',  ['-s',`Pick your ${taskAlias}`,`${agents[i].email}`,'munk@munkres.support.ml']);
+            if (err) {
+                throw err;
+            }
+            const mail = spawn('mail',  ['-s',`Pick your ${taskAlias}`,`${agents[i].email}`,'munk@munkres.support.ml']);
             mail.stdin.write(out);
 
             mail.stderr.on('err', (err) => {
