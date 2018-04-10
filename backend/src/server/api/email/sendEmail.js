@@ -33,7 +33,7 @@ function sendEmail(app) {
             const mail = spawn('mail',  ['-s',`Pick your ${taskAlias}`,`${agents[i].email}`,'munk@munkres.support.ml']);
             mail.stdin.write(out);
 
-            main.stdin.on('data' , (data) => {
+            mail.stdin.on('data' , (data) => {
                 console.log(`Mail command received stdin: ${data}`);
             
             })
