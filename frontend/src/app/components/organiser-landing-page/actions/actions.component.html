@@ -6,8 +6,8 @@
   </div>
   <div class="panel-body">
 
-    <!-- NOTE: -- DRE013 DCOOKE  - TODO: change this back to surveysComplete -->
-    <button class="btn btn-success" [disabled]="!surveysComplete" (click)="sendEmail()">Resend Surveys</button>
+
+    <button class="btn btn-success" [disabled]="surveysComplete" (click)="sendEmail()">Resend Surveys</button>
 
     <button class="btn btn-success" [disabled]="!assignmentFinished">Send Assignment Emails</button>
   </div>
