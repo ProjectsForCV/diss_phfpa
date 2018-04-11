@@ -28,7 +28,7 @@
         <span class="sectionText">Progress</span>
         <span class="sectionText-sm">- {{numberOfCompletedSurveys}} / {{assignment.agents.length}} COMPLETED</span>
         <span *ngIf="allSurveysFinished" class="sectionText-sm" style="color:#48a215;">
-          <span class="glyphicon glyphicon-ok-circle"></span> ALL {{assignment.agentAlias.toUpperCase()}}'S HAVE ANSWERED.
+          <span class="glyphicon glyphicon-ok-circle"></span> ALL {{assignment.agentAlias?.toUpperCase()}}'S HAVE ANSWERED.
         </span>
       </div>
 

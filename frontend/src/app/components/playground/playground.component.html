@@ -138,16 +138,40 @@
 
         <span head>Hungarian Results</span>
         <div body  >
-          <app-matrix [matrixListener]="matrixSubscriber"
-                      [solutionListener]="solutionSubscriber"
+          <tabset>
+            <tab *ngIf="hungarianAssignment">
+              <ng-template tabHeading>
+                Assignments
+              </ng-template>
 
-                      (totalCostChanged)="hungarianTotalCostChanged($event)"
+              <app-genetic-assignments [assignment]="hungarianAssignment"></app-genetic-assignments>
+            </tab>
 
-          ></app-matrix>
 
-          <div class="row">
-            <h3 class="sectionText">Total Cost = {{totalCost}} </h3>
-          </div>
+            <tab>
+              <ng-template tabHeading>
+                Matrix
+              </ng-template>
+
+
+
+
+                <app-matrix [matrixListener]="matrixSubscriber"
+                            [solutionListener]="solutionSubscriber"
+
+                            (totalCostChanged)="hungarianTotalCostChanged($event)"
+
+                ></app-matrix>
+
+                <div class="row">
+                  <h3 class="sectionText">Total Cost = {{totalCost}} </h3>
+                </div>
+
+
+
+            </tab>
+          </tabset>
+
         </div>
 
 

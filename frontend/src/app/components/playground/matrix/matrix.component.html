@@ -6,7 +6,7 @@
     <div style="min-width: 500px; overflow: auto;  ">
       <div style="max-height: 300px; overflow: auto;">
         <table>
-          <thead class="fixedHeader">
+          <thead>
             <th></th>
             <th class="labelMobile" *ngFor="let col of grid[0]; let i = index">Task {{i + 1}}</th>
           </thead>
@@ -16,11 +16,14 @@
               <th class="labelMobile" style="width: 100px; display:block;">Agent {{rowIndex + 1}}</th>
 
               <td *ngFor="let cell of row; let colIndex = index">
-                <input type="text"
-                        [value]="cell"
-                       (change)="valueChanged(rowIndex, colIndex, $event.target.value)"
-                       class="{{getClass(rowIndex, colIndex)}}"
-                >
+
+
+                  <input type="text"
+                         [value]="cell"
+                         (change)="valueChanged(rowIndex, colIndex, $event.target.value)"
+                         class="{{getClass(rowIndex, colIndex)}}"
+                  >
+
               </td>
             </tr>
           </tbody>

@@ -1,31 +1,33 @@
-<table class="table" >
+<div style="max-height: 400px; overflow: auto">
+  <table class="table table-striped" >
 
-  <thead>
-  <th scope="col">
-    Agent
-  </th>
-  <th scope="col">
-    Assigned Task
-  </th>
-  <th scope="col" >
-    Choice
-  </th>
+    <thead>
+    <th scope="col">
+      Agent
+    </th>
+    <th scope="col">
+      Assigned Task
+    </th>
+    <th scope="col" >
+      Choice
+    </th>
 
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody style="max-height: 400px; overflow: auto;">
 
-  <tr *ngFor="let result of assignment">
-    <td>
-      {{result.agent.email}}
-    </td>
-    <td>
-      {{result.task.taskName}}
-    </td>
+    <tr *ngFor="let result of assignment">
+      <td>
+        {{result.agent.email}}
+      </td>
+      <td>
+        {{result.task.taskName}}
+      </td>
 
-    <td class="{{getCostClass(result.cost)}}">{{result.cost}}</td>
-  </tr>
+      <td class="{{getCostClass(result.cost)}}">{{result.cost}}</td>
+    </tr>
 
 
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

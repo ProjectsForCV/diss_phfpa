@@ -315,7 +315,7 @@ function getMaxAssignmentsIfConstrainedColumns() {
 
 }
 
-function start(data, geneticOptions) {
+function start(data, geneticOptions, rownames, colnames) {
 
     try {
 
@@ -336,9 +336,8 @@ function start(data, geneticOptions) {
             colNames = data[0].answers.map(answer => answer.taskId);
         } else {
             matrix = data;
-            colNames = data.map(row => row).map((cost, index) => {
-                return ""+index
-            });
+            colNames = colnames;
+            rowNames = rownames;
         }
 
 
@@ -392,7 +391,7 @@ function start(data, geneticOptions) {
         if (realAgents) {
             return getNamedAssignments(data, population, geneticOptions.returnedCandidates);
         } else {
-            return getSolvedMatrix(matrix, population, geneticOptions.returnedCandidates);
+            return getSolvedMatrix(matrix, population, geneticOptions.returnedCandidates, rowNames, colNames);
         }
 
 
@@ -405,7 +404,7 @@ function start(data, geneticOptions) {
 
 }
 
-function getSolvedMatrix(mat, finalResult, returned) {
+function getSolvedMatrix(mat, finalResult, returned, rownames, colnames) {
     finalResult = new Set((finalResult.sort((a, b) => a.distance - b.distance)));
     
     finalResult = Array.from(finalResult).slice(0, returned);
@@ -432,6 +431,7 @@ function getSolvedMatrix(mat, finalResult, returned) {
     return finalResult.map((result, index) => {
             return {
                 solution: mapMatrix[index],
+                assignment: getAssignmentPairs(mapMatrix,rownames, colnames),
                 totalCost: result.totalCost,
                 distance: result.distance
             }
@@ -440,7 +440,26 @@ function getSolvedMatrix(mat, finalResult, returned) {
     
 }
 
+function getAssignmentPairs(maskMatrix, rownames, colnames) {
 
+    if (maskMatrix && colnames && rownames) {
+        const pairs = [];
+        for (let i = 0; i < rownames.length; i++) {
+            for (let j = 0; j < colnames.length; j++) {
+
+                if (maskMatrix[i][j] === 1) {
+
+                    pairs.push({
+                        agentId: rowNames[i],
+                        taskId: colNames[j]
+                    });
+                }
+            }
+        }
+
+        return pairs;
+    }
+}
 
 
 

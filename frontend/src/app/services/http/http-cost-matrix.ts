@@ -11,10 +11,12 @@ export class HttpCostMatrixService extends HttpBaseService {
     return this.get('/costMatrix/randomMat/' + rows + '/' + cols);
   }
 
-  public postSolveMatrix(matrix: number[][], geneticOptions?: GeneticOptions) {
+  public postSolveMatrix(matrix: number[][], geneticOptions?: GeneticOptions, rownames?: string[], colnames?: string[]) {
     const postObject = {
       matrix: matrix,
-      geneticOptions: geneticOptions
+      geneticOptions: geneticOptions,
+      rownames: rownames,
+      colnames: colnames
     };
     return this.post('/costMatrix/solveMat' , postObject);
   }

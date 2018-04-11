@@ -58,7 +58,7 @@ def minimise(mat, rownames = -1, colnames = -1):
     if inputN < inputM:
         diff = inputM - inputN
         while (diff > 0):
-            a = np.full(inputM, 9999, np.uint16)
+            a = np.full(inputM, 0, np.uint16)
             mat.append(a)
             diff -= 1
 

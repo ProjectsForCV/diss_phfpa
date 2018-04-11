@@ -14,6 +14,7 @@ import { GeneticOptions } from '../../services/http/interfaces/GeneticOptions';
 import { GeneticMatrix } from './GeneticMatrix';
 import { SolveOptions } from './SolveOptions';
 import { MatrixComponent } from './matrix/matrix.component';
+import { AssignmentResults } from '../../services/http/interfaces/AssignmentResults';
 
 
 
@@ -65,6 +66,7 @@ export class PlaygroundComponent implements OnInit {
   };
   public solution: number[][];
   private totalCost: number;
+  private hungarianAssignment: AssignmentResults[];
 
 
 
@@ -83,10 +85,12 @@ export class PlaygroundComponent implements OnInit {
 
     if (this.options && this.options.algorithm === 'hungarian') {
       this.geneticMatrices = undefined;
-      this.solvingHungarian = this.http.postSolveMatrix(this.matrix)
+      this.solvingHungarian = this.http.postSolveMatrix(this.matrix, undefined, this.getRowNames(), this.getColNames())
         .subscribe(
           (res) => {
-            this.solutionSubscriber.next(res);
+
+            this.solutionSubscriber.next(res.solution);
+            this.hungarianAssignment = res.assignment;
           },
           err => this.errorService.handleError(err),
           () => this.isLoading(false)
@@ -102,7 +106,18 @@ export class PlaygroundComponent implements OnInit {
         )
       ;
     }
+  }
 
+  getRowNames() {
+    return this.matrix.map((val, index) => {
+      return `Agent ${index + 1}`;
+    });
+  }
+
+  getColNames() {
+    return this.matrix[0].map((val, index) => {
+      return `Task ${index + 1}`;
+    });
   }
 
   isLoading(loading: boolean) {

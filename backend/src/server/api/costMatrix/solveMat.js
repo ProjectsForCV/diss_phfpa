@@ -1,86 +1,64 @@
-const { spawn } = require('child_process');
 const genetic = require('../../genetics');
-const { StringDecoder } = require('string_decoder');
+const hungarian = require('../../hungarian');
 
 function solveMat(app) {
     app.post('/api/costMatrix/solveMat', (req, res) => {
 
-        const mat = req.body['matrix'];
-        const geneticOptions = req.body['geneticOptions'];
+        const mat = req.body.matrix;
+        const rownames = req.body.rownames;
+        const colnames = req.body.colnames;
+        const geneticOptions = req.body.geneticOptions;
 
         if (geneticOptions) {
-            
-            solveGenetically(mat, geneticOptions, (results, error) => {
+
+            solveGenetically(mat, geneticOptions, rownames, colnames , (results, error) => {
                 if (error) {
 
                     res.status(500).send(error);
                 }
 
                 res.json(results);
-            })
+            });
+
         } else {
 
-            let hungarianResults = [];
-            solveHungarian(mat, (results, error, finished) => {
+            solveHungarian(mat, rownames, colnames, (results, error) => {
                 if (error) {
+
                     res.status(500).send('The hungarian algorithm failed');
                     throw error;
 
-                } 
+                } else {
 
-                if (results) {
-                    const decoder = new StringDecoder('utf-8');
-                    let data = decoder.end(results);
-                    let jsonData = [];
-                    if (data) {
-                         jsonData = JSON.parse(data);
-                    }
-                    
-                    hungarianResults = hungarianResults.concat(jsonData);
+                    res.json(results);
                 }
-                if (finished) {
-                    res.json(hungarianResults);
-                }
-
-                
-    
-
-            })
+            });
         }
 
-     
+
     });
 }
 
-function solveGenetically(mat, options,  callback) {
-    const results = genetic(mat,options);
+function solveGenetically(mat, options, rownames, colnames, callback) {
+    const results = genetic(mat, options, rownames, colnames);
 
     if (results !== -1) {
         callback(results, undefined);
-    } 
-    else {
+    } else {
         callback(undefined, 'The genetic algorithm failed');
     }
 
 }
-function solveHungarian(mat, callback) {
-    const py = spawn('python', ['./python/assign/hungarian/hungarian.py', 
-    JSON.stringify(mat)]);
 
+function solveHungarian(mat, rownames, colnames, callback) {
 
-    py.stdout.on('data', (data) => {
-        callback(data, undefined, false);
+    const results = new hungarian().minimise(mat, {
+        rownames: rownames,
+        colnames: colnames
     });
 
-    py.stderr.on('err', (err) => {
-       callback(undefined, err, false);
-    });
-
-    py.on('close', (code) => {
-        
-        console.log(`child process exited with code ${code}`);
-        callback(undefined, undefined, true);
-    });
+    callback(results, undefined);
+    
 }
 
 exports = module.exports = solveMat;

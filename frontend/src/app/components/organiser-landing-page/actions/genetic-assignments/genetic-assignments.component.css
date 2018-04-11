@@ -49,15 +49,6 @@
 }
 
 
-table {
-  height: 100px;
-  overflow: auto;
-}
-tbody {
-  height: 100px;
-  overflow: auto;
-}
-
 
 .panel {
   border: 2px solid #eee;

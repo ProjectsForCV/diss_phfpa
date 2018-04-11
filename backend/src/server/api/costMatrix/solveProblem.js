@@ -1,8 +1,7 @@
-const { spawn } = require('child_process');
-const { StringDecoder } = require('string_decoder');
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 const geneticSolver = require('../../genetics');
+const hungarian = require('../../hungarian');
 
 function solveProblem(app) {
     app.post('/api/costMatrix/solveProblem', (req, clientResponse) => {
@@ -15,14 +14,19 @@ function solveProblem(app) {
         
 
         const mat = completedAgents.map(agent => {
+
             return agent.answers.map(answer => {
                     return answer.cost
-                })
+                });
             
-        })
+        });
 
         switch(!!geneticOptions) {
             case false: {
+                //
+                //	HANDLE HUNGARIAN
+                //
+                
                 startHungarian(mat, completedAgents, (agentTaskAssignment, error) => {
                     if (error) {
                         clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
@@ -40,10 +44,15 @@ function solveProblem(app) {
             
                             clientResponse.status(200).end();
                     });
-                })
+                });
+
                 break;
             }
             case true: {
+                //
+                //	HANDLE GENETIC
+                //
+                
                 startGeneticSolver(completedAgents, geneticOptions, (results, error)=> {
 
                     if (error) {
@@ -52,7 +61,7 @@ function solveProblem(app) {
                         throw error;
                     }
                     clientResponse.json(results);
-                })
+                });
                 break;
             }
         }
@@ -60,6 +69,7 @@ function solveProblem(app) {
     });
 }
 
+function handleHungarian(matrix, completedAgents, callback) {}
 function startGeneticSolver(completedAgents, geneticOptions, callback) {
     const results = geneticSolver(completedAgents, geneticOptions)
 
@@ -72,24 +82,15 @@ function startGeneticSolver(completedAgents, geneticOptions, callback) {
 }
 function  startHungarian(mat, completedAgents, callback) {
 
-    const py = spawn('python', ['./python/assign/hungarian/hungarian.py', 
-    JSON.stringify(mat),
-    completedAgents.map(agent => agent.agentId).join(),
-    completedAgents.map(agent => agent.answers.map(answer => answer.taskId).join())[0]])
-
-    py.stdout.on('data', (data) => {
-         // Return decoded output
-         callback(decodeHungarianOutput(data), undefined);
+  
+    const rowNames = completedAgents.map(agent => agent.agentId);
+    const colNames = completedAgents.map(agent => agent.answers.map(answer => answer.taskId))[0];
+    const results = new hungarian().minimise(mat, {
+        rownames: rowNames,
+        colnames: colNames
     });
 
-    py.stderr.on('err', (err) => {
-        // Return error
-        callback(undefined, err);
-    });
-
-    py.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });
+    callback(results, undefined);
 
 }
 
@@ -129,13 +130,5 @@ function addCompletedAssignmentToDatabase(problemID, agentTaskAssignment , callb
 
 }
 
-function decodeHungarianOutput(stdout) {
-    const decoder = new StringDecoder('utf-8');
-    let data = decoder.end(stdout);
-    data = data.split('\n').filter(entry => entry !== "");
-    return data.map(pair => pair.split('\t')).map(row => {return {
-        agentId: parseInt(row[0],10),
-        taskId: parseInt(row[1],10)
-    }});
-}
+
 exports = module.exports = solveProblem;
