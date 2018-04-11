@@ -14,62 +14,115 @@
 </div>
 
 
-<div class="panel panel-default">
+<div class="panel panel-default" >
   <div class="panel-heading">
     <div class="helpText panel-title">
       Solve
     </div>
   </div>
-  <div class="panel-body">
-    <div class="col-xs-12">
-      <app-algorithm-select
-        [disabled]="!surveysComplete || assignmentFinished"
-        [options]="solveOptions"
-      ></app-algorithm-select>
+  <div class="panel-body" [@panelState]="panelState" style="margin:0; padding:0;">
+    <div class="row">
+      <br>
+      <br>
+    </div>
+    <div class="col-xs-10 col-xs-offset-1">
+
+
+        <app-algorithm-select
+          [disabled]="!surveysComplete || assignmentFinished"
+          [options]="solveOptions"
+        ></app-algorithm-select>
 
 
       <div class="col-xs-12">
         <br>
+        <br>
       </div>
-      <div class="col-xs-6">
-        <button class="btn btn-success" [disabled]="!surveysComplete || assignmentFinished" (click)="solve()">Find Optimum Assignment</button>
+        <div class="text-center">
+          <button class="btn btn-success" [disabled]="!surveysComplete || assignmentFinished" (click)="solve()">{{solveText}}
+            <i class="{{solveIconClass}}"></i>
+          </button>
+
+          <button class="btn btn-danger" (click)="reset()"
+                  [disabled]="solveOptions.geneticOptions.groups.length === 0 && geneticResults.length === 0 && hungarianResults.length === 0"> Reset
+            <i class="fa fa-refresh"></i>
+          </button>
+        </div>
+      <div class="col-xs-12">
+        <br>
+        <br>
       </div>
 
 
 
     </div>
 
-    <div class="col-xs-12">
-      <ng-container id="genetics" *ngIf="solveOptions.algorithm === 'genetic'">
+
+    <div id="genetics" *ngIf="solveOptions.algorithm === 'genetic'">
 
 
+      <div class="row">
         <app-genetic-options
           *ngIf="assignment"
           [tasks]="assignment.tasks"
           [geneticOptions]="solveOptions.geneticOptions"
         ></app-genetic-options>
-
-        <div class="row">
-          <hr>
-        </div>
-
-
-      </ng-container>
-    </div>
-
-    <div class="panel panel-default" *ngIf="geneticResults && geneticResults.length > 0">
-      <div class="panel-heading">
-        <div class="helpText panel-title">
-          Results
-        </div>
       </div>
 
+
+
+    </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+<div class="panel panel-default"
+     *ngIf="hungarianResults && hungarianResults.length > 0 || geneticResults && geneticResults.length > 0">
+
+  <div class="center-block text-center" style="display: block"  (click)="togglePanelState()">
+
+    <i class="fa {{expandButtonState}}" style="font-size:32pt"></i>
+
+  </div>
+  <div class="panel-heading">
+    <div class="helpText panel-title">
+      <h3 class="sectionText">Results</h3>
+    </div>
+  </div>
+
+  <app-expandable-panel *ngIf="geneticResults && geneticResults.length > 0">
+    <span head>
+        Genetic Results
+    </span>
+    <div body>
       <app-genetic-results
+
         [geneticResults]="geneticResults"
 
       ></app-genetic-results>
     </div>
-  </div>
+  </app-expandable-panel>
+  <app-expandable-panel *ngIf="hungarianResults && hungarianResults.length > 0">
+    <span head>
+        Hungarian Results
+    </span>
+    <div body>
+      <app-hungarian-results
+
+        [results]="hungarianResults"
+      >
+
+      </app-hungarian-results>
+    </div>
+  </app-expandable-panel>
+
+
 
 
 </div>

@@ -1,3 +1,4 @@
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="helpText panel-title">
@@ -8,22 +9,19 @@
   <div class="panel-body">
     <p class="helpText">Assign constraints to certain tasks.</p>
 
-    <div class="row">
+    <div class="center-block text-center">
       <button class="btn btn-primary" (click)="addGroup()">Create Group <span class="glyphicon glyphicon-plus"></span></button>
     </div>
 
-    <div class="row">
-      <hr>
-    </div>
 
-    <ng-container *ngFor="let group of groups" class="container-fluid">
-      <div class="col-xs-12 col-sm-6">
+    <div class="container-fluid">
+      <ng-container *ngFor="let group of groups">
         <app-new-group
           [group]="group"
           [tasks]="tasks"
         ></app-new-group>
-      </div>
-    </ng-container>
+      </ng-container >
+    </div>
   </div>
 </div>
 

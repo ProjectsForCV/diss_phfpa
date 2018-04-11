@@ -33,17 +33,9 @@ function solveProblem(app) {
                         clientResponse.end('Error: The assignment could not be solved, please try again later');
                         throw err;
                     }
-                    addCompletedAssignmentToDatabase(problemID, agentTaskAssignment, (err) => {
-        
-                        if (err) {
-                            clientResponse.writeHead(500, {'Content-Type' : 'text/plain'});
-                            clientResponse.end('Error: The assignment could not be solved, please try again later');
-                            throw err;
-                        }
-            
-            
-                            clientResponse.status(200).end();
-                    });
+
+                    clientResponse.json(agentTaskAssignment);
+                    
                 });
 
                 break;
@@ -86,49 +78,20 @@ function  startHungarian(mat, completedAgents, callback) {
     const rowNames = completedAgents.map(agent => agent.agentId);
     const colNames = completedAgents.map(agent => agent.answers.map(answer => answer.taskId))[0];
     const results = new hungarian().minimise(mat, {
-        rownames: rowNames,
-        colnames: colNames
+        tasks: completedAgents[0].answers.map(ans => {
+            return {
+                taskId: ans.taskId,
+                taskName: ans.taskName
+            };
+        }),
+        agents: completedAgents
     });
 
     callback(results, undefined);
 
 }
 
-function addCompletedAssignmentToDatabase(problemID, agentTaskAssignment , callback) {
 
-    const db = mysql.createConnection(connection);
-    const agentIDs = agentTaskAssignment.map(pair => pair.agentId)
-    const taskIDs = agentTaskAssignment.map(pair => pair.taskId)
-    const insert = agentIDs.map(
-        (agentId, index) => {
-
-            return [problemID, agentId, taskIDs[index]]
-        }
-    )
-
-    db.beginTransaction((err) => {
-
-        db.query("INSERT INTO assignments(ProblemID, AgentID, TaskID) VALUES ?", 
-        [insert], (err, res) => {
-    
-            // Update Problems table
-            db.query("UPDATE problems SET Finished = 1 WHERE ProblemID = ? ", problemID, (err, res) => {
-                
-                if (err) {
-                    throw err;
-                }
-                
-                db.commit((err) => {
-                    callback(err);
-                })
-
-            });
-        });
-    })
-
-    
-
-}
 
 
 exports = module.exports = solveProblem;

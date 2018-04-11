@@ -1,57 +1,164 @@
-const { spawn } = require('child_process');
-
-const { execFile } = require('child_process');
-
-'use strict';
+const {
+    spawn
+} = require('child_process');
+const {
+    execFile
+} = require('child_process');
 const nodemailer = require('nodemailer');
-const { exec } = require('child_process');
+const {
+    exec
+} = require('child_process');
 const isEmail = require('validator/lib/isEmail');
+const mysql = require('mysql');
+const connection = require('../../data/dbSettings');
 
 function sendEmail(app) {
 
-    app.post('/api/email/agents', (request, response) =>{
+    app.post('/api/email/agents/sendSurveys', (request, response) => {
 
         // Need email address of all agents
         const agents = request.body['agents'];
-        const taskAlias  = request.body['taskAlias'] || 'Task';
-        const agentAlias  = request.body['agentAlias'] || 'Agent';
-        const organiserName  = request.body['organiserName'] || 'Organiser';
+        const taskAlias = request.body['taskAlias'] || 'Task';
+        const agentAlias = request.body['agentAlias'] || 'Agent';
+        const organiserName = request.body['organiserName'] || 'Organiser';
 
         for (let i = 0; i < agents.length; i++) {
-           if (!isEmail(agents[i].email)){
+            if (!isEmail(agents[i].email)) {
                 continue;
-           }
-           const emailContent = `Dear ${agentAlias}, \n${organiserName} has requested that you pick your favourite ${taskAlias} at the following link:\n\n \thttps://munkres.ml/survey/${agents[i].surveyId}. \n\nRegards.\nmunkres.ml
+            }
+            const emailContent = `Dear ${agentAlias}, \n${organiserName} has requested that you pick your favourite ${taskAlias} at the following link:\n\n \thttps://munkres.ml/survey/${agents[i].surveyId}. \n\nRegards.\nmunkres.ml
            `;
 
 
-           execFile(`printf`,[emailContent], (err, out, stderr) => {
+            execFile(`printf`, [emailContent], (err, out, stderr) => {
 
+                if (err) {
+                    throw err;
+                }
+                const mail = spawn('mail', ['-s', `Pick your ${taskAlias}`, `${agents[i].email}`, 'munk@munkres.support.ml']);
+                mail.stdin.write(out);
+                mail.stdin.end();
+
+                mail.stdin.on('data', (data) => {
+                    console.log(`Mail command received stdin: ${data}`);
+
+                })
+                mail.stderr.on('err', (err) => {
+                    console.error(err);
+                    throw err;
+                })
+
+
+            });
+        }
+
+    })
+
+    app.post('/api/email/agents/sendResults', (request, response) => {
+
+        const problemID = request.body['assignmentId'];
+
+
+        sendResults(problemID, (res, err) => {
             if (err) {
+
+                response.status(500).end('Something bad happened');
+
+            }
+        });
+
+        for (let i = 0; i < agents.length; i++) {
+            if (!isEmail(agents[i].email)) {
+                continue;
+            }
+            const emailContent = `Dear ${agentAlias}, \n${organiserName} has requested that you pick your favourite ${taskAlias} at the following link:\n\n \thttps://munkres.ml/survey/${agents[i].surveyId}. \n\nRegards.\nmunkres.ml
+           `;
+
+
+            execFile(`printf`, [emailContent], (err, out, stderr) => {
+
+                if (err) {
+                    throw err;
+                }
+                const mail = spawn('mail', ['-s', `Pick your ${taskAlias}`, `${agents[i].email}`, '-r', 'munk@munkres.support.ml']);
+                mail.stdin.write(out);
+                mail.stdin.end();
+
+
+            });
+        }
+
+    })
+
+    app.post('/api/email/organiser/landingPage', (request, response) => {
+        // DCOOKE - todo tigure out why this isnt hittin
+        const problemID = request.body['assignmentId'];
+        const db = mysql.createConnection(connection);
+
+        db.query(`
+                SELECT * FROM problems
+                JOIN (organisers) ON 
+                problems.ProblemID = ?
+                and problems.OrganiserID = organisers.OrganiserID
+
+        `, id, (err, res) => {
+            if (err) {
+                response.status(500).end('And error occurred');
                 throw err;
             }
-            const mail = spawn('mail',  ['-s',`Pick your ${taskAlias}`,`${agents[i].email}`,'munk@munkres.support.ml']);
-            mail.stdin.write(out);
-            mail.stdin.end();
 
-            mail.stdin.on('data' , (data) => {
-                console.log(`Mail command received stdin: ${data}`);
-            
-            })
-            mail.stderr.on('err', (err) => {
-                console.error(err);
-                throw err;
-            })
+            const organiser = res[0];
+            const emailContent = `Hey ${organiser.Name}!
+            \nYour assignment problem has been created.\n You can track the progress of the problem at the following link:
+            \n\n\t\thttps://munkres.ml/assignment/${assignment.ProblemID}\n\nRegards,\nmunkres.ml
+            `;
 
-            //what
-            
-            
-           });
-        }
-        
+            execFile(`printf`, [emailContent], (err, out, stderr) => {
+
+                if (err) {
+                    throw err;
+                }
+                const mail = spawn('mail', ['-s', `${taskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
+                mail.stdin.write(out);
+                mail.stdin.end();
+
+
+            });
+
+        })
     })
-    
-    
+}
+
+
+function sendResults(problemID, callback) {
+    const db = mysql.createConnection(connection);
+
+    const getAssignmentResults = require('../assignment/getAssignmentResults');
+
+    getAssignmentResults(problemID, (err, res) => {
+        if (err) {
+            callback(null, err);
+        }
+
+        res.map(assignment => {
+
+            const emailContent = `Dear ${assignment.agentAlias},
+            \nYou have been assigned the following ${assignment.taskAlias}:\n\n\t\t
+            ${assignment.Name}\n\n\nPlease direct any queries to your supervisor.\n\nRegards,\nmunkres.ml`;
+
+            execFile(`printf`, [emailContent], (err, out, stderr) => {
+
+                if (err) {
+                    throw err;
+                }
+                const mail = spawn('mail', ['-s', `${assignment.taskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
+                mail.stdin.write(out);
+                mail.stdin.end();
+
+
+            });
+        })
+    });
 
 }
 

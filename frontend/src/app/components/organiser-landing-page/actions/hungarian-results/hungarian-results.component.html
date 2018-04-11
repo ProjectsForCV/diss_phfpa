@@ -1,3 +1,20 @@
-<p>
-  hungarian-results works!
-</p>
+<div style="max-height: 400px; overflow-y:auto">
+  <div class="row">
+    <div class="col-xs-3 pull-right">
+      <button class="btn btn-warning" (click)="postAsSolution()">
+        Pick as solution  <span class="glyphicon glyphicon-ok"></span>
+      </button>
+    </div>
+  </div>
+  <app-assignment-results-table
+    [assignment]="results"
+
+    (totalCostChanged)="updateTotalCost($event)"
+  >
+
+  </app-assignment-results-table>
+  <div class="text-center" >
+    <label class="labelDesktop text-center" *ngIf="totalCost">Total Cost: {{totalCost}} </label>
+  </div>
+
+</div>

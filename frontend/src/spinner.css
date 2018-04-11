@@ -1,0 +1,50 @@
+.spinner {
+  margin: 10px auto auto auto;
+  display: block;
+  width: auto;
+  height: 75px;
+}
+.spinner span {
+  background: linear-gradient(to left top, pink, cyan);
+  margin: auto 20px auto 20px;
+  margin-top: 25px;
+  border: 0px;
+  padding: 0px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: vertical;
+  border-radius: 50px 50px 50px 50px;
+}
+.spinner span:nth-child(1) {
+  animation: grow 1s 0.1s ease-in infinite alternate;
+}
+.spinner span:nth-child(2) {
+  animation: grow 1s 0.2s ease-in infinite alternate;
+}
+.spinner span:nth-child(3) {
+  animation: grow 1s 0.3s ease-in infinite alternate;
+}
+.spinner span:nth-child(4) {
+  animation: grow 1s 0.4s ease-in infinite alternate;
+}
+.spinner span:nth-child(5) {
+  animation: grow 1s 0.5s ease-in infinite alternate;
+}
+@keyframes grow {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: scale(1.2);
+    transform: translate(0, 20px);
+  }
+  75% {
+    transform: scale(1.5);
+    background: linear-gradient(to left top, #1a4c5e, #386876);
+  }
+  100% {
+    transform: scale(1.8);
+    background: linear-gradient(to left top, #386876, #ffffff);
+  }
+}

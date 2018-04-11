@@ -1,4 +1,4 @@
-
+<button class="btn" (click)="sendOrganserEmail()">C:ICI</button>
 <div class="container-fluid" *ngIf="assignment">
 
   <div class="col-xs-10 col-xs-offset-1">
@@ -21,88 +21,101 @@
 
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
+
+    <span *ngIf="!assignment.finished; else sendEmailsButton">
+        <div class="row" >
+          <div class="col-xs-12" >
 
 
-        <span class="sectionText">Progress</span>
-        <span class="sectionText-sm">- {{numberOfCompletedSurveys}} / {{assignment.agents.length}} COMPLETED</span>
-        <span *ngIf="allSurveysFinished" class="sectionText-sm" style="color:#48a215;">
-          <span class="glyphicon glyphicon-ok-circle"></span> ALL {{assignment.agentAlias?.toUpperCase()}}'S HAVE ANSWERED.
-        </span>
+            <span class="sectionText">Progress</span>
+            <span class="sectionText-sm">- {{numberOfCompletedSurveys}} / {{assignment.agents.length}} COMPLETED</span>
+            <span *ngIf="allSurveysFinished" class="sectionText-sm" style="color:#48a215;">
+              <span class="glyphicon glyphicon-ok-circle"></span> ALL {{assignment.agentAlias?.toUpperCase()}}'S HAVE ANSWERED.
+            </span>
+          </div>
+
       </div>
 
-    </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <app-progress
+            [agents]="assignment.agents"
+            [agentAlias] = "assignment.agentAlias"
+          ></app-progress>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <app-progress
-          [agents]="assignment.agents"
-          [agentAlias] = "assignment.agentAlias"
-        ></app-progress>
-
-        <hr>
-        <br>
-        <br>
-        <br>
+          <hr>
+          <br>
+          <br>
+          <br>
+        </div>
       </div>
-    </div>
+    </span>
 
+
+    <ng-template #sendEmailsButton>
+      <h3 class="sectionText">This Assignment Problem has been solved.</h3>
+      <p class="labelDesktop">You can view additional information in the stats tab below.</p>
+      <div class="text-center">
+        <div class="btn btn-success" style="margin-bottom:5%;font: 21pt 'Oswald';" (click)="sendTasksToAgents()">
+          Send assigned {{assignment.taskAlias}}s to {{assignment.agentAlias}}s <i class="fa fa-mail-forward"></i>
+        </div>
+      </div>
+    </ng-template>
 
     <div class="row">
-     <tabset>
-       <tab class="sectionText-sm" *ngIf="atLeastOneSurveyAnswered">
-         <ng-template tabHeading>
-           <span class="glyphicon glyphicon-stats"></span>
-           Stats
-         </ng-template>
+      <tabset>
+        <tab class="sectionText-sm" *ngIf="atLeastOneSurveyAnswered">
+          <ng-template tabHeading>
+            <span class="glyphicon glyphicon-stats"></span>
+            Stats
+          </ng-template>
 
-         <div class="row" >
+          <div class="row" >
 
-           <app-stats
-             *ngIf="assignment && assignmentId"
-            [assignment]="assignment"
-            [assignmentId]="assignmentId"
-           ></app-stats>
-         </div>
-       </tab>
+            <app-stats
+              *ngIf="assignment && assignmentId"
+              [assignment]="assignment"
+              [assignmentId]="assignmentId"
+            ></app-stats>
+          </div>
+        </tab>
 
-       <tab class="sectionText-sm">
-         <ng-template tabHeading>
-           <span class="glyphicon glyphicon-send"></span>
-           Actions
-         </ng-template>
+        <tab class="sectionText-sm">
+          <ng-template tabHeading>
+            <span class="glyphicon glyphicon-send"></span>
+            Actions
+          </ng-template>
 
-         <div class="row">
+          <div class="row">
 
-           <app-actions
-             [surveysComplete]="allSurveysFinished"
-             [assignmentId] ="assignmentId"
-             [assignment]="assignment"
-             [assignmentFinished]="assignment.finished"
-             (refreshPage)="getAssignment()"
-           ></app-actions>
-         </div>
-       </tab>
+            <app-actions
+              [surveysComplete]="allSurveysFinished"
+              [assignmentId] ="assignmentId"
+              [assignment]="assignment"
+              [assignmentFinished]="assignment.finished"
+              (refreshPage)="getAssignment()"
+            ></app-actions>
+          </div>
+        </tab>
 
-       <tab class="sectionText-sm" *ngIf="assignment.finished" [active]="true">
-         <ng-template tabHeading>
-           <span class="glyphicon glyphicon-list-alt"></span>
-           Results
-         </ng-template>
+        <tab class="sectionText-sm" *ngIf="assignment.finished" [active]="true">
+          <ng-template tabHeading>
+            <span class="glyphicon glyphicon-list-alt"></span>
+            Results
+          </ng-template>
 
-         <div class="row">
+          <div class="row">
 
-           <app-results
-             [assignmentId]="assignmentId"
+            <app-results
+              [assignmentId]="assignmentId"
 
-           ></app-results>
+            ></app-results>
 
-         </div>
-       </tab>
+          </div>
+        </tab>
 
 
-     </tabset>
+      </tabset>
     </div>
   </div>
 

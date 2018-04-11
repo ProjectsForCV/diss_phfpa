@@ -5,11 +5,30 @@ import { HttpCostMatrixService } from '../../../services/http/http-cost-matrix';
 import { GeneticAssignmentResults } from '../../../services/http/interfaces/GeneticAssignmentResults';
 import { SolveOptions } from '../../playground/SolveOptions';
 import { HttpEmailService } from '../../../services/http/http-email-service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AssignmentResults } from '../../../services/http/interfaces/AssignmentResults';
+import { SolutionService } from '../../../services/solution-service';
+import { HttpAssignmentService } from '../../../services/http/http-assignment-service';
 
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
-  styleUrls: ['./actions.component.css']
+  styleUrls: ['./actions.component.css'],
+  animations: [
+    trigger('panelState', [
+      state('collapsed', style({
+        'height': '0px',
+        'overflow' : 'hidden'
+
+      })),
+      state('expanded',   style({
+        'height': '*'
+      })),
+
+      transition('collapsed <=> expanded', animate(300))
+
+    ])
+  ]
 })
 export class ActionsComponent implements OnInit {
 
@@ -33,29 +52,89 @@ export class ActionsComponent implements OnInit {
 
   public selectedAlgorithm = 'hungarian';
 
+  public loadingIcon = 'fa fa-spin fa-spinner';
+  public regularIcon = 'glyphicon glyphicon-th';
+
+  public solveIconClass: string;
 
   public geneticResults: GeneticAssignmentResults[];
+  public hungarianResults: AssignmentResults[];
 
-  constructor(public httpCostMatrix: HttpCostMatrixService, public httpEmail: HttpEmailService) { }
+  public solveText = 'Find Optimum Assignment';
+  public panelState = 'expanded';
+  public expandButtonState = 'fa fa-angle-down';
+
+
+
+  constructor(public httpCostMatrix: HttpCostMatrixService,
+              public httpEmail: HttpEmailService,
+              public solutionService: SolutionService,
+              public httpAssignment: HttpAssignmentService
+  ) { }
+
+  ngOnInit() {
+    this.reset();
+    this.solutionService.solutionPickedListener.subscribe(
+      (res) => {
+        this.finishAssignment(res);
+      }
+    );
+  }
+
+  finishAssignment(solution: AssignmentResults[]) {
+    this.httpAssignment.postFinishAssignment(solution, this.assignmentId)
+      .subscribe(
+        (res) => {
+              this.refreshPage.emit();
+        }
+      );
+  }
+
+  togglePanelState() {
+    this.panelState = this.panelState === 'expanded' ? 'collapsed' : 'expanded';
+    this.expandButtonState = this.panelState === 'expanded' ? 'fa fa-angle-up' : 'fa fa-angle-down';
+
+  }
+
 
   solve() {
 
-    if (this.selectedAlgorithm === 'hungarian') {
+    this.isLoading(true);
+
+    if (this.solveOptions.algorithm === 'hungarian') {
+      this.hungarianResults = [];
       this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents)
         .subscribe(
           res => {
-            this.refreshPage.emit();
+            this.isLoading(false);
+            this.hungarianResults = res.assignment;
           }
         );
     } else {
+
+      this.geneticResults = [];
       this.httpCostMatrix.postSolveAssignmentProblem(this.assignmentId, this.assignment.agents, this.solveOptions.geneticOptions)
         .subscribe(
           (res: GeneticAssignmentResults[]) => {
             this.geneticResults = res;
+            this.isLoading(false);
+
+            this.togglePanelState();
+
           }, err => console.error(err), () => console.dir(`Genetic Results returned`)
         );
     }
   }
+
+  isLoading(loading: boolean) {
+    this.setSolveButtonIcon(loading);
+  }
+  setSolveButtonIcon(loading: boolean) {
+
+    this.solveIconClass = loading ? this.loadingIcon : this.regularIcon;
+    this.solveText = loading ? `Finding...` : 'Find Optimum Assignment';
+  }
+
 
   sendEmail() {
     this.httpEmail.sendSurveyLinksToAgents(this.assignment.agents, this.assignment.taskAlias,
@@ -65,7 +144,7 @@ export class ActionsComponent implements OnInit {
       );
   }
 
-  ngOnInit() {
+  reset() {
     this.solveOptions.geneticOptions = <GeneticOptions> {
       mutationChance: 50,
       maxGenerations: 15,
@@ -75,6 +154,10 @@ export class ActionsComponent implements OnInit {
       distanceThreshold: 3
     };
 
+    this.solveIconClass = this.regularIcon;
+    this.geneticResults = [];
+    this.hungarianResults = [];
   }
+
 
 }

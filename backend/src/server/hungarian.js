@@ -104,7 +104,7 @@ class Hungarian {
       
         this.iterate();
 
-        if (options && options.rownames && options.colnames) {
+        if (options && options.tasks && options.agents) {
             return {
                 solution: this.maskMatrix,
                 assignment: this.getAssignmentPairs(options)
@@ -116,25 +116,20 @@ class Hungarian {
     }
     
     getAssignmentPairs(options) {
-        const colNames = options.colnames;
-        const rowNames = options.rownames;
+        const tasks = options.tasks;
+        const agents = options.agents;
 
     
         const pairs = [];
-        for (let i = 0; i < rowNames.length; i++) {
-            for (let j = 0; j < colNames.length; j++) {
+        for (let i = 0; i < agents.length; i++) {
+            for (let j = 0; j < tasks.length; j++) {
 
                 if (this.maskMatrix[i][j] === 1) {
 
                     pairs.push({
-                        agent: {
-                            email: rowNames[i]
-                        },
-                        task: {
-                            taskName: colNames[j]
-                        },
+                        agent: agents[i],
+                        task: tasks[j],
                         cost: this.originalMatrix[i][j]
-                        
                     });
                 }
             }

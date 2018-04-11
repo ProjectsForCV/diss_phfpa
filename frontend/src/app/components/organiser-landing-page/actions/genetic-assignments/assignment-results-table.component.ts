@@ -1,15 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AssignmentResults } from '../../../../services/http/interfaces/AssignmentResults';
 
 @Component({
-  selector: 'app-genetic-assignments',
-  templateUrl: './genetic-assignments.component.html',
-  styleUrls: ['./genetic-assignments.component.css']
+  selector: 'app-assignment-results-table',
+  templateUrl: './assignment-results-table.component.html',
+  styleUrls: ['./assignment-results-table.component.css']
 })
-export class GeneticAssignmentsComponent implements OnInit {
+export class AssignmentResultsTableComponent implements OnInit, OnChanges {
+
 
   @Input()
   public assignment: AssignmentResults[];
+  @Output()
+  public totalCostChanged: EventEmitter<number> = new EventEmitter<number>();
+
+  public totalCost = 0;
   constructor() { }
 
 
@@ -29,7 +34,19 @@ export class GeneticAssignmentsComponent implements OnInit {
     }
 
   }
+
+
+  calulateTotalCost() {
+    this.totalCost = this.assignment.reduce((cost, curr) => cost += curr.cost, 0);
+    this.totalCostChanged.emit(this.totalCost);
+  }
   ngOnInit() {
+    this.calulateTotalCost();
+  }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.calulateTotalCost();
   }
 
 }

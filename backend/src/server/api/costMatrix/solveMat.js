@@ -52,9 +52,22 @@ function solveGenetically(mat, options, rownames, colnames, callback) {
 
 function solveHungarian(mat, rownames, colnames, callback) {
 
+    const agents = rownames.map(name => {
+        return {
+            agentId: name,
+            email: name
+        }
+    })
+    
+    const tasks = colnames.map(name => {
+        return {
+            taskId: name,
+            taskName: name
+        }
+    })
     const results = new hungarian().minimise(mat, {
-        rownames: rownames,
-        colnames: colnames
+        tasks: tasks,
+        agents: agents
     });
 
     callback(results, undefined);

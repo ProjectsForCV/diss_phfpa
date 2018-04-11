@@ -22,15 +22,18 @@ export class OrganiserLandingPageComponent implements OnInit {
   private atLeastOneSurveyAnswered: boolean;
   constructor(public route: ActivatedRoute,
               public http: HttpAssignmentService,
-              public httpCostMatrix: HttpCostMatrixService
-  ) {
+              public httpCostMatrix: HttpCostMatrixService,
+              public httpEmail: HttpEmailService) {
 
   }
 
-  sendEmail() {
-
+  sendOrganserEmail() {
+    this.httpEmail.sendLandingPageLinkToOrganiser(this.assignmentId);
   }
-
+  sendTasksToAgents () {
+    this.httpEmail.sendResultsToAgents(this.assignmentId)
+      .subscribe(res => console.log(res));
+  }
   ngOnInit() {
     this.route.params.subscribe(
       params => {

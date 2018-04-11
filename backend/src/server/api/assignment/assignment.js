@@ -12,6 +12,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const connection = require('../../data/dbSettings');
 const uuid = require('uuid/v4');
+const getAssignmentResults = require('./getAssignmentResults');
 
 /* ================================================================================================================== */
 /*  FUNCTIONS -   29/03/2018  -   DCOOKE
@@ -28,6 +29,26 @@ function assignmentObject(app) {
 
     });
 
+    app.post('/api/assignment/finish', (req, clientResponse) => {
+
+        const problemID = req.body.assignmentId;
+        const solution = req.body.solution;
+
+        addCompletedAssignmentToDatabase(problemID, solution, (err) => {
+
+            if (err) {
+                clientResponse.writeHead(500, {
+                    'Content-Type': 'text/plain'
+                });
+                clientResponse.end('Error: The assignment could not be solved, please try again later');
+                throw err;
+            }
+
+
+            clientResponse.status(200).end();
+        });
+    });
+
     app.get('/api/assignment', (req, clientResponse) => {
 
         let assignment = {
@@ -39,7 +60,7 @@ function assignmentObject(app) {
     app.get('/api/assignment/results', (req, clientResponse) => {
 
         const problemID = req.query.assignmentId;
-
+        const db = mysql.createConnection(connection);
         getAssignmentResults(problemID, (err, res) => {
 
             if (err) {
@@ -57,7 +78,7 @@ function assignmentObject(app) {
                         taskName: row.Name
                     },
                     cost: row.Cost
-                    
+
                 }
             }));
 
@@ -354,7 +375,7 @@ function getAssignmentProblem(assignment, clientResponseStream) {
                     getSurveyAnswers(db, completedAgents, (answers, error) => {
                         const completedSurveyAnswers = answers;
 
-                       
+
                         clientResponseStream.json(responseObject)
 
 
@@ -482,11 +503,11 @@ function getProblemDetails(databaseConnection, problemID, callback) {
         problemDetails.surveyOptions.maxSelection = data.MaxSelection;
         problemDetails.surveyOptions.allowOptOut = data.AllowOptOut;
         problemDetails.finished = data.Finished;
-        
+
         db.query(`SELECT tasks.TaskID, Name from tasks
         join problem_tasks
         WHERE tasks.TaskID = problem_tasks.TaskID
-        and problem_tasks.ProblemID = ?`,problemID, (err, res) => {
+        and problem_tasks.ProblemID = ?`, problemID, (err, res) => {
 
             if (err) {
                 callback(unedfined, err)
@@ -502,7 +523,7 @@ function getProblemDetails(databaseConnection, problemID, callback) {
             callback(problemDetails, undefined);
         })
 
-        
+
 
 
     })
@@ -534,8 +555,7 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
         )
 
 
-        let answerQuery = db.query(`SELECT * FROM survey_answers JOIN (tasks) ON (survey_answers.AnswerID IN (?) AND tasks.TaskID = survey_answers.TaskID)`, 
-        [answerIDs], (err, res) => {
+        let answerQuery = db.query(`SELECT * FROM survey_answers JOIN (tasks) ON (survey_answers.AnswerID IN (?) AND tasks.TaskID = survey_answers.TaskID)`, [answerIDs], (err, res) => {
 
             if (err) {
                 callback(undefined, err);
@@ -553,9 +573,9 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
                 }
             })
 
-          
-            
-            for (let i = 0; i < returnedAgentWithAnswers.length; i++){
+
+
+            for (let i = 0; i < returnedAgentWithAnswers.length; i++) {
                 returnedAgentWithAnswers[i].answers = surveyAnswers.filter(answer => answer.answerId === returnedAgentWithAnswers[i].answerId);
             }
 
@@ -567,22 +587,8 @@ function getSurveyAnswers(databaseConnection, agentsThatHaveCompletedSurveys, ca
     })
 }
 
-function getAssignmentResults(problemID, callback) {
-    const db = mysql.createConnection(connection);
 
-    let results = {};
-    db.query(`
-    SELECT agents.Email, tasks.Name, tasks.TaskID, problem_agents.AnswerID, survey_answers.Cost
-    FROM assignments
-    JOIN (agents, tasks, problem_agents, survey_answers) ON assignments.ProblemID=?
-    and agents.AgentID = assignments.AgentID
-    and tasks.TaskID = assignments.TaskID
-    and problem_agents.AgentID = assignments.AgentID
-    and survey_answers.AnswerID = problem_agents.AnswerID
-    and survey_answers.TaskID = tasks.TaskID
-    `, problemID , callback);
- 
-}
+
 function handleError(error, clientRes) {
     if (error) {
         clientRes.writeHead(500, {
@@ -593,5 +599,40 @@ function handleError(error, clientRes) {
     }
 }
 
+function addCompletedAssignmentToDatabase(problemID, agentTaskAssignment , callback) {
+
+    const db = mysql.createConnection(connection);
+    const agentIDs = agentTaskAssignment.map(pair => pair.agentId)
+    const taskIDs = agentTaskAssignment.map(pair => pair.taskId)
+    const insert = agentIDs.map(
+        (agentId, index) => {
+
+            return [problemID, agentId, taskIDs[index]]
+        }
+    );
+
+    db.beginTransaction((err) => {
+
+        db.query("INSERT INTO assignments(ProblemID, AgentID, TaskID) VALUES ?", 
+        [insert], (err, res) => {
+    
+            // Update Problems table
+            db.query("UPDATE problems SET Finished = 1 WHERE ProblemID = ? ", problemID, (err, res) => {
+                
+                if (err) {
+                    throw err;
+                }
+                
+                db.commit((err) => {
+                    callback(err);
+                })
+
+            });
+        });
+    })
+
+    
+
+}
 
 module.exports = exports = assignmentObject;

@@ -5,3 +5,7 @@
 .icon:hover {
   color:#5cb85c;
 }
+
+.panel {
+  border: 2px solid #eee;
+}

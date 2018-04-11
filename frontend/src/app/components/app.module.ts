@@ -59,7 +59,9 @@ import { AlgorithmSelectComponent } from './organiser-landing-page/actions/algor
 import { GeneticOptionsComponent } from './organiser-landing-page/actions/genetic-options/genetic-options.component';
 import { DisplayGeneticMatricesComponent } from './playground/display-genetic-matrices/display-genetic-matrices.component';
 import { ExpandablePanelComponent } from './shared/expandable-panel/expandable-panel.component';
-import { GeneticAssignmentsComponent } from './organiser-landing-page/actions/genetic-assignments/genetic-assignments.component';
+import { HungarianResultsComponent } from './organiser-landing-page/actions/hungarian-results/hungarian-results.component';
+import { AssignmentResultsTableComponent } from './organiser-landing-page/actions/genetic-assignments/assignment-results-table.component';
+import { SolutionService } from '../services/solution-service';
 
 
 /*
@@ -113,7 +115,8 @@ const appRoutes: Routes = [
     AlgorithmSelectComponent,
     DisplayGeneticMatricesComponent,
     ExpandablePanelComponent,
-    GeneticAssignmentsComponent
+    AssignmentResultsTableComponent,
+    HungarianResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -144,7 +147,8 @@ const appRoutes: Routes = [
     ErrorHandlingService,
     HttpAssignmentService,
     HttpSurveyService,
-    HttpEmailService
+    HttpEmailService,
+    SolutionService
   ],
   bootstrap: [AppComponent]
 })

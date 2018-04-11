@@ -14,10 +14,23 @@ export class HttpEmailService extends HttpBaseService {
       agentAlias: agentAlias,
       organiserName: organiserName
     };
-    return this.post('/email/agents', postObj);
+    return this.post('/email/agents/sendSurveys', postObj);
   }
 
-  public sendLandingPageLinkToOrganiser(organiserName: string, organiserEmail: string) {
+  public sendResultsToAgents(assignmentId: string) {
+
+    const postObj = {
+      assignmentId: assignmentId
+    };
+    return this.post('/email/agents/sendResults', postObj);
+  }
+
+  public sendLandingPageLinkToOrganiser(assignmentId: string) {
+    const postObj = {
+      assignmentId: assignmentId
+    };
+    debugger;
+    return this.post('/email/organiser/landingPage', postObj);
 
   }
 }

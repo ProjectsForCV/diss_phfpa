@@ -3,6 +3,7 @@ import { HttpBaseService } from './http-base-service';
 import { Headers, RequestOptions } from '@angular/http';
 import { Assignment } from './interfaces/Assignment';
 import { HttpParams } from '@angular/common/http';
+import { AssignmentResults } from './interfaces/AssignmentResults';
 
 @Injectable()
 export class HttpAssignmentService extends HttpBaseService {
@@ -31,6 +32,15 @@ export class HttpAssignmentService extends HttpBaseService {
       { params: new HttpParams().set('assignmentId', assignmentId)} : {};
 
     return this.get('/assignment/results', options);
+  }
+
+  public postFinishAssignment(solution: AssignmentResults[], assignmentId: string) {
+    const postObj = {
+      solution: solution,
+      assignmentId: assignmentId
+    };
+
+    return this.post('/assignment/finish', postObj);
   }
 
 
