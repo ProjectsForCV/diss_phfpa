@@ -21,6 +21,8 @@ function csv(app) {
 
         const form = new formidable.IncomingForm();
 
+        // TODO: CHECK IF TEMP DATA EXISTS
+
         // Set this to indicate that you want to keep the original file extension
         form.keepExtensions = true;
         form.uploadDir = './tempData/';

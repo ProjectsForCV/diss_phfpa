@@ -34,6 +34,7 @@ export class HttpAssignmentService extends HttpBaseService {
   }
 
   public postFinishAssignment(solution: AssignmentResults[], assignmentId: string) {
+
     const postObj = {
       solution: solution,
       assignmentId: assignmentId

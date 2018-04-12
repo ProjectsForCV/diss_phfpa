@@ -78,12 +78,15 @@ export class ActionsComponent implements OnInit {
     this.reset();
     this.solutionService.solutionPickedListener.subscribe(
       (res) => {
-        this.finishAssignment(res);
+        if (res && res.length > 0) {
+          this.finishAssignment(res);
+        }
       }
     );
   }
 
   finishAssignment(solution: AssignmentResults[]) {
+    debugger;
     this.httpAssignment.postFinishAssignment(solution, this.assignmentId)
       .subscribe(
         (res) => {
