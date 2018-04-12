@@ -28,7 +28,7 @@ export class HungarianResultsComponent implements OnInit {
     this.solutionService.publishFoundSolution(this.results);
   }
 
-  private updateTotalCost(cost: number) {
+  public updateTotalCost(cost: number) {
     this.totalCost = cost;
   }
 }
