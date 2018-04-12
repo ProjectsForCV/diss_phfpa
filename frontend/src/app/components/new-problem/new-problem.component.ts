@@ -58,6 +58,7 @@ export class NewProblemComponent implements OnInit {
 
   public surveyOptions: SurveyOptions;
   public emailSubscription: Subscription;
+  public problemImage: File;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
@@ -76,6 +77,10 @@ export class NewProblemComponent implements OnInit {
 
     this.updatePageState();
 
+  }
+
+  problemImageChanged(file: File) {
+    this.problemImage = file;
   }
 
 
@@ -216,8 +221,11 @@ export class NewProblemComponent implements OnInit {
       tasks: this.tasks,
       agentAlias: this.agentAlias,
       taskAlias: this.taskAlias,
-      surveyOptions: this.surveyOptions
+      surveyOptions: this.surveyOptions,
+      image: this.problemImage
     };
+    debugger;
+
     this.http.postNewAssignment(assignment)
       .subscribe(
         res => this.problemCreated(res),

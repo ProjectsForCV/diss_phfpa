@@ -15,7 +15,9 @@
               <div class="panel-body">
 
                 <app-assignment-details
-                  (formState)="assignmentDetailsChanged($event)"></app-assignment-details>
+                  (formState)="assignmentDetailsChanged($event)"
+                  (imageChange)="problemImageChanged($event)"
+                ></app-assignment-details>
 
               </div>
 

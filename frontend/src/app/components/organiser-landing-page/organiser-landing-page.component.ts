@@ -28,7 +28,8 @@ export class OrganiserLandingPageComponent implements OnInit {
   }
 
   sendOrganserEmail() {
-    this.httpEmail.sendLandingPageLinkToOrganiser(this.assignmentId);
+    this.httpEmail.sendLandingPageLinkToOrganiser(this.assignmentId)
+      .subscribe(res => console.log(res))
   }
   sendTasksToAgents () {
     this.httpEmail.sendResultsToAgents(this.assignmentId)

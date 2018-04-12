@@ -25,6 +25,11 @@ function assignmentObject(app) {
     app.post('/api/assignment', (req, clientResponse) => {
 
         const assignment = req.body;
+        
+        if (assignment.image) {
+            assignment.image = saveImageData(assignment.image);
+        }
+        
         createAssignmentProblem(assignment, clientResponse);
 
     });
@@ -90,6 +95,22 @@ function assignmentObject(app) {
 
 }
 
+function saveImageData(imageBlob) {
+    const reader = new FileReader();
+    const name = imageBlob.name;
+    const extension = imageBlob.split('.').pop();
+    reader.addEventListener('load', () => {
+        const path = `/images/${name}`;
+        //TODO: potential XSS vulnerability - should really be generating a custom name
+        fs.appendFile(path ,reader.result,(err) =>{
+            if (err) {
+                throw err;
+            }
+            return path;
+        });
+    });
+    reader.readAsArrayBuffer(imageBlob);
+}
 /*
  DCOOKE 29/03/2018 - rollback is used to undo an ongoing SQL Transaction in the case of an error - this way the database
                      integrity is protected.
@@ -245,6 +266,7 @@ function insertAgents(databaseConnection, assignment, callback) {
 function insertProblem(databaseConnection, problemID, organiserID, assignmentObject, callback) {
 
     const db = databaseConnection;
+    
     const insertData = [
         problemID,
         assignmentObject.assignmentTitle,
@@ -265,7 +287,8 @@ function insertProblem(databaseConnection, problemID, organiserID, assignmentObj
         MaxSelection, 
         AllowOptOut, 
         MessageForAgents, 
-        OptOutMax) 
+        OptOutMax
+    ) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, insertData, (err, res) => {
 
         if (err) {

@@ -7,9 +7,9 @@
   <div class="panel-body">
 
 
-    <button class="btn btn-success" [disabled]="surveysComplete" (click)="sendEmail()">Resend Surveys</button>
+    <button class="btn btn-success" [disabled]="surveysComplete" (click)="sendSurveyLinks()">Resend Surveys</button>
 
-    <button class="btn btn-success" [disabled]="!assignmentFinished">Send Assignment Emails</button>
+    <button class="btn btn-success" [disabled]="!assignmentFinished" (click)="sendResults()">Send Assignment Emails</button>
   </div>
 </div>
 

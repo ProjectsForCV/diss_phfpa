@@ -10,16 +10,16 @@
     <div class="col-xs-6">
       <div class="col-xs-12 text-center">
         <label class="sectionText">
-          Most Popular {{assignment.taskAlias}} -
+          Most Popular {{assignment?.taskAlias}} -
         </label>
-        <label class="sectionText-sm">{{mostPopularTask.taskName}}</label>
+        <label class="sectionText-sm">{{mostPopularTask?.taskName}}</label>
 
       </div>
 
       <div class="col-xs-12 " *ngIf="firstChoiceTasks">
         <ngx-charts-pie-chart
           class="pull-left"
-          *ngIf="mostPopularTasksGraphData && mostPopularTasksGraphData.length > 0"
+          *ngIf="mostPopularTasksGraphData && mostPopularTasksGraphData?.length > 0"
           [results]="mostPopularTasksGraphData"
           [labels]="true"
           [tooltipText]="mostPopularChoiceTooltipFunction"
@@ -32,16 +32,16 @@
     <div class="col-xs-6">
       <div class="col-xs-12 text-center">
         <label class="sectionText">
-          Least Popular {{assignment.taskAlias}} -
+          Least Popular {{assignment?.taskAlias}} -
         </label>
-        <label class="sectionText-sm">{{leastPopularTask.taskName}}</label>
+        <label class="sectionText-sm">{{leastPopularTask?.taskName}}</label>
 
       </div>
 
       <div class="col-xs-12" *ngIf="leastPopularTasks">
         <ngx-charts-pie-chart
           class="pull-left"
-          *ngIf="leastPopularTasksGraphData && leastPopularTasksGraphData.length > 0"
+          *ngIf="leastPopularTasksGraphData && leastPopularTasksGraphData?.length > 0"
           [results]="leastPopularTasksGraphData"
           [labels]="true"
           [tooltipText]="leastPopularChoiceTooltipFunction"
@@ -56,7 +56,7 @@
   <div class="row">
     <hr>
   </div>
-  <div class="row" *ngIf="assignment.finished">
+  <div class="row" *ngIf="assignment?.finished">
     <div class="col-xs-12 " >
 
       <app-result-stats

@@ -9,6 +9,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AssignmentResults } from '../../../services/http/interfaces/AssignmentResults';
 import { SolutionService } from '../../../services/solution-service';
 import { HttpAssignmentService } from '../../../services/http/http-assignment-service';
+import { ErrorHandlingService } from '../../../services/error-handling-service/error-handling-service';
 
 @Component({
   selector: 'app-actions',
@@ -69,7 +70,8 @@ export class ActionsComponent implements OnInit {
   constructor(public httpCostMatrix: HttpCostMatrixService,
               public httpEmail: HttpEmailService,
               public solutionService: SolutionService,
-              public httpAssignment: HttpAssignmentService
+              public httpAssignment: HttpAssignmentService,
+              public errorService: ErrorHandlingService
   ) { }
 
   ngOnInit() {
@@ -136,12 +138,20 @@ export class ActionsComponent implements OnInit {
   }
 
 
-  sendEmail() {
+  sendSurveyLinks() {
     this.httpEmail.sendSurveyLinksToAgents(this.assignment.agents, this.assignment.taskAlias,
       this.assignment.agentAlias, this.assignment.organiserName)
       .subscribe(res => console.log(res),
-        err => console.error(err),
+        err => this.errorService.handleError(err)
       );
+  }
+
+  sendResults() {
+    this.httpEmail.sendResultsToAgents(this.assignmentId)
+      .subscribe(
+        (res) => console.log(res),
+        (err) =>
+      )
   }
 
   reset() {

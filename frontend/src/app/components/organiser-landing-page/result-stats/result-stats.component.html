@@ -1,42 +1,42 @@
-<div class="row" *ngIf="resultStats">
-  <div class="col-xs-12 col-sm-6">
+<div class="row" *ngIf="resultStats && assignment">
+  <div class="col-xs-12 col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">Assignment Result Stats</div>
       <div class="panel-body">
 
         <!-- START -- DRE011 DCOOKE 05/04/2018 - Total Agents -->
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
           Total {{assignment.agentAlias}}s:
         </label>
 
-        <label  class="labelMobile col-xs-12 col-sm-6">
+        <label  class="labelMobile col-xs-6 col-sm-6">
           {{resultStats.totalAgents }}
         </label>
 
         <!-- START -- DRE011 DCOOKE 05/04/2018 - Agents Assigned -->
 
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
           {{assignment.agentAlias}}s Assigned:
         </label>
 
-        <label  class="labelMobile col-xs-12 col-sm-6">
+        <label  class="labelMobile col-xs-6 col-sm-6">
           {{(resultStats.agentsAssigned / resultStats.totalAgents) * 100 + '%'}}
         </label>
 
         <!-- START -- DRE011 DCOOKE 05/04/2018 - Total Tasks -->
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
           Total {{assignment.taskAlias}}s:
         </label>
 
-        <label  class="labelMobile col-xs-12 col-sm-6">
+        <label  class="labelMobile col-xs-6 col-sm-6">
           {{resultStats.totalTasks }}
         </label>
 
         <!-- START -- DRE011 DCOOKE 05/04/2018 - Tasks assigned -->
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
           {{assignment.taskAlias}}s Assigned:
         </label>
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
 
                 {{(resultStats.tasksAssigned / resultStats.totalTasks) * 100 + '%'}}
         </label>
@@ -45,21 +45,21 @@
           <hr>
         </div>
         <!-- START -- DRE011 DCOOKE 05/04/2018 - Assignment Rating -->
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
 
           Assignment Rating:
         </label>
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
 
          {{resultStats.assignmentRating}}
           <span class="glyphicon glyphicon-question-sign" tooltip="This measures how close the assignment was to being perfect. A value of 1 indicates a perfect assignment."></span>
         </label>
 
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
 
           Mean Cost:
         </label>
-        <label class="labelMobile col-xs-12 col-sm-6">
+        <label class="labelMobile col-xs-6 col-sm-6">
 
           {{resultStats.meanCost}}
 
@@ -70,15 +70,17 @@
     </div>
   </div>
 
-  <div class="col-xs-12" style="height:350px">
-    <ngx-charts-pie-grid
+  <div class="col-xs-2 col-lg-6" style="height:350px" *ngIf="pieGridResults">
+    <div class="text-center center-block">
+      <ngx-charts-pie-grid
 
-      [results]="pieGridResults"
-      [label]="assignment.agentAlias + 's'"
+        [results]="pieGridResults"
+        [label]="assignment?.agentAlias + 's'"
 
-    >
+      >
 
-    </ngx-charts-pie-grid>
+      </ngx-charts-pie-grid>
+    </div>
   </div>
 </div>
 

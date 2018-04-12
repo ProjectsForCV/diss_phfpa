@@ -29,7 +29,6 @@ export class HttpEmailService extends HttpBaseService {
     const postObj = {
       assignmentId: assignmentId
     };
-    debugger;
     return this.post('/email/organiser/landingPage', postObj);
 
   }

@@ -11,7 +11,6 @@ export class HttpAssignmentService extends HttpBaseService {
   public postNewAssignment(assignmentDetails: Assignment) {
 
     const headers = new Headers();
-
     headers.append('Accept', 'application/json');
     // headers.append('Content-Type', 'multipart/form-data');
     const options = new RequestOptions({ headers: headers });

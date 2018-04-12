@@ -1,4 +1,3 @@
-<button class="btn" (click)="sendOrganserEmail()">C:ICI</button>
 <div class="container-fluid" *ngIf="assignment">
 
   <div class="col-xs-10 col-xs-offset-1">
@@ -12,8 +11,8 @@
 
       <div class="panel-body">
         <div class="jumbotron">
-          <h1 class="sectionText">{{assignment.assignmentTitle}}</h1>
-          <h2 class="sectionText">Welcome, {{assignment.organiserName}}
+          <h1 class="sectionText">{{assignment?.assignmentTitle}}</h1>
+          <h2 class="sectionText">Welcome, {{assignment?.organiserName}}
           </h2>
         </div>
 
@@ -22,7 +21,7 @@
       </div>
     </div>
 
-    <span *ngIf="!assignment.finished; else sendEmailsButton">
+    <span *ngIf="!assignment?.finished; else sendEmailsButton">
         <div class="row" >
           <div class="col-xs-12" >
 
@@ -57,7 +56,7 @@
       <p class="labelDesktop">You can view additional information in the stats tab below.</p>
       <div class="text-center">
         <div class="btn btn-success" style="margin-bottom:5%;font: 21pt 'Oswald';" (click)="sendTasksToAgents()">
-          Send assigned {{assignment.taskAlias}}s to {{assignment.agentAlias}}s <i class="fa fa-mail-forward"></i>
+          Send assigned {{assignment?.taskAlias}}s to {{assignment?.agentAlias}}s <i class="fa fa-mail-forward"></i>
         </div>
       </div>
     </ng-template>

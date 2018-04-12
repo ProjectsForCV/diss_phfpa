@@ -67,31 +67,12 @@ function sendEmail(app) {
             }
         });
 
-        for (let i = 0; i < agents.length; i++) {
-            if (!isEmail(agents[i].email)) {
-                continue;
-            }
-            const emailContent = `Dear ${agentAlias}, \n${organiserName} has requested that you pick your favourite ${taskAlias} at the following link:\n\n \thttps://munkres.ml/survey/${agents[i].surveyId}. \n\nRegards.\nmunkres.ml
-           `;
-
-
-            execFile(`printf`, [emailContent], (err, out, stderr) => {
-
-                if (err) {
-                    throw err;
-                }
-                const mail = spawn('mail', ['-s', `Pick your ${taskAlias}`, `${agents[i].email}`, '-r', 'munk@munkres.support.ml']);
-                mail.stdin.write(out);
-                mail.stdin.end();
-
-
-            });
-        }
+       
 
     })
 
     app.post('/api/email/organiser/landingPage', (request, response) => {
-        // DCOOKE - todo tigure out why this isnt hittin
+       
         const problemID = request.body['assignmentId'];
         const db = mysql.createConnection(connection);
 
@@ -101,7 +82,7 @@ function sendEmail(app) {
                 problems.ProblemID = ?
                 and problems.OrganiserID = organisers.OrganiserID
 
-        `, id, (err, res) => {
+        `, problemID, (err, res) => {
             if (err) {
                 response.status(500).end('And error occurred');
                 throw err;
@@ -109,8 +90,8 @@ function sendEmail(app) {
 
             const organiser = res[0];
             const emailContent = `Hey ${organiser.Name}!
-            \nYour assignment problem has been created.\n You can track the progress of the problem at the following link:
-            \n\n\t\thttps://munkres.ml/assignment/${assignment.ProblemID}\n\nRegards,\nmunkres.ml
+            \nYour assignment problem has been created.\nYou can track the progress of the problem at the following link:
+            \n\nhttps://munkres.ml/assignment/${problemID}\n\nRegards,\nmunkres.ml
             `;
 
             execFile(`printf`, [emailContent], (err, out, stderr) => {
@@ -118,15 +99,15 @@ function sendEmail(app) {
                 if (err) {
                     throw err;
                 }
-                const mail = spawn('mail', ['-s', `${taskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
+                const mail = spawn('mail', ['-s', `${organiser.taskAlias} Allocation`, `${organiser.Email}`, '-r', 'munk@munkres.support.ml']);
                 mail.stdin.write(out);
                 mail.stdin.end();
 
 
             });
 
-        })
-    })
+        });
+    });
 }
 
 
