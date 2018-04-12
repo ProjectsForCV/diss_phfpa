@@ -96,20 +96,7 @@ function assignmentObject(app) {
 }
 
 function saveImageData(imageBlob) {
-    const reader = new FileReader();
-    const name = imageBlob.name;
-    const extension = imageBlob.split('.').pop();
-    reader.addEventListener('load', () => {
-        const path = `/images/${name}`;
-        //TODO: potential XSS vulnerability - should really be generating a custom name
-        fs.appendFile(path ,reader.result,(err) =>{
-            if (err) {
-                throw err;
-            }
-            return path;
-        });
-    });
-    reader.readAsArrayBuffer(imageBlob);
+    
 }
 /*
  DCOOKE 29/03/2018 - rollback is used to undo an ongoing SQL Transaction in the case of an error - this way the database
