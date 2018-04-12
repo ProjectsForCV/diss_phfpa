@@ -150,8 +150,9 @@ export class ActionsComponent implements OnInit {
     this.httpEmail.sendResultsToAgents(this.assignmentId)
       .subscribe(
         (res) => console.log(res),
-        (err) =>
-      )
+        (err) => console.error(err),
+        () => console.dir('Finished')
+      );
   }
 
   reset() {
