@@ -6,13 +6,10 @@ import { Agent } from './interfaces/Agent';
 export class HttpEmailService extends HttpBaseService {
 
 
-  public sendSurveyLinksToAgents(agents: Agent[], taskAlias: string, agentAlias: string, organiserName: string) {
+  public sendSurveyLinksToAgents(assignmentId: string) {
 
     const postObj = {
-      agents: agents,
-      taskAlias: taskAlias,
-      agentAlias: agentAlias,
-      organiserName: organiserName
+      assignmentId: assignmentId
     };
     return this.post('/email/agents/sendSurveys', postObj);
   }

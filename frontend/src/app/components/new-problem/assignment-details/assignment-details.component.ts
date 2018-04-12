@@ -16,7 +16,7 @@ export class AssignmentDetailsComponent implements OnInit {
   public formState: EventEmitter<FormGroup> = new EventEmitter();
 
   @Output()
-  public imageChange: EventEmitter<File> = new EventEmitter<File>();
+  public imageChange: EventEmitter<string> = new EventEmitter<string>();
 
 
   constructor(fb: FormBuilder) {
@@ -32,7 +32,7 @@ export class AssignmentDetailsComponent implements OnInit {
     );
   }
 
-  fileChanged(file: File) {
+  fileChanged(file: string) {
     this.imageChange.emit(file);
   }
 

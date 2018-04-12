@@ -86,7 +86,7 @@ export class ActionsComponent implements OnInit {
   }
 
   finishAssignment(solution: AssignmentResults[]) {
-    debugger;
+
     this.httpAssignment.postFinishAssignment(solution, this.assignmentId)
       .subscribe(
         (res) => {
@@ -142,8 +142,7 @@ export class ActionsComponent implements OnInit {
 
 
   sendSurveyLinks() {
-    this.httpEmail.sendSurveyLinksToAgents(this.assignment.agents, this.assignment.taskAlias,
-      this.assignment.agentAlias, this.assignment.organiserName)
+    this.httpEmail.sendSurveyLinksToAgents(this.assignmentId)
       .subscribe(res => console.log(res),
         err => this.errorService.handleError(err)
       );

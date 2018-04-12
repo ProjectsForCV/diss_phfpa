@@ -91,6 +91,9 @@ function crossover(parents) {
 
     // I want parents.length offspring and all the parents in the next gen
     // I will take all the parents assignments
+    if (parents.length <= 1) {
+        return parents;
+    }
     const parentAssignments = [].concat(...parents
         .map(parent => parent.assignment))
 
@@ -397,6 +400,7 @@ function start(data, geneticOptions, rownames, colnames) {
 
 
     } catch (err) {
+        console.error(err);
         return -1;
     }
 
@@ -431,7 +435,7 @@ function getSolvedMatrix(mat, finalResult, returned, rownames, colnames) {
     return finalResult.map((result, index) => {
             return {
                 solution: mapMatrix[index],
-                assignment: getAssignmentPairs(mapMatrix,rownames, colnames),
+                assignment: getAssignmentPairs(mapMatrix[index], mat ,rownames, colnames),
                 totalCost: result.totalCost,
                 distance: result.distance
             }
@@ -440,7 +444,7 @@ function getSolvedMatrix(mat, finalResult, returned, rownames, colnames) {
     
 }
 
-function getAssignmentPairs(maskMatrix, rownames, colnames) {
+function getAssignmentPairs(maskMatrix, costMatrix, rownames, colnames) {
 
     if (maskMatrix && colnames && rownames) {
         const pairs = [];
@@ -450,8 +454,15 @@ function getAssignmentPairs(maskMatrix, rownames, colnames) {
                 if (maskMatrix[i][j] === 1) {
 
                     pairs.push({
-                        agentId: rowNames[i],
-                        taskId: colNames[j]
+                        agent: {
+                            agentId: rownames[i],
+                            email: rownames[i]
+                        },
+                        task: {
+                            taskId: colnames[j],
+                            taskName: colnames[j]
+                        },
+                        cost: costMatrix[i][j]
                     });
                 }
             }

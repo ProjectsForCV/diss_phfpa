@@ -15,8 +15,10 @@ export class UploadIconComponent implements OnInit {
   public fileName: string;
   public imageSrc: SafeStyle;
 
+  public imageData: string;
+
   @Output()
-  public imageChanged: EventEmitter<File> = new EventEmitter<File>();
+  public imageChanged: EventEmitter<string> = new EventEmitter<string>();
   constructor(public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class UploadIconComponent implements OnInit {
         .subscribe(res => {
           const safe = this.sanitizer.bypassSecurityTrustStyle(`url(${reader.result})`);
           this.imageSrc = safe;
-          this.imageChanged.emit(this.getFile());
+          this.imageChanged.emit(reader.result);
         });
       reader.readAsDataURL(this.getFile());
     }

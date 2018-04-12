@@ -21,12 +21,10 @@ export class DisplayGeneticMatricesComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
-    this.getAssignments();
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.getAssignments();
   }
   getClass(solutionIndex, row, col) {
     if (this.results && this.results[solutionIndex].solution[row][col] === 1) {
@@ -36,38 +34,6 @@ export class DisplayGeneticMatricesComponent implements OnInit, OnChanges {
     }
   }
 
-  createAgents() {
-    return this.costMatrix.map((val, index) => {
-      return <Agent> {
-        email: `Agent ${index + 1}`
-      };
-    });
-  }
-
-  createTasks() {
-    return this.costMatrix[0].map((val , index) => {
-      return <Task> {
-        taskName: `Task ${index + 1}`
-      };
-    });
-  }
-
-  getAssignments() {
-    const agents = this.createAgents();
-    const tasks = this.createTasks();
-    for (let i = 0; i < this.results.length; i++) {
-
-      this.results[i].assignment = [];
-      for (let j = 0; j < this.results[i].solution.length; j++) {
-        const agentChoiceIndex = this.results[i].solution[j].findIndex(solution => solution === 1);
-        this.results[i].assignment.push(<AssignmentResults> {
-          agent: agents[j],
-          task: tasks[agentChoiceIndex],
-          cost: this.costMatrix[j][agentChoiceIndex]
-        });
-      }
-    }
-  }
 
   private getCostColor(cost: number) {
 

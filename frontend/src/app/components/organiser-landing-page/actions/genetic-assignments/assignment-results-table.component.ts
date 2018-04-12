@@ -41,6 +41,9 @@ export class AssignmentResultsTableComponent implements OnInit, OnChanges {
     this.totalCostChanged.emit(this.totalCost);
   }
   ngOnInit() {
+    debugger;
+    this.assignment;
+
     this.calulateTotalCost();
   }
 

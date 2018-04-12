@@ -5,6 +5,7 @@ import { Assignment } from '../../services/http/interfaces/Assignment';
 import { HttpEmailService } from '../../services/http/http-email-service';
 import { HttpCostMatrixService } from '../../services/http/http-cost-matrix';
 import { Agent } from '../../services/http/interfaces/Agent';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-organiser-landing-page',
@@ -23,7 +24,9 @@ export class OrganiserLandingPageComponent implements OnInit {
   constructor(public route: ActivatedRoute,
               public http: HttpAssignmentService,
               public httpCostMatrix: HttpCostMatrixService,
-              public httpEmail: HttpEmailService) {
+              public httpEmail: HttpEmailService,
+              public san : DomSanitizer
+  ) {
 
   }
 
@@ -49,6 +52,14 @@ export class OrganiserLandingPageComponent implements OnInit {
     this.allSurveysFinished = this.numberOfCompletedSurveys === this.assignment.agents.length;
   }
 
+  public getSafeImageURL() {
+    if (this.assignment.image) {
+
+      return this.san.bypassSecurityTrustStyle(`url(${this.assignment.image})`);
+    } else {
+      return 'none';
+    }
+  }
   private getAssignment() {
 
     this.http.getAssignmentInfo(this.assignmentId)

@@ -58,7 +58,7 @@ export class NewProblemComponent implements OnInit {
 
   public surveyOptions: SurveyOptions;
   public emailSubscription: Subscription;
-  public problemImage: File;
+  public base64ImageString: string;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
@@ -79,8 +79,8 @@ export class NewProblemComponent implements OnInit {
 
   }
 
-  problemImageChanged(file: File) {
-    this.problemImage = file;
+  problemImageChanged(file: string) {
+    this.base64ImageString = file;
   }
 
 
@@ -222,9 +222,8 @@ export class NewProblemComponent implements OnInit {
       agentAlias: this.agentAlias,
       taskAlias: this.taskAlias,
       surveyOptions: this.surveyOptions,
-      image: this.problemImage
+      image: this.base64ImageString
     };
-    debugger;
 
     this.http.postNewAssignment(assignment)
       .subscribe(
@@ -235,13 +234,22 @@ export class NewProblemComponent implements OnInit {
   }
 
   private problemCreated(res: Response) {
-    //
-    // this.emailSubscription = this.httpEmail.sendSurveyLinksToAgents(res['agents'])
-    //   .subscribe(
-    //     (emailResponse: Response) => {
-    //       console.log(emailResponse);
-    //     }
-    //   );
+
+    this.emailSubscription = this.httpEmail.sendSurveyLinksToAgents(res['problemId'])
+      .subscribe(
+        (emailResponse: Response) => {
+          console.log(emailResponse);
+          this.emailSubscription.unsubscribe();
+        }
+      );
+
+    const orgSub = this.httpEmail.sendLandingPageLinkToOrganiser(res['problemId'])
+      .subscribe(
+        (emailResponse: Response) => {
+          console.log(res);
+          orgSub.unsubscribe();
+        }
+      );
     const problemID = res['problemId'];
     this.router.navigate(['/assignment', problemID] );
   }

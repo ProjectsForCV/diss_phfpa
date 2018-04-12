@@ -95,7 +95,36 @@ function assignmentObject(app) {
 
 }
 
-function saveImageData(imageBlob) {
+function getImageDataURL(path) {
+    if (!path ) {
+        return;
+    }
+    const mime = require('mime-types');
+    const ext = path.split('.').pop();
+    const mimeType = mime.lookup(ext);
+    const data = fs.readFileSync(path,{encoding :'base64'});
+    const base64 = `data:${mimeType};base64,${data}`;
+    return base64;
+}
+function saveImageData(base64ImageString) {
+    
+    const base64 = base64ImageString;
+    const mime = require('mime-types');
+
+    const mimeType = base64.substring(5,base64.indexOf(';'));
+    const ext = mime.extension(mimeType);
+    const data = base64.split(',').pop();
+    const buffer = new Buffer(data, 'base64');
+    const path = `images/${uuid() + '.' + ext}`;
+    
+    try {
+        fs.writeFileSync(path, buffer);
+    } catch (e) {
+        console.log('Image not saved');
+        console.error(e);
+    }
+
+    return path;
     
 }
 /*
@@ -104,7 +133,7 @@ function saveImageData(imageBlob) {
  */
 function rollback(db, error, query) {
     db.rollback(() => {
-        // TODO: Add response to client
+
         console.error('ERROR WITH QUERY: ' + query);
         throw error;
     })
@@ -263,7 +292,8 @@ function insertProblem(databaseConnection, problemID, organiserID, assignmentObj
         assignmentObject.surveyOptions.maxSelection || 0,
         assignmentObject.surveyOptions.allowOptOut,
         assignmentObject.surveyOptions.message,
-        assignmentObject.surveyOptions.maxOptOut || 0
+        assignmentObject.surveyOptions.maxOptOut || 0,
+        assignmentObject.image
     ]
     let problemQuery = db.query(`INSERT INTO problems(
         ProblemID, 
@@ -274,9 +304,10 @@ function insertProblem(databaseConnection, problemID, organiserID, assignmentObj
         MaxSelection, 
         AllowOptOut, 
         MessageForAgents, 
-        OptOutMax
+        OptOutMax,
+        ImageURL
     ) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, insertData, (err, res) => {
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, insertData, (err, res) => {
 
         if (err) {
             callback(undefined, err);
@@ -513,6 +544,7 @@ function getProblemDetails(databaseConnection, problemID, callback) {
         problemDetails.surveyOptions.maxSelection = data.MaxSelection;
         problemDetails.surveyOptions.allowOptOut = data.AllowOptOut;
         problemDetails.finished = data.Finished;
+        problemDetails.image = getImageDataURL(data.ImageURL)
 
         db.query(`SELECT tasks.TaskID, Name from tasks
         join problem_tasks

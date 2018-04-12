@@ -85,6 +85,7 @@ export class PlaygroundComponent implements OnInit {
 
     if (this.options && this.options.algorithm === 'hungarian') {
       this.geneticMatrices = undefined;
+      this.solution = undefined;
       this.solvingHungarian = this.http.postSolveMatrix(this.matrix, undefined, this.getRowNames(), this.getColNames())
         .subscribe(
           (res) => {
@@ -96,11 +97,13 @@ export class PlaygroundComponent implements OnInit {
           () => this.isLoading(false)
         );
     } else {
-
+      this.geneticMatrices = undefined;
       this.solution = undefined;
-      this.solvingGenetic = this.http.postSolveMatrix(this.matrix, this.options.geneticOptions)
+      this.solvingGenetic = this.http.postSolveMatrix(this.matrix, this.options.geneticOptions ,this.getRowNames(), this.getColNames())
         .subscribe(
-          (res) => this.geneticMatrices = res,
+          (res) => {
+            return this.geneticMatrices = res;
+          },
           (err) => this.errorService.handleError(err),
           () => this.isLoading(false)
         )

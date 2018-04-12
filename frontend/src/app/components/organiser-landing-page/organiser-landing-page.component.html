@@ -10,9 +10,9 @@
       </div>
 
       <div class="panel-body">
-        <div class="jumbotron">
-          <h1 class="sectionText">{{assignment?.assignmentTitle}}</h1>
-          <h2 class="sectionText">Welcome, {{assignment?.organiserName}}
+        <div class="jumbotron imageContainer" [style.background-image]="getSafeImageURL()">
+          <h1 class="sectionText" [class.standOut]="assignment.image">{{assignment?.assignmentTitle}}</h1>
+          <h2 class="sectionText" [class.standOut]="assignment.image">Welcome, {{assignment?.organiserName}}
           </h2>
         </div>
 

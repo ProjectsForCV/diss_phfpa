@@ -11,7 +11,8 @@ export interface Assignment {
   agentAlias: string;
   taskAlias: string;
 
-  image?: File;
+  // Base 64
+  image?: string;
   surveyOptions: SurveyOptions;
   finished?: boolean;
 }

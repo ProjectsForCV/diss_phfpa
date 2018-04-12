@@ -17,40 +17,18 @@ function sendEmail(app) {
     app.post('/api/email/agents/sendSurveys', (request, response) => {
 
         // Need email address of all agents
-        const agents = request.body['agents'];
-        const taskAlias = request.body['taskAlias'] || 'Task';
-        const agentAlias = request.body['agentAlias'] || 'Agent';
-        const organiserName = request.body['organiserName'] || 'Organiser';
+        const problemID = request.body['assignmentId'];
+    
 
-        for (let i = 0; i < agents.length; i++) {
-            if (!isEmail(agents[i].email)) {
-                continue;
+        sendSurveys(problemID, (err, res) => {
+
+            if (err) {
+                throw err;
             }
-            const emailContent = `Dear ${agentAlias}, \n${organiserName} has requested that you pick your favourite ${taskAlias} at the following link:\n\n \thttps://munkres.ml/survey/${agents[i].surveyId}. \n\nRegards.\nmunkres.ml
-           `;
 
-
-            execFile(`printf`, [emailContent], (err, out, stderr) => {
-
-                if (err) {
-                    throw err;
-                }
-                const mail = spawn('mail', ['-s', `Pick your ${taskAlias}`, `${agents[i].email}`, 'munk@munkres.support.ml']);
-                mail.stdin.write(out);
-                mail.stdin.end();
-
-                mail.stdin.on('data', (data) => {
-                    console.log(`Mail command received stdin: ${data}`);
-
-                })
-                mail.stderr.on('err', (err) => {
-                    console.error(err);
-                    throw err;
-                })
-
-
-            });
-        }
+            response.status(200).end('Emails sent.');
+        })
+       
 
     })
 
@@ -104,12 +82,48 @@ function sendEmail(app) {
                 mail.stdin.end();
 
 
+                response.status(200).end();
             });
 
         });
     });
 }
 
+function sendSurveys(problemID, callback) {
+
+    const db = mysql.createConnection(connection);
+    db.query(`SELECT problems.TaskAlias, organisers.Name, problems.AgentAlias, agents.Email, problem_agents.SurveyID
+    FROM problems
+    JOIN (problem_agents, agents, organisers)
+    ON problems.ProblemID = ?
+    AND problem_agents.ProblemID = problems.ProblemID
+    AND agents.AgentID = problem_agents.AgentId
+    AND organisers.OrganiserID = problems.OrganiserID` , problemID, (err,res) => {
+
+        res.map(
+            assignment => {
+                const emailContent = `Dear ${assignment.AgentAlias || 'Agent'}, \n${assignment.Name} has requested that you pick your favourite ${assignment.TaskAlias || 'Task'} at the following link:\n\n \thttps://munkres.ml/survey/${assignment.SurveyID} \n\nRegards.\nmunkres.ml
+                `;
+         
+         
+                 execFile(`printf`, [emailContent], (err, out, stderr) => {
+         
+                     if (err) {
+                         throw err;
+                     }
+                     const mail = spawn('mail', ['-s', `${assignment.Name}`, `${assignment.Email}`, 'munk@munkres.support.ml']);
+                     mail.stdin.write(out);
+                     mail.stdin.end();
+        
+         
+         
+                 });
+            }
+        );
+
+        callback(undefined, res);
+    });
+}
 
 function sendResults(problemID, callback) {
     const db = mysql.createConnection(connection);
@@ -123,8 +137,8 @@ function sendResults(problemID, callback) {
 
         res.map(assignment => {
 
-            const emailContent = `Dear ${assignment.agentAlias},
-            \nYou have been assigned the following ${assignment.taskAlias}:\n\n\t\t
+            const emailContent = `Dear ${assignment.AgentAlias},
+            \nYou have been assigned the following ${assignment.TaskAlias}:\n\n\t\t
             ${assignment.Name}\n\n\nPlease direct any queries to your supervisor.\n\nRegards,\nmunkres.ml`;
 
             execFile(`printf`, [emailContent], (err, out, stderr) => {
@@ -132,7 +146,7 @@ function sendResults(problemID, callback) {
                 if (err) {
                     throw err;
                 }
-                const mail = spawn('mail', ['-s', `${assignment.taskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
+                const mail = spawn('mail', ['-s', `${assignment.TaskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
                 mail.stdin.write(out);
                 mail.stdin.end();
 
