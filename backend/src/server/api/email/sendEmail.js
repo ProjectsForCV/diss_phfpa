@@ -1,9 +1,7 @@
 const {
     spawn
 } = require('child_process');
-const {
-    execFile
-} = require('child_process');
+
 const nodemailer = require('nodemailer');
 const {
     exec
@@ -11,6 +9,8 @@ const {
 const isEmail = require('validator/lib/isEmail');
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
+const sendToAgents = require('./sendToAgents');
+const sendToOrganiser = require('./sendToOrganiser');
 
 function sendEmail(app) {
 
@@ -23,10 +23,10 @@ function sendEmail(app) {
         sendSurveys(problemID, (err, res) => {
 
             if (err) {
-                throw err;
+                response.status(500).end();
+            }else {
+                response.status(200).end('Surveys sent to agents');
             }
-
-            response.status(200).end('Emails sent.');
         })
        
 
@@ -40,8 +40,9 @@ function sendEmail(app) {
         sendResults(problemID, (res, err) => {
             if (err) {
 
-                response.status(500).end('Something bad happened');
-
+                response.status(500).end();
+            } else {
+                response.status(200).end('Results sent to agents');
             }
         });
 
@@ -52,109 +53,94 @@ function sendEmail(app) {
     app.post('/api/email/organiser/landingPage', (request, response) => {
        
         const problemID = request.body['assignmentId'];
-        const db = mysql.createConnection(connection);
-
-        db.query(`
-                SELECT * FROM problems
-                JOIN (organisers) ON 
-                problems.ProblemID = ?
-                and problems.OrganiserID = organisers.OrganiserID
-
-        `, problemID, (err, res) => {
-            if (err) {
-                response.status(500).end('And error occurred');
-                throw err;
-            }
-
-            const organiser = res[0];
-            const emailContent = `Hey ${organiser.Name}!
-            \nYour assignment problem has been created.\nYou can track the progress of the problem at the following link:
-            \n\nhttps://munkres.ml/assignment/${problemID}\n\nRegards,\nmunkres.ml
-            `;
-
-            execFile(`printf`, [emailContent], (err, out, stderr) => {
-
-                if (err) {
-                    throw err;
-                }
-                const mail = spawn('mail', ['-s', `${organiser.taskAlias} Allocation`, `${organiser.Email}`, '-r', 'munk@munkres.support.ml']);
-                mail.stdin.write(out);
-                mail.stdin.end();
-
-
-                response.status(200).end();
-            });
-
-        });
-    });
-}
-
-function sendSurveys(problemID, callback) {
-
-    const db = mysql.createConnection(connection);
-    db.query(`SELECT problems.TaskAlias, organisers.Name, problems.AgentAlias, agents.Email, problem_agents.SurveyID
-    FROM problems
-    JOIN (problem_agents, agents, organisers)
-    ON problems.ProblemID = ?
-    AND problem_agents.ProblemID = problems.ProblemID
-    AND agents.AgentID = problem_agents.AgentId
-    AND organisers.OrganiserID = problems.OrganiserID` , problemID, (err,res) => {
-
-        res.map(
-            assignment => {
-                const emailContent = `Dear ${assignment.AgentAlias || 'Agent'}, \n${assignment.Name} has requested that you pick your favourite ${assignment.TaskAlias || 'Task'} at the following link:\n\n \thttps://munkres.ml/survey/${assignment.SurveyID} \n\nRegards.\nmunkres.ml
-                `;
-         
-         
-                 execFile(`printf`, [emailContent], (err, out, stderr) => {
-         
-                     if (err) {
-                         throw err;
-                     }
-                     const mail = spawn('mail', ['-s', `${assignment.Name}`, `${assignment.Email}`, 'munk@munkres.support.ml']);
-                     mail.stdin.write(out);
-                     mail.stdin.end();
         
-         
-         
-                 });
+        sendLandingPageToOrganiser(problemID, (res, err) => {
+
+            if (err) {
+                response.status(500).end();
+            }else {
+                response.status(200).end('Landing page sent to organiser');
             }
-        );
-
-        callback(undefined, res);
-    });
-}
-
-function sendResults(problemID, callback) {
-    const db = mysql.createConnection(connection);
-
-    const getAssignmentResults = require('../assignment/getAssignmentResults');
-
-    getAssignmentResults(problemID, (err, res) => {
-        if (err) {
-            callback(null, err);
-        }
-
-        res.map(assignment => {
-
-            const emailContent = `Dear ${assignment.AgentAlias},
-            \nYou have been assigned the following ${assignment.TaskAlias}:\n\n\t\t
-            ${assignment.Name}\n\n\nPlease direct any queries to your supervisor.\n\nRegards,\nmunkres.ml`;
-
-            execFile(`printf`, [emailContent], (err, out, stderr) => {
-
-                if (err) {
-                    throw err;
-                }
-                const mail = spawn('mail', ['-s', `${assignment.TaskAlias} Allocation`, `${assignment.Email}`, '-r', 'munk@munkres.support.ml']);
-                mail.stdin.write(out);
-                mail.stdin.end();
-
-
-            });
         })
     });
 
+    
 }
+
+
+function sendLandingPageToOrganiser(problemID, callback) {
+
+    sendToOrganiser(problemID, 
+        (problem, agent, task, organiser) => {
+            return `Hi, ${organiser.Name}!
+            
+            Your assignment has been created, you can view updates on the progress at the following link:
+
+            https://munkres.ml/assignment/${problemID}
+
+            Regards,
+            munkres.ml
+
+            `;
+
+        },
+        (problem, agent, task, organiser) => {
+            return `Assignment Created`;
+        },
+        (res, err) => {
+
+            callback(res, err);
+        }
+    );
+}
+
+
+function sendSurveys(problemID, callback) {
+
+
+    sendToAgents(problemID, 
+
+        (problem, agent, task, organiser) => {
+            return `Dear ${problem.AgentAlias || 'Agent'}, 
+            ${organiser.Name} has requested that you pick your favourite ${problem.TaskAlias || 'Task'} at the following link:
+            \thttps://munkres.ml/survey/${agent.SurveyID} 
+            \n\nRegards.\nmunkres.ml`;         
+        },
+
+        (problem, agent, task , organiser) => {
+            return `Pick your ${problem.TaskAlias || 'Task'}`;
+        },
+
+        (res, err) => {
+
+            callback(res,err);
+        }
+    );
+    
+}
+
+function sendResults(problemID, callback) {
+
+    sendToAgents(problemID, 
+        (problem, agent, task, organiser) => {
+
+            return `Dear ${problem.AgentAlias},
+            \nYou have been assigned the following ${problem.TaskAlias || 'Task'}:\n\n\t\t
+            ${task.Name}\n\n\nPlease direct any queries to your supervisor.\n\nRegards,\nmunkres.ml`;
+
+        },
+        (problem, agent, task, organiser) => {
+
+            return `${problem.TaskAlias || 'Task'} Allocation`;
+        },
+        (res, err) => {
+
+            callback(res,err);
+        }
+    );
+
+}
+
+
 
 module.exports = sendEmail;

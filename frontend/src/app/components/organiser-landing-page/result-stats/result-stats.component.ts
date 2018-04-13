@@ -50,7 +50,7 @@ export class ResultStatsComponent implements OnInit {
     this.resultStats.totalTasks = this.assignment.tasks.length;
 
     this.resultStats.assignmentRating = this.getAssignmentRating();
-    this.resultStats.meanCost = this.getMeanCost();
+    this.resultStats.meanCost = this.results && this.results.length > 0 ? this.getMeanCost() : 0;
     this.pieGridResults = this.getPieGridResults();
   }
 

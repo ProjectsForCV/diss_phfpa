@@ -397,6 +397,7 @@ function getAssignmentProblem(assignment, clientResponseStream) {
             // Add organiser detals to response
             responseObject = Object.assign(responseObject, organiserDetails);
 
+            const getAgentDetails = require('./getAgentDetails');
             getAgentDetails(db, responseObject.assignmentId, (agentDetails, error) => {
 
                 if (error) {
@@ -434,63 +435,7 @@ function getAssignmentProblem(assignment, clientResponseStream) {
 }
 
 
-function getAgentDetails(databaseConnection, problemID, callback) {
 
-    const db = databaseConnection;
-
-    let agentDetails = {};
-
-    db.query(`SELECT * FROM problem_agents WHERE ProblemID =?`, problemID, (err, res) => {
-
-        if (err) {
-            callback(undefined, err);
-        }
-
-        const listOfAgentsFromProblem = res;
-
-        // DCOOKE 29/03/2018 - Create initial agent objects
-        agentDetails = listOfAgentsFromProblem.map(
-            row => {
-
-
-                return {
-                    agentId: row.AgentID,
-                    completed: row.Completed,
-                    surveyId: row.SurveyID
-
-                }
-            }
-        );
-
-        //
-        //	GET MORE AGENT INFO 
-        //
-
-        // DCOOKE 29/03/2018 - map to just ids for IN clause
-        const agentIds = agentDetails.map(agent => agent.agentId);
-
-        let agentQuery = db.query(`SELECT * FROM agents WHERE AgentID IN (?)`, [agentIds], (err, res) => {
-
-            if (err) {
-                callback(undefined, err);
-            }
-
-            const detailedListOfAgentsFromProblem = res;
-
-
-            for (let i = 0; i < detailedListOfAgentsFromProblem.length; i++) {
-                agentDetails[i].email = detailedListOfAgentsFromProblem[i].Email;
-            }
-
-            callback(agentDetails, undefined);
-
-
-
-        })
-
-
-    })
-}
 
 function getOrganiserDetails(databaseConnection, organiserID, callback) {
 
@@ -644,8 +589,8 @@ function handleError(error, clientRes) {
 function addCompletedAssignmentToDatabase(problemID, agentTaskAssignment , callback) {
 
     const db = mysql.createConnection(connection);
-    const agentIDs = agentTaskAssignment.map(pair => pair.agentId)
-    const taskIDs = agentTaskAssignment.map(pair => pair.taskId)
+    const agentIDs = agentTaskAssignment.map(pair => pair.agent.agentId)
+    const taskIDs = agentTaskAssignment.map(pair => pair.task.taskId)
     const insert = agentIDs.map(
         (agentId, index) => {
 

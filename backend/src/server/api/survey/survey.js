@@ -71,10 +71,24 @@ function postSurveyAnswers(surveyID, answers, clientRes) {
                     db.commit();
                     console.log(`Survey ${surveyID} answers added. Answer ID ${answerID}`);
 
+                    db.query('SELECT ProblemID from problem_agents WHERE SurveyID = ?', surveyID, (err, res) => {
+                        const problemID = res[0]['ProblemID'];
+                        
+                        checkIfAllSurveysComplete(db, problemID, (res, err) => {
+                            if (err) {
+                                response.status(500).end(err);
+                            } else {
+                                response.status(200).end('Notifcation sent to organiser');
+                            }
+                        });
+
+                        
+                    })
+
+                    
 
 
-
-                    clientRes.json(res)
+                    
 
 
                 })
@@ -86,6 +100,58 @@ function postSurveyAnswers(surveyID, answers, clientRes) {
 
     });
 
+}
+
+function sendNotificationToOrganiser(problemID, callback) {
+    const sendToOrganiser = require('../email/sendToOrganiser');
+    sendToOrganiser(problemID, 
+        (problem, agent, task, organiser) => {
+            return `Hi, ${organiser.Name}!
+            
+            All ${problem.agentAlias || 'Agent'}s have completed their surveys.
+            The next step is to choose how you wish the assignment to be solved, you can do so by visiting the
+            following link:
+
+            https://munkres.ml/assignment/${problemID}
+
+            Regards,
+            munkres.ml
+
+            `;
+
+        },
+        (problem, agent, task, organiser) => {
+            return `Assignment Ready`;
+        },
+        (res, err) => {
+
+            callback(res, err);
+        }
+    );
+}
+
+
+function checkIfAllSurveysComplete(db, problemID, callback) {
+
+    const getAgentDetails = require('../assignment/getAgentDetails');
+    getAgentDetails(db, problemID, (res, err) => {
+
+        if (err) {
+            callback(err, undefined);
+        } else {
+            const numberOfCompletedAgents = res.map(agent => agent.completed).length;
+            const totalAgents = res.length;
+
+            if (numberOfCompletedAgents === totalAgents) {
+                sendNotificationToOrganiser(problemID, (res, err) => {
+
+                    callback(res, err);
+                    
+                    
+                })
+            }
+        }
+    })
 }
 
 function getSurveyQuestions(surveyId, clientResponse) {
