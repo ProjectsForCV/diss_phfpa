@@ -78,7 +78,7 @@ function postSurveyAnswers(surveyID, answers, clientRes) {
                             if (err) {
                                 clientRes.status(500).end(err);
                             } else {
-                                clientRes.status(200).end('Notifcation sent to organiser');
+                                clientRes.status(200).end();
                             }
                         });
 
