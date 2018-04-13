@@ -76,9 +76,9 @@ function postSurveyAnswers(surveyID, answers, clientRes) {
                         
                         checkIfAllSurveysComplete(db, problemID, (res, err) => {
                             if (err) {
-                                response.status(500).end(err);
+                                clientRes.status(500).end(err);
                             } else {
-                                response.status(200).end('Notifcation sent to organiser');
+                                clientRes.status(200).end('Notifcation sent to organiser');
                             }
                         });
 
