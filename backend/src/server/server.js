@@ -1,8 +1,7 @@
-/***********************************************************************
- * Date: 01/12/2017
- * Author: Daniel Cooke
- ***********************************************************************/
-// DCOOKE 01/12/2017 - TODO: This will need to be hosted on digital ocean for testing purposes
+// Title: server.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 15:54:30
+
 const express = require('express');
 const app = express();
 const port = 12345;
@@ -29,18 +28,17 @@ app.use((req, res, next) =>{
 app.listen(port, (err) =>{
 
     if (err) {
-        return console.log(err)
+        return console.log(err);
     }
 
-
-    app.get('/', (req, res) => {
-       console.log('Hit endpoint');
-       res.send('Hello you have hit the endpoint \n');
-    });
     createEndpoints();
-    console.log(`server is listening on ${port}`)
+
+    console.log(`Server is listening on ${port}`);
 });
 
+/**
+ * sets up endpoints using the express app
+ */
 function createEndpoints() {
     const randomMat = require('./api/costMatrix/randomMat');
     const solveMat = require('./api/costMatrix/solveMat');
@@ -63,6 +61,3 @@ function createEndpoints() {
     email(app);
 
 }
-
-// const sendEmail = require('./api/email/sendEmail');
-// sendEmail({from:'wat',to:'dcooke06@qub.ac.uk',subject: 'Test', text: 'this is a test email'});

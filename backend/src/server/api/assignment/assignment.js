@@ -1,24 +1,20 @@
-/***********************************************************************
- * Date: 29/03/2018
- * Author: Daniel Cooke
- ***********************************************************************/
-/*
-    assignment.js is used as the api endpoint for all assignment related tasks
- */
-/* ================================================================================================================== */
-/*  IMPORTS  -   29/03/2018  -   DCOOKE
-/* ================================================================================================================== */
+// Title: assignment.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:36:51
+
 const mysql = require('mysql');
 const fs = require('fs');
 const connection = require('../../data/dbSettings');
 const uuid = require('uuid/v4');
 const getAssignmentResults = require('./getAssignmentResults');
 
-/* ================================================================================================================== */
-/*  FUNCTIONS -   29/03/2018  -   DCOOKE
-/* ================================================================================================================== */
-/*
- DCOOKE 29/03/2018 - the main function which takes the express server object to setup various api endpoints
+
+/**
+ * This module handles requests made to the assignment api
+ * 
+ * @module assignment
+ * @function assignmentObject
+ * @param {Object} app
  */
 function assignmentObject(app) {
 

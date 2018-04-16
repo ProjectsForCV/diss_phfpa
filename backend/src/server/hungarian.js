@@ -104,6 +104,9 @@ class Hungarian {
       
         this.iterate();
 
+    
+        
+
         if (options && options.tasks && options.agents) {
             return {
                 solution: this.maskMatrix,
@@ -334,8 +337,8 @@ class Hungarian {
     }
 
     uncoverLines() {
-        this.coveredRows.map(val => 0);
-        this.coveredCols.map(val => 0);
+        this.coveredRows = this.coveredRows.map(val => 0);
+        this.coveredCols = this.coveredCols.map(val => 0);
     }
     emptyPrimes() {
         for (let i = 0 ; i < this.rows ; i++) {
@@ -363,6 +366,11 @@ class Hungarian {
 
 }
 
+function printTotal(array, comparator) {
+    console.log(array.filter(comparator).length);
+}
+
+
 
 function findInArray(array, value) {
     return array.findIndex(val => val === value);
@@ -384,6 +392,9 @@ function min(array) {
 function subtractValueFromArray(array, value) {
     return array.map( arrVal => arrVal - value);
 }
+
+
+
 
 
 module.exports = exports = Hungarian;

@@ -6,12 +6,11 @@
  DCOOKE 29/03/2018 - randomMat.js is used to return a random array to the client , called from the Playground
  */
 
-/* ================================================================================================================== */
-/*  FUNCTIONS -   29/03/2018  -   DCOOKE
-/* ================================================================================================================== */
-/*
- DCOOKE 29/03/2018 - randomMat sets up the main GET endpoint to be called from the client
- */
+
+ /**
+  * sets up the endpoint for the random mat api
+  * @param {Object} - app - the express object
+  */
 function randomMat(app){
     app.get('/api/costMatrix/randomMat/:rows/:cols', (request, response) => {
 

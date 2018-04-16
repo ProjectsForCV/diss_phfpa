@@ -1,28 +1,18 @@
+// Title: sendToAgents.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:55:18
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 const sendEmailTo = require('./sendEmailTo');
 const getRowDataAsObjects = require('./getRowDataAsObjects');
 
-/**
- * @callback contentFunction
- * @param {Object} problem
- * @param {Object} agent
- * @param {Object} task
- * @param {Object} organiser
- * @return {string} emailMessage
- */
-
- /**
- * @callback responseCallback
- * @param {string} err
- * @return {string} res
- */
 
 /**
+ * Sends an email to all agents belonging to the provided problemID
  * @param {string} problemID
- * @param {contentFunction} emailContentFunction  
- * @param {contentFunction} subjectContentFunction  
- * @param {responseCallback} callback
+ * @param {(problem, agent, task ,organiser) => string} emailContentFunction  
+ * @param {(problem, agent, task ,organiser) => string}  subjectContentFunction  
+ * @param {(err, res) => } callback
  */
 function sendToAgents(problemID, emailContentFunction, subjectContentFunction, callback) {
     const db = mysql.createConnection(connection);
@@ -31,7 +21,7 @@ function sendToAgents(problemID, emailContentFunction, subjectContentFunction, c
 
     db.query(problemQuery, problemID, (err,res) => {
 
-        const problem = res;
+        const problem = res[0];
         if (problem.Finished) { // Send with survey answers
 
             selectAgentsWithSurveyAnswers(db, problemID, (err, res) => {
@@ -42,6 +32,7 @@ function sendToAgents(problemID, emailContentFunction, subjectContentFunction, c
                     sendEmailTo(emailContent, subject, row.agent.Email);
                     callback(res, err);                    
                 });
+                
             });
             
         } else { // Send without survey answers
@@ -65,7 +56,7 @@ function sendToAgents(problemID, emailContentFunction, subjectContentFunction, c
  * 
  * @param {*} db - database connection 
  * @param {string} problemID  
- * @param {responseCallback} callback 
+ * @param {(err, res)} callback 
  */
 function selectAgentsWithSurveyAnswers(db, problemID, callback) {
     db.query(`SELECT agents.Email, tasks.Name, tasks.TaskID, problem_agents.AnswerID, survey_answers.Cost
@@ -80,6 +71,7 @@ function selectAgentsWithSurveyAnswers(db, problemID, callback) {
     and survey_answers.TaskID = tasks.TaskID` , problemID, (err, res) => {
 
         callback(err, res);
+        // TODO: this is sending organiser name as the task name, check what is happening
         
     });
 
@@ -89,7 +81,7 @@ function selectAgentsWithSurveyAnswers(db, problemID, callback) {
  * 
  * @param {*} db - database connection 
  * @param {string} problemID  
- * @param {responseCallback} callback 
+ * @param {(err, res)} callback 
  */
 function selectAgents(db, problemID, callback) {
     db.query(`SELECT problems.TaskAlias, organisers.Name, problems.AgentAlias, agents.Email, problem_agents.SurveyID

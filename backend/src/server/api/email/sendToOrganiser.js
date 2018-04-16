@@ -1,29 +1,18 @@
+// Title: sendToOrganiser.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:55:07
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 const sendEmailTo = require('./sendEmailTo');
 const getRowDataAsObjects = require('./getRowDataAsObjects');
 
 /**
- * @callback contentFunction
- * @param {Object} problem
- * @param {Object} agent
- * @param {Object} task
- * @param {Object} organiser
- * @return {string} emailMessage
- */
-
- /**
- * @callback responseCallback
- * @param {string} err
- * @return {string} res
- */
-
-/**
+ * Sends an email to the organiser that belongs to the provided problemID
  * @param {string} problemID
- * @param {contentFunction} emailContentFunction  
- * @param {contentFunction} subjectContentFunction  
- * @param {responseCallback} callback
- **/
+ * @param {(problem, agent, task ,organiser) => string} emailContentFunction  
+ * @param {(problem, agent, task ,organiser) => string}  subjectContentFunction  
+ * @param {(err, res) => } callback
+ */
 function sendToOrganiser(problemID, emailContentFunction, subjectContentFunction, callback) {
     const db = mysql.createConnection(connection);
 

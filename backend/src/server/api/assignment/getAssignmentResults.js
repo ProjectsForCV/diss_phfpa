@@ -1,4 +1,22 @@
 
+// Title: getAssignmentResults.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:07:1
+ /**
+
+  /**
+ * @callback responseCallback
+ * @param {Object} err,
+ * @param {Object} res
+ * @returns {void}
+ * 
+ **/
+
+/**
+ * 
+ * @param {string} problemID 
+ * @param {responseCallback} callback 
+ **/
 function getAssignmentResults(problemID, callback) {
    
     const mysql = require('mysql');

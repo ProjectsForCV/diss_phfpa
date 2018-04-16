@@ -19,13 +19,12 @@ export class AgentLandingPageComponent implements OnInit {
   public availableTasks: Task[];
   public selectedTasks: Task[] = [];
   public negativeTasks: Task[] = [];
+
   public completed: boolean;
   public taskAlias = '';
   public availableTaskFilter = '';
-  public filteredList: Task[];
 
   private surveyOptions: SurveyOptions;
-  private lastAvailableTaskDraggedIndex: number;
   private deviceInfo: DeviceInfo;
   private confirmModalRef: BsModalRef;
   private agentAlias: string;
@@ -89,7 +88,7 @@ export class AgentLandingPageComponent implements OnInit {
       };
     });
 
-    const remainingCosts = this.filteredList.map((task) => {
+    const remainingCosts = this.availableTasks.map((task) => {
       return {
         TaskID: task.taskId,
         cost: this.surveyOptions.maxSelection ? this.surveyOptions.maxSelection + 1 : this.allTasks.length
@@ -124,55 +123,41 @@ export class AgentLandingPageComponent implements OnInit {
     this.filterList();
   }
 
-  availableTaskDrag(e, index) {
-    this.lastAvailableTaskDraggedIndex = index;
-  }
 
-  availableTasksDrop(e) {
 
-    this.availableTasks.push(e.value);
-    this.filterList();
-  }
 
 
   selectedTaskDrop(e) {
 
-    if ((this.selectedTasks.length <= this.surveyOptions.maxSelection) || this.surveyOptions.maxSelection === 0) {
+    if ((this.selectedTasks.length > this.surveyOptions.maxSelection) && this.surveyOptions.maxSelection !== 0) {
 
-
-      // Remove from all tasks
-      this.availableTasks.splice(this.lastAvailableTaskDraggedIndex, 1);
-      this.filterList();
-
-    } else {
       // If they have reached the max number of selected tasks don't allow any more to be added
       this.selectedTasks.splice(this.selectedTasks.findIndex(t => t === e.value), 1);
 
-
-
-      this.filterList();
     }
+
+    this.filterList();
   }
   negativeTaskDrop(e) {
-    if (this.negativeTasks.length <= this.surveyOptions.maxOptOut) {
-      // Remove from all tasks
-      this.availableTasks.splice(this.lastAvailableTaskDraggedIndex, 1);
-      this.filterList();
-
-    } else {
+    if (this.negativeTasks.length > this.surveyOptions.maxOptOut) {
       // If they have reached the max number of negative tasks don't allow any more to be added
       this.negativeTasks.splice(this.negativeTasks.findIndex(t => t === e.value), 1);
-      this.filterList();
-
-
     }
+
+    this.filterList();
   }
 
 
   filterList() {
 
 
-    this.filteredList =  this.availableTasks.filter(val => val.taskName.toUpperCase().includes(this.availableTaskFilter.toUpperCase()));
+    this.availableTasks =  this.allTasks.filter(val => {
+      const taskName = val.taskName.toUpperCase();
+      const task = val;
+      return taskName.includes(this.availableTaskFilter.toUpperCase())
+      && !this.selectedTasks.includes(task)
+      && !this.negativeTasks.includes(task);
+    });
 
   }
 

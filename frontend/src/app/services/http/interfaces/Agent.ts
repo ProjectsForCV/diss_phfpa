@@ -4,6 +4,6 @@ export interface Agent {
   email: string;
   agentId?: string;
   surveyID?: string;
-  completed?: string;
+  completed?: boolean;
   answers?: SurveyAnswer[];
 }

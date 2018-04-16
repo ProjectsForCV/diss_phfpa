@@ -60,12 +60,20 @@ export class ResultStatsComponent implements OnInit {
     }) / this.results.length;
   }
 
+  /**
+   * Returns a weighted average rating of the assignment where 1 would mean everyone received their first choice
+   * @returns {number}
+   */
   public getAssignmentRating() {
     return this.results.map(res => res.cost).reduce((acc, curr) => {
       return acc + 1 / curr;
     }, 0) / this.results.length;
   }
 
+  /**
+   * Sets up the data structure required for pie grid api
+   * @returns {{name: string; value: number}[]}
+   */
   public getPieGridResults() {
     const costs = this.results.map(res => res.cost);
 
@@ -101,6 +109,11 @@ export class ResultStatsComponent implements OnInit {
 
   }
 
+  /**
+   * filters results based on a conditional function
+   * @param compareFn
+   * @returns {number}
+   */
   public tallyAssignments(compareFn) {
     return this.results.filter(compareFn).length;
   }

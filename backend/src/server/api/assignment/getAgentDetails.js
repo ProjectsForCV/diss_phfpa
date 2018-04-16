@@ -1,3 +1,17 @@
+// Title: getAgentDetails.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:05:14
+ /**
+ * @callback responseCallback
+ * @param {string} res
+ * @return {string} err
+ */
+/**
+ * returns agent details via a callback
+ * @param {Object} databaseConnection 
+ * @param {string} problemID 
+ * @param {responseCallback} callback 
+ */
 function getAgentDetails(databaseConnection, problemID, callback) {
 
     const db = databaseConnection;

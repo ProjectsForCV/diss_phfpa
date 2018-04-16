@@ -1,3 +1,6 @@
+// Title: survey.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 16:55:29
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 
@@ -16,8 +19,6 @@ function survey(app) {
         const surveyID = requestBody['surveyID'];
         const answers = requestBody['answers'];
         postSurveyAnswers(surveyID, answers, res);
-
-
     })
 }
 
@@ -139,7 +140,7 @@ function checkIfAllSurveysComplete(db, problemID, callback) {
         if (err) {
             callback(err, undefined);
         } else {
-            const numberOfCompletedAgents = res.map(agent => agent.completed).length;
+            const numberOfCompletedAgents = res.filter(agent => agent.completed).length;
             const totalAgents = res.length;
 
             if (numberOfCompletedAgents === totalAgents) {
@@ -149,6 +150,8 @@ function checkIfAllSurveysComplete(db, problemID, callback) {
                     
                     
                 })
+            } else {
+                callback(res, err);
             }
         }
     })

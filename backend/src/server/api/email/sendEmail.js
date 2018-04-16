@@ -1,17 +1,18 @@
-const {
-    spawn
-} = require('child_process');
-
-const nodemailer = require('nodemailer');
-const {
-    exec
-} = require('child_process');
+// Title: sendEmail.js
+// Author: Daniel Cooke 
+// Date: 2018-04-14 15:54:00
+const { spawn } = require('child_process');
+const { exec } = require('child_process');
 const isEmail = require('validator/lib/isEmail');
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 const sendToAgents = require('./sendToAgents');
 const sendToOrganiser = require('./sendToOrganiser');
 
+/**
+ * 
+ * @param {Object} app the express app
+ */
 function sendEmail(app) {
 
     app.post('/api/email/agents/sendSurveys', (request, response) => {
@@ -48,6 +49,7 @@ function sendEmail(app) {
 
        
 
+        
     })
 
     app.post('/api/email/organiser/landingPage', (request, response) => {
@@ -67,7 +69,11 @@ function sendEmail(app) {
     
 }
 
-
+/**
+ * makes a call to the sendToOrganiser module - sends the landing page link to the organiser of a problem
+ * @param {string} problemID 
+ * @param {Function} callback 
+ */
 function sendLandingPageToOrganiser(problemID, callback) {
 
     sendToOrganiser(problemID, 
@@ -94,7 +100,11 @@ function sendLandingPageToOrganiser(problemID, callback) {
     );
 }
 
-
+/**
+ * Makes a call to the sendToAgents module, sends survey links to all the agents belonging to a problemID
+ * @param {string} problemID 
+ * @param {Function} callback 
+ */
 function sendSurveys(problemID, callback) {
 
 
@@ -119,6 +129,11 @@ function sendSurveys(problemID, callback) {
     
 }
 
+/**
+ * Makes a call to the sendToAgents module, sends assignment results to all the agents belonging to a proglem ID
+ * @param {string} problemID 
+ * @param {Function} callback 
+ */
 function sendResults(problemID, callback) {
 
     sendToAgents(problemID, 

@@ -48,6 +48,7 @@ def minimise(mat, rownames = -1, colnames = -1):
     global n, m, step, inputM, inputN
     global coveredCols, coveredRows, smallestUncovered
 
+    
 
 
     # Get dimensions of input matrix
@@ -80,19 +81,57 @@ def minimise(mat, rownames = -1, colnames = -1):
 
     while not solved:
 
-
         if step == 1:
+            print('Step 1:\n')
             __step1__()
+            __getTotalCost__()
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)  
         elif step == 2:
+            print('Step 2:\n')
             __step2__()
+            __getTotalCost__()
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)      
+
         elif step == 3:
+            print('Step 3:\n')
             __step3__()
+            __getTotalCost__()
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)        
         elif step == 4:
+            print('Step 4:\n')
             __step4__()
+            __getTotalCost__()
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)  
+
         elif step == 5:
+            print('Step 5:\n')
             __step5__()
+            __getTotalCost__() 
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)             
         elif step == 6:
+            print('Step 6:\n')
             __step6__()
+            __getTotalCost__()
+            print('Number of Covered cols:')    
+            __printTotal__(coveredCols, 1)
+            print('Number of Covered rows:')    
+            __printTotal__(coveredRows, 1)  
+            
 
 
 
@@ -315,14 +354,32 @@ def __logFinalResult__(rownames, colnames):
                 else:
                     resultPairs[i] = j
 
+    totalCost = 0
+
     if rownames != -1 and colnames != -1:
         for key in resultPairs:
+               
                 print(key + "\t" + resultPairs[key] )
     else:
         for i in range(len(resultPairs)):
             print(str(i) + "\t" + str(resultPairs[i]))
+            totalCost = totalCost + originalMatrix[i][resultPairs[i]]
 
 
+def __printTotal__(array, val):
+    print(array.tolist().count(val))
+
+def __getTotalCost__():
+    global maskMatrix, originalMatrix
+    global inputM, inputN
+
+    totalCost = 0;
+    for i in range(inputN):
+        for j in range(inputM):
+            if maskMatrix[i][j] == 1:
+                totalCost = totalCost + originalMatrix[i][j]
+    
+    print('Total Cost',totalCost)
 def __logMaskMatrix__():
     global maskMatrix
     print("Mask Matrix\n")
@@ -336,13 +393,8 @@ def __logCostMatrix__():
     print(costMatrix)
     print("---------------------")
 
-
-matrix = ast.literal_eval(sys.argv[1])
-if(len(sys.argv) > 2):
-
-    rows = sys.argv[2].split(',')
-    cols = sys.argv[3].split(',')
-    minimise(matrix, rows, cols)
-    __logFinalResult__(rows, cols)
-else:
-    print(__buildOutputString__(minimise(matrix).tolist()))
+import csv
+matrix = list(csv.reader(open(r"E:\Projects\3002-project-allocation\backend\src\server\python\assign\hungarian\\sub_system_last_years_cost_matrix.csv")))
+costMatrix = [[int(y) for y in x] for x in matrix]
+minimise(costMatrix)
+__logFinalResult__(-1, -1)

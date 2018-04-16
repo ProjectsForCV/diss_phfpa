@@ -33,17 +33,15 @@
 
                 <div
                   ngxDroppable="test"
-                  [model]="filteredList"
+                  [model]="availableTasks"
                   [copy]="false"
-                  [ngClass]="{ 'gu-empty': !filteredList?.length }"
+                  [ngClass]="{ 'gu-empty': !availableTasks?.length }"
                   [removeOnSpill]="false"
-                  (drop)="availableTasksDrop($event)"
                   class='ngx-dnd-container scrollBody'>
-                  <ng-container *ngIf="filteredList">
-                    <ng-container *ngFor="let item of filteredList; let i = index">
+                  <ng-container *ngIf="availableTasks">
+                    <ng-container *ngFor="let item of availableTasks; let i = index">
                       <div class="ngx-dnd-item"
                            ngxDraggable
-                           (drag)="availableTaskDrag($event, i)"
                            [model]="item"
                       >
                         {{item.taskName}}
