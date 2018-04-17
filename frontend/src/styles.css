@@ -6,7 +6,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lobster|Oswald');
 
-@import url("../node_modules/font-awesome/css/font-awesome.min.css");
+@import url('./assets/font-awesome/css/fontawesome-all.css');
 
 @import url("../node_modules/@swimlane/ngx-dnd/release/index.css");
 

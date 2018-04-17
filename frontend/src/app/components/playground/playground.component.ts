@@ -49,7 +49,7 @@ export class PlaygroundComponent implements OnInit {
   public solutionSubscriber: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>(null);
   public solvingHungarian: Subscription;
   public solvingGenetic: Subscription;
-  public loadingIcon = 'fa fa-spin fa-spinner';
+  public loadingIcon = 'fab fa-spin fa-spinner';
   public regularIcon = 'glyphicon glyphicon-th';
 
   public solveIconClass: string;
