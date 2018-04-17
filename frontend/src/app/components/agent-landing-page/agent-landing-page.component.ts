@@ -6,6 +6,7 @@ import { SurveyOptions } from '../../services/http/interfaces/SurveyOptions';
 import { DeviceDetectorService, DeviceInfo } from 'ngx-device-detector';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Task } from 'app/services/http/interfaces/Task';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-agent-landing-page',
@@ -28,6 +29,7 @@ export class AgentLandingPageComponent implements OnInit {
   private deviceInfo: DeviceInfo;
   private confirmModalRef: BsModalRef;
   private agentAlias: string;
+  public postingAnswers: Subscription;
 
 
   constructor(public http: HttpSurveyService,
@@ -102,7 +104,7 @@ export class AgentLandingPageComponent implements OnInit {
       answers: answers
     };
     console.log(post);
-    this.http.postSurveyAnswers(post)
+    this.postingAnswers = this.http.postSurveyAnswers(post)
       .subscribe(
         res => {
           this.refreshPage();

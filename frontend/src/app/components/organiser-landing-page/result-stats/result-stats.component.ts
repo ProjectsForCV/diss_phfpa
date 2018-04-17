@@ -42,6 +42,9 @@ export class ResultStatsComponent implements OnInit {
     }
   }
 
+  /**
+   * Populates the resultStats object
+   */
   private getResultStats() {
 
     this.resultStats.agentsAssigned = this.results.length;
@@ -54,6 +57,10 @@ export class ResultStatsComponent implements OnInit {
     this.pieGridResults = this.getPieGridResults();
   }
 
+  /**
+   * Returns the mean cost per assignment
+   * @returns {number}
+   */
   public getMeanCost() {
     return this.results.map(res => res.cost).reduce((acc, curr) => {
       return acc + curr;

@@ -1,7 +1,7 @@
 
 
 <ng-container *ngIf="!completed; else NeedsCompleted">
-  <ng-container *ngIf="isSupportedDevice(); else notSupported">
+  <ng-container *ngIf="isSupportedDevice(); else notSupported" [ngBusy]="postingAnswers">
     <div class="jumbotron animated slideInDown">
       <p>
         Please order the {{taskAlias}}'s by your preference.
@@ -245,7 +245,7 @@
   <h2 class="sectionText">Thank you!</h2>
   <p>You will receive your allocated {{taskAlias}} via email once all other {{agentAlias}}'s have completed their surveys.</p>
 </ng-template>
-<ng-template #confirmSendModal>
+<ng-template #confirmSendModal >
 
   <div class="modal-header">
     <div class="row">

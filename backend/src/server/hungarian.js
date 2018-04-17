@@ -51,7 +51,7 @@ class Hungarian {
         // Make sure matrix has as many rows as columns by appending dummy rows if necessary
         if (rows < cols) {
             while (this.costMatrix.length < this.costMatrix[0].length) {
-                this.costMatrix.push(Array.from({length: cols}, ()=>0))
+                this.costMatrix.push(Array.from({length: cols}, () =>0) )
             }
         }
 

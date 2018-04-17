@@ -5,10 +5,38 @@
   padding: 5%;
 }
 
+.shadow-one {
+  box-shadow: 18px 17px #2e5965;
+}
+.shadow-two {
+  box-shadow: 18px 17px #0c3d4e;
+}
 .home-page-playground-info {
   padding: 5%;
   background: #346878;
   width: 100%;
+}
+
+th {
+  border: none;
+}
+th.columnTitle{
+  text-align: center;
+}
+
+th.rowTitle {
+  text-align: right;
+}
+table >tr {
+  border: none;
+}
+table {
+  border: none;
+}
+tr > td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 5%;
 }
 
 .home-page-assignment-info {
@@ -16,12 +44,13 @@
   background: #114B5F;;
   width: 100%;
 }
-.jumbotron {
-  background: white;
-}
 
 .white {
   color:white;
+}
+
+a {
+  color:#5cb85c;
 }
 
 .imgLink {

@@ -4,55 +4,134 @@
   <div class="row">
     <br>
   </div>
-  <div class="row">
 
 
-    <div class="col-xs-6">
-      <div class="col-xs-12 text-center">
-        <label class="sectionText">
-          Most Popular {{assignment?.taskAlias}} -
-        </label>
-        <label class="sectionText-sm">{{mostPopularTask?.taskName}}</label>
+
+  <ng-container #taskRatings *ngIf="graphData && graphData.length > 0">
+    <ng-container #moreThan6Tasks *ngIf="graphData.length >= 6">
+
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <label class="labelDesktop">
+                Most Popular {{assignment?.taskAlias || 'Task'}} -
+              </label>
+              <label class="sectionText-sm">{{mostPopularTask?.taskName}}</label>
+              <span class="glyphicon glyphicon-question-sign" tooltip="Scores are calculated using the Lower bound of Wilson score confidence interval for a Bernoulli parameter">
+
+
+              </span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <ngx-charts-bar-horizontal
+                [results]="top3Tasks"
+                [yAxis]="true"
+                [xAxis]="true"
+                [showGridLines]="true"
+                [showXAxisLabel]="true"
+                [xAxisLabel]="'Score'"
+              >
+
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <label class="labelDesktop">
+                Least Popular {{assignment?.taskAlias || 'Task'}} -
+              </label>
+              <label class="sectionText-sm">{{leastPopularTask?.taskName}}</label>
+              <span class="glyphicon glyphicon-question-sign" tooltip="Scores are calculated using the Lower bound of Wilson score confidence interval for a Bernoulli parameter">
+
+              </span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <ngx-charts-bar-horizontal
+                [results]="worst3Tasks"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showGridLines]="true"
+                [showXAxisLabel]="true"
+                [xAxisLabel]="'Score'"
+              >
+
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <ng-container #lessThan6Tasks *ngIf="graphData.length < 6">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+
+            <div class="col-xs-6 text-center">
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="sectionText">
+                    Most Popular {{assignment?.taskAlias || 'Task'}} -
+                  </label>
+                  <label class="sectionText-sm">{{mostPopularTask?.taskName}}</label>
+                </div>
+
+                <div class="col-xs-12">
+                  <label class="sectionText">
+                    Least Popular {{assignment?.taskAlias || 'Task'}} -
+                  </label>
+                  <label class="sectionText-sm">{{leastPopularTask?.taskName}}</label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-xs-6">
+              <div class="row">
+                <div class="col-xs-12 text-center">
+                  <label class="labelMobile">Task Scores
+                    <span class="glyphicon glyphicon-question-sign" tooltip="Scores are calculated using the Lower bound of Wilson score confidence interval for a Bernoulli parameter">
+
+                  </span></label>
+                </div>
+              </div>
+              <ngx-charts-bar-horizontal
+                [results]="graphData"
+                [yAxis]="true"
+                [xAxis]="true"
+                [showGridLines]="true"
+                [showXAxisLabel]="true"
+                [xAxisLabel]="'Score'"
+              >
+
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+
+
+
+
+        </div>
+
 
       </div>
 
-      <div class="col-xs-12 " *ngIf="firstChoiceTasks">
-        <ngx-charts-pie-chart
-          class="pull-left"
-          *ngIf="mostPopularTasksGraphData && mostPopularTasksGraphData?.length > 0"
-          [results]="mostPopularTasksGraphData"
-          [labels]="true"
-          [tooltipText]="mostPopularChoiceTooltipFunction"
-        >
-
-        </ngx-charts-pie-chart>
-      </div>
-    </div>
-
-    <div class="col-xs-6">
-      <div class="col-xs-12 text-center">
-        <label class="sectionText">
-          Least Popular {{assignment?.taskAlias}} -
-        </label>
-        <label class="sectionText-sm">{{leastPopularTask?.taskName}}</label>
-
-      </div>
-
-      <div class="col-xs-12" *ngIf="leastPopularTasks">
-        <ngx-charts-pie-chart
-          class="pull-left"
-          *ngIf="leastPopularTasksGraphData && leastPopularTasksGraphData?.length > 0"
-          [results]="leastPopularTasksGraphData"
-          [labels]="true"
-          [tooltipText]="leastPopularChoiceTooltipFunction"
-        >
-
-        </ngx-charts-pie-chart>
-      </div>
+    </ng-container>
+  </ng-container>
 
 
-    </div>
-  </div>
   <div class="row">
     <hr>
   </div>

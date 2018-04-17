@@ -59,6 +59,7 @@ export class NewProblemComponent implements OnInit {
   public surveyOptions: SurveyOptions;
   public emailSubscription: Subscription;
   public base64ImageString: string;
+  public creatingAssignment: Subscription;
 
   constructor(public http: HttpAssignmentService,
               public modal: BsModalService,
@@ -225,7 +226,7 @@ export class NewProblemComponent implements OnInit {
       image: this.base64ImageString
     };
 
-    this.http.postNewAssignment(assignment)
+    this.creatingAssignment = this.http.postNewAssignment(assignment)
       .subscribe(
         res => this.problemCreated(res),
               err => console.error(err),

@@ -1,5 +1,6 @@
 import { Agent } from './Agent';
 import { SurveyOptions } from './SurveyOptions';
+import { Task } from 'app/services/http/interfaces/Task';
 
 export interface Assignment {
   assignmentTitle: string;

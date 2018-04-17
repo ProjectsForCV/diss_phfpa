@@ -23,7 +23,7 @@ export class SurveyOptionsComponent implements OnInit {
       maxSelection: parseInt(this.selectedMax, 10),
       message: this.message,
       allowOptOut: this.optOut,
-      maxOptOut: parseInt(this.optOutMax, 10)
+      maxOptOut: this.optOut ? parseInt(this.optOutMax, 10) : undefined
     };
   }
   constructor() { }

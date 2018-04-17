@@ -6,14 +6,20 @@
   text-align: center;
 }
 
-
 li {
   display: inline;
   font-family: 'Arvo';
   color: white;
   font-size: 20pt;
 
+
 }
+
+
+
+
+
+
 
 
 .active-tab {

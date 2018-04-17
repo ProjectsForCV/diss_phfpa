@@ -49,10 +49,11 @@ export class PlaygroundComponent implements OnInit {
   public solutionSubscriber: BehaviorSubject<number[][]> = new BehaviorSubject<number[][]>(null);
   public solvingHungarian: Subscription;
   public solvingGenetic: Subscription;
-  public loadingIcon = 'fab fa-spin fa-spinner';
+  public loadingIcon = 'fas fa-spin fa-spinner';
   public regularIcon = 'glyphicon glyphicon-th';
 
   public solveIconClass: string;
+  public solveButtonText = 'Solve';
 
   public options: SolveOptions = <SolveOptions> {
     algorithm: 'hungarian',
@@ -100,7 +101,7 @@ export class PlaygroundComponent implements OnInit {
     } else {
       this.geneticMatrices = undefined;
       this.solution = undefined;
-      this.solvingGenetic = this.http.postSolveMatrix(this.matrix, this.options.geneticOptions ,this.getRowNames(), this.getColNames())
+      this.solvingGenetic = this.http.postSolveMatrix(this.matrix, this.options.geneticOptions , this.getRowNames(), this.getColNames())
         .subscribe(
           (res) => {
             return this.geneticMatrices = res;
@@ -126,6 +127,7 @@ export class PlaygroundComponent implements OnInit {
 
   isLoading(loading: boolean) {
     this.setSolveButtonIcon(loading);
+    this.solveButtonText = loading ? 'Solving' : 'Solve';
   }
   setSolveButtonIcon(loading: boolean) {
 
