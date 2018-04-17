@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { Task } from '../../../services/http/interfaces/Task';
 import { SolveOptions } from '../SolveOptions';
@@ -9,8 +9,7 @@ import { SolveOptions } from '../SolveOptions';
   templateUrl: './solve-options.component.html',
   styleUrls: ['./solve-options.component.css']
 })
-export class SolveOptionsComponent implements OnInit {
-
+export class SolveOptionsComponent implements OnInit, OnChanges {
   @Input()
   public options: SolveOptions;
 
@@ -27,9 +26,13 @@ export class SolveOptionsComponent implements OnInit {
       };
     });
   }
-  constructor() { }
 
+  constructor() { }
   ngOnInit() {
+    this.createTasks();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.createTasks();
   }
 

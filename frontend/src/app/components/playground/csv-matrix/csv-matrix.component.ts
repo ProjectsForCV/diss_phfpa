@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AgentTaskMode } from '../../new-problem/AgentTaskMode';
 import { HttpCSVService } from '../../../services/http/http-csv-service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-csv-matrix',
@@ -16,6 +17,7 @@ export class CsvMatrixComponent implements OnInit {
   private _fileList: FileList;
 
   public fileName = 'No file chosen';
+  public postingCostMatrix: Subscription;
 
   constructor(public http: HttpCSVService) { }
 
@@ -37,7 +39,8 @@ export class CsvMatrixComponent implements OnInit {
   upload() {
     const csv = this.getFile();
 
-    this.http.postCostMatrixCSV(csv)
+    this.matrixSubscription.next(null);
+    this.postingCostMatrix = this.http.postCostMatrixCSV(csv)
       .subscribe(
         res => this.matrixSubscription.next(res)
       );

@@ -21,7 +21,7 @@ function sendEmail(app) {
         const problemID = request.body['assignmentId'];
     
 
-        sendSurveys(problemID, (err, res) => {
+        sendSurveys(problemID, (res,err) => {
 
             if (err) {
                 response.status(500).end();

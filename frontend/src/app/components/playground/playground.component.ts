@@ -40,6 +40,7 @@ export class PlaygroundComponent implements OnInit {
   public matrix: number[][];
 
   public geneticMatrices: GeneticMatrix[];
+  public activeTab: string;
 
   /*
    DCOOKE 28/01/2018 - This is similar to the matrix subscriber , the only difference is this object is concerned with
@@ -142,6 +143,7 @@ export class PlaygroundComponent implements OnInit {
     this.setSolveButtonIcon(false);
     this.matrixSubscriber.subscribe(
       (mat) => {
+
         if (!mat) {
           this.solution = undefined;
           this.solutionSubscriber.next(null);
@@ -150,6 +152,7 @@ export class PlaygroundComponent implements OnInit {
           this.solvingHungarian = undefined;
         }
         this.matrix = mat;
+        this.costMatrixChanged();
 
       }
     );
@@ -163,6 +166,25 @@ export class PlaygroundComponent implements OnInit {
         }
       }
     );
+  }
+  costMatrixChanged() {
+    this.resetOptions();
+    this.activeTab = 'matrix';
+
+  }
+
+  resetOptions() {
+    this.options = <SolveOptions> {
+      algorithm: 'hungarian',
+      geneticOptions: <GeneticOptions> {
+        distanceThreshold: 3,
+        groups: [],
+        returnedCandidates: 3,
+        populationSize: 40,
+        maxGenerations: 15,
+        mutationChance: 50
+      }
+    };
   }
 
 }
