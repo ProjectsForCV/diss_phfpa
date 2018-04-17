@@ -18,11 +18,7 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-
-        "../node_modules/font-awesome/css/font-awesome.min.css",
-        "styles.css",
-        "../node_modules/@swimlane/ngx-dnd/release/index.css",
-        "../node_modules/ng-busy/src/style/busy.css"
+        "styles.css"
       ],
       "scripts": [],
       "environmentSource" : "environments/environment.ts",

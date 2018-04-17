@@ -6,6 +6,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lobster|Oswald');
 
+@import url("../node_modules/font-awesome/css/font-awesome.min.css");
+
+@import url("../node_modules/@swimlane/ngx-dnd/release/index.css");
+
+@import url("../node_modules/ng-busy/src/style/busy.css");
+
 
 
 
