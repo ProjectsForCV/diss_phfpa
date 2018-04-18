@@ -62,8 +62,6 @@ import { ExpandablePanelComponent } from './shared/expandable-panel/expandable-p
 import { HungarianResultsComponent } from './organiser-landing-page/actions/hungarian-results/hungarian-results.component';
 import { AssignmentResultsTableComponent } from './organiser-landing-page/actions/genetic-assignments/assignment-results-table.component';
 import { SolutionService } from '../services/solution-service';
-import 'hammerjs';
-
 /*
  DCOOKE 28/01/2018 - I will be storing the application routes here as there will not be enough routes to warrant a
  separate file
