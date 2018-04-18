@@ -62,7 +62,6 @@ import { ExpandablePanelComponent } from './shared/expandable-panel/expandable-p
 import { HungarianResultsComponent } from './organiser-landing-page/actions/hungarian-results/hungarian-results.component';
 import { AssignmentResultsTableComponent } from './organiser-landing-page/actions/genetic-assignments/assignment-results-table.component';
 import { SolutionService } from '../services/solution-service';
-import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
 /*
@@ -138,8 +137,7 @@ const appRoutes: Routes = [
     ProgressbarModule.forRoot(),
     DeviceDetectorModule.forRoot(),
     NgxChartsModule,
-    TooltipModule.forRoot(),
-    NgxCarouselModule
+    TooltipModule.forRoot()
   ],
   providers: [
     AlertService,
