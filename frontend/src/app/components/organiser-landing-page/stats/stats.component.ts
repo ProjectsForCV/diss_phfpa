@@ -99,17 +99,17 @@ export class StatsComponent implements OnInit {
       };
     });
 
-    if (this.graphData.length >= 6) {
-      this.top3Tasks = this.graphData.slice(0, 3);
-      this.worst3Tasks = this.graphData.slice(this.graphData.length - 3, this.graphData.length);
-    }
+
 
 
 
     this.maxSelection = this.assignment.surveyOptions.maxSelection === 0
       ? this.assignment.tasks.length + 1 : this.assignment.surveyOptions.maxSelection + 1;
 
-
+    if (this.graphData.length >= 6) {
+      this.top3Tasks = this.graphData.slice(0, 3);
+      this.worst3Tasks = this.graphData.slice(this.graphData.length - 3, this.graphData.length);
+    }
 
   }
 
