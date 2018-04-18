@@ -1,15 +1,12 @@
 
 
 
-<div class="container" style="padding-top:10%;" >
-
-  <div class="row">
-    <br>
-  </div>
+<div class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3 content-container">
 
   <div  style="margin-top: 10%">
     <h2 class="sectionText">Generate a random cost matrix or upload your own CSV.</h2>
   </div>
+
   <div class="row">
     <br>
   </div>
@@ -17,13 +14,7 @@
     <br>
   </div>
   <div class="row">
-    <br>
-  </div>
-  <div class="row">
-    <br>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-10 col-xs-offset-1 animated fadeIn">
 
       <tabset>
         <tab >
@@ -36,7 +27,7 @@
 
             <div class="panel panel-default">
 
-              <div class="panel panel-body">
+              <div class="panel panel-body animated fadeIn">
 
                 <app-generator
                   [matrixSubscription]="matrixSubscriber"
@@ -55,7 +46,7 @@
             CSV
           </ng-template>
 
-          <div class="row">
+          <div class="row animated fadeIn">
             <div class="col-xs-10 col-xs-offset-1">
               <app-csv-matrix [matrixSubscription]="matrixSubscriber"></app-csv-matrix>
             </div>
@@ -83,7 +74,7 @@
           <ng-template tabHeading>
             Cost Matrix
           </ng-template>
-          <div class="panel panel-default ">
+          <div class="panel panel-default animated fadeIn">
 
             <div class="panel-body">
 
@@ -105,20 +96,26 @@
 
           </ng-template>
 
+
+          <span class="animated fadeIn">
           <app-solve-options
+
 
             [options]="options"
             [matrix]="matrix"
           >
 
           </app-solve-options>
+          </span>
 
 
 
         </tab>
       </tabset>
 
-      <div class="row">
+      <div class="col-xs-12 animated fadeIn">
+
+
         <div class="text-center">
           <div class="btn btn-success" style="margin-bottom:5%;font: 21pt 'Oswald';" (click)="solve()">
             {{solveButtonText}} <i class="{{solveIconClass}}"></i>
@@ -128,9 +125,6 @@
       </div>
     </div>
 
-    <div class="row">
-      <hr>
-    </div>
 
       <app-expandable-panel
         *ngIf="solution && matrix"
@@ -202,10 +196,10 @@
 
 
   </div>
-
+  <div style="height:400px; display:block;"></div>
 </div>
 
-  <div style="height:400px;"></div>
+
 
 
 

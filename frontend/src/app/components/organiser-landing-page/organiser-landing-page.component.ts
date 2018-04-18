@@ -6,6 +6,8 @@ import { HttpEmailService } from '../../services/http/http-email-service';
 import { HttpCostMatrixService } from '../../services/http/http-cost-matrix';
 import { Agent } from '../../services/http/interfaces/Agent';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription } from 'rxjs/Subscription';
+import { ErrorHandlingService } from '../../services/error-handling-service/error-handling-service';
 
 @Component({
   selector: 'app-organiser-landing-page',
@@ -21,18 +23,20 @@ export class OrganiserLandingPageComponent implements OnInit {
   public numberOfCompletedSurveys: number;
   private allSurveysFinished: boolean;
   private atLeastOneSurveyAnswered: boolean;
+  public loadingAssignment: Subscription;
   constructor(public route: ActivatedRoute,
               public http: HttpAssignmentService,
               public httpCostMatrix: HttpCostMatrixService,
               public httpEmail: HttpEmailService,
-              public san : DomSanitizer
+              public san: DomSanitizer,
+              public error: ErrorHandlingService
   ) {
 
   }
 
   sendOrganserEmail() {
     this.httpEmail.sendLandingPageLinkToOrganiser(this.assignmentId)
-      .subscribe(res => console.log(res))
+      .subscribe(res => console.log(res));
   }
   sendTasksToAgents () {
     this.httpEmail.sendResultsToAgents(this.assignmentId)
@@ -62,7 +66,7 @@ export class OrganiserLandingPageComponent implements OnInit {
   }
   private getAssignment() {
 
-    this.http.getAssignmentInfo(this.assignmentId)
+    this.loadingAssignment = this.http.getAssignmentInfo(this.assignmentId)
       .subscribe(
         (res: Assignment) => {
           this.assignment = res;
@@ -71,7 +75,8 @@ export class OrganiserLandingPageComponent implements OnInit {
 
           this.areAllSurveysFinished();
           console.log(this.assignment);
-        }
+        },
+        (err) => this.error.handleError(err)
       );
   }
 

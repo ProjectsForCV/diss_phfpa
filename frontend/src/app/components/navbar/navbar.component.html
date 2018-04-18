@@ -1,17 +1,28 @@
 <div class="navbar-container">
-  <ul class="row">
-    <span class="col-xs-4">
-      <li class="{{homeCss}}" (click)="navigate('/')">home</li>
-    </span>
 
-    <span class="col-xs-4">
-      <li class="{{playgroundCss}}" (click)="navigate('/playground')">playground</li>
+  <span class="button-container">
+    <div class="btn-group">
+    <label class="btn"  (click)="navigate('/')" [(ngModel)]="activeTab"
+           btnRadio="home" tabindex="0" role="button">
 
-    </span>
-    <span class="col-xs-4">
-      <li class="{{assignmentCss}}" (click)="navigate('/new-problem')" >new assignment</li>
+      <div class="glyphicon glyphicon-home icon" ></div>
+      Home
+    </label>
+    <label class="btn"  (click)="navigate('/playground')" [(ngModel)]="activeTab"
+           btnRadio="playground" tabindex="0" role="button">
+      <span class="glyphicon glyphicon-th icon"></span>
+      Playground
+    </label>
+    <label class="btn"  (click)="navigate('/new-problem')" [(ngModel)]="activeTab"
+           btnRadio="assignment" tabindex="0" role="button">
+      <span class="fas fa-plus-square icon"></span>
+      <span class="icon"></span>
+      Create Assignment
+    </label>
+  </div>
+  </span>
 
-    </span>
 
-  </ul>
 </div>
+
+

@@ -4,6 +4,31 @@
   width: 100%;
   padding: 5%;
 }
+.leftRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+  border-radius: 999px;
+  opacity: 0.4;
+  left: 0;
+}
+
+.rightRs {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+  border-radius: 999px;
+  opacity: 0.4;
+  right: 0;
+}
 
 .shadow-one {
   box-shadow: 18px 17px #2e5965;
@@ -49,6 +74,30 @@ tr > td {
   color:white;
 }
 
+
+.thumbnail {
+  position: relative;
+
+}
+
+.caption {
+  position: absolute;
+  top: 45%;
+  left: 0;
+
+  height:35%;
+  width: 100%;
+  background: black;
+  opacity: 0.5;
+  box-shadow: 4px 2px 20px 20px #afafaf;
+}
+
+
+.image-container {
+  background: black;
+  z-index: 200;
+  opacity: 0.4;
+}
 a {
   color:#5cb85c;
 }

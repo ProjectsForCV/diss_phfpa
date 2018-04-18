@@ -1,0 +1,41 @@
+.next {
+  position: fixed;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 180px;
+  height: 55px;
+  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+
+  right: 0;
+
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  background: #114b5f;
+  font-size: 20pt;
+  font-family: 'Arvo';
+}
+
+.next:hover,
+.back:hover {
+  color:red;
+}
+.back {
+  position: fixed;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  width: 180px;
+  height: 55px;
+  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+
+  left: 0;
+
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  background: #114b5f;
+  font-size: 20pt;
+  font-family: 'Arvo';
+}

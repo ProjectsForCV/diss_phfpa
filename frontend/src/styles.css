@@ -45,19 +45,13 @@
   margin-right:0px;
 }
 
-.continue-button {
-  font-family: 'Arvo';
-  font-size: 21pt;
-  color: #a9a9a9;
-}
+
 
 .btn-light{
   font-family: 'Arvo', bold;
 }
 
-.continue-button:hover {
-  color: #114B5F;
-}
+
 
 .helpText {
   color: #777777;
@@ -154,6 +148,11 @@ h4 {
   margin-bottom:4%;
 }
 
+.content-container{
+  background: white;
+  border: 2px solid #dad9d9;
+  box-shadow: -1px 19px 20px 11px #e1e1e2;
+}
 .panel
 .panel-body {
   border: 0;
@@ -170,6 +169,7 @@ h4 {
   font-family: 'Arvo', bold;
   color: #777777;
 }
+
 
 
 p {
@@ -194,5 +194,5 @@ html, body {
   height: 100%;
   position: relative;
   padding: 0;
-  background: white;
+  background: #eee;
 }

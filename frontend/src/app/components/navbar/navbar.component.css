@@ -1,9 +1,15 @@
 .navbar-container {
   width: 100%;
   display: block;
-  background:#114B5F;
-  padding:0px;
-  text-align: center;
+
+  position: fixed;
+  bottom: 0;
+  border: 2px solid #dad9d9;
+  background: white;
+}
+
+.button-container {
+  text-align: left;
 }
 
 li {
@@ -15,29 +21,28 @@ li {
 
 }
 
+.btn {
 
-
-
-
-
-
-
-.active-tab {
-  color: white;
-  text-decoration: underline;
-
+  color: #b3b3b3;
+  padding: 10px 40px;
 }
 
-.tab:hover {
-  color: #9FC490;
-  cursor: pointer;
+
+
+
+.icon {
+  display:block;
+}
+.active {
+
+  color: #808080;
 }
 
-.tab {
-  background: #114B5F;
-  padding: 8px;
 
-  z-index: -1;
+
+.btn:hover {
+  color: #808080;
+
 }
 
 

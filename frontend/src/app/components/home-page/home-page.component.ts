@@ -7,6 +7,7 @@
  */
 import { animate, Component, OnInit, state, style, transition, trigger } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxCarousel } from 'ngx-carousel';
 
 /*
  DCOOKE 28/01/2018 - most of this meta-data is concerned with animations
@@ -19,53 +20,31 @@ import { Router } from '@angular/router';
 
 export class HomePageComponent implements OnInit {
 
-  /*
-   DCOOKE 28/01/2018 - the continue button will control the flow of the pages
-   */
-  continueButtonVisible = false;
-
-  /*
-   DCOOKE 28/01/2018 - the page that the user is presented with is controlled by this variable
-   */
-  page = 0;
+  public carousel: NgxCarousel;
 
   constructor(public router: Router) { }
 
   ngOnInit() {
-    this.hideContinueButton();
+    this.carousel = {
+      grid: {xs: 1, sm: 1, md: 1, lg: 1, all: 0},
+      slide: 1,
+      speed: 1000,
+      interval: 100000,
+      point: {
+        visible: true
+      },
+      load: 2,
+      touch: true,
+      loop: true,
+      custom: 'banner'
+    };
   }
 
-  /*
-   DCOOKE 28/01/2018 - this method will be called anytime the page is changed, so the continue button is not present
-   immediately for cosmetic purposes.
-   */
-  hideContinueButton() {
-    this.continueButtonVisible = false;
-    if (this.page !== 3) {
-      setTimeout(() => {
-        this.continueButtonVisible = true;
-      }, 100);
-    }
-  }
+  onLoadCarousel(event) {
 
-  /*
-   DCOOKE 28/01/2018 - called when the continue button is pressed, will move to the next page
-   */
-  next() {
-    this.page++;
-    this.hideContinueButton();
 
   }
 
-  /*
-   DCOOKE 28/03/2018 - used to scroll the screen to the specified element
-  /*
-
-
-   */
-  scrollTo(el) {
-    el.scrollIntoView();
-  }
   /*
    DCOOKE 28/01/2018 - navigates away from this route to the specified route in the param
    */

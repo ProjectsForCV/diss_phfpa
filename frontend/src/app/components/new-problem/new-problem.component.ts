@@ -181,13 +181,13 @@ export class NewProblemComponent implements OnInit {
 
     if (page === 1 && this.assignmentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'NEXT';
+      this.continueButtonText = 'Next';
       return;
     }
 
     if (page === 2 && this.agentDetailsComplete) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'NEXT';
+      this.continueButtonText = 'Next';
       return;
     }
 
@@ -196,7 +196,7 @@ export class NewProblemComponent implements OnInit {
 
 
       this.continueButtonVisible = true;
-      this.continueButtonText = 'NEXT';
+      this.continueButtonText = 'Next';
       return;
     }
 
@@ -204,7 +204,7 @@ export class NewProblemComponent implements OnInit {
 
     if (page === 4) {
       this.continueButtonVisible = true;
-      this.continueButtonText = 'FINISH';
+      this.continueButtonText = 'Finish';
       return;
     }
 

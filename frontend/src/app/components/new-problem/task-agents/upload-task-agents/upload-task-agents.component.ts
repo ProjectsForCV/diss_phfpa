@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { HttpCSVService } from '../../../../services/http/http-csv-service';
 import { AlertService } from '../../../../services/alert-service/alert-service';
 import { ErrorHandlingService } from '../../../../services/error-handling-service/error-handling-service';

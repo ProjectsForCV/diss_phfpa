@@ -1,7 +1,7 @@
-
-<div class="container home-page-info">
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
+<div class="content-container col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
+  <div class="container home-page-info">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 col-lg-8 col-lg-offset-2">
 
         <div class="row">
           <br>
@@ -11,126 +11,128 @@
         <div class="jumbotron" style="text-align: center">
           <h2 class="sectionText">Welcome!</h2>
           <hr>
-          <p class="animated fadeIn sectionText" *ngIf="page ==0">This application is designed to solve the <a href="https://en.wikipedia.org/wiki/Assignment_problem">Assignment Problem</a> using
+          <p class="animated fadeIn sectionText">This application is designed to solve the <a href="https://en.wikipedia.org/wiki/Assignment_problem">Assignment Problem</a> using
             various algorithms.
           </p>
 
         </div>
 
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <label class="labelDesktop">The Assignment Problem</label>
       </div>
+    </div>
 
-      <div class="panel-body">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <label class="labelDesktop">The Assignment Problem</label>
+        </div>
 
-        <div class="col-xs-6">
+        <div class="panel-body">
+
+          <div class="col-xs-6">
           <span class="animated fadeIn sectionText-sm">
           The linear assignment problem is the problem of choosing the optimal assignment of <b>n agents</b> to <b>m tasks </b> assuming numerical <b>(cost) values </b>are given for each agents preference to each task
         </span>
 
-          <hr>
-          <span class="animated fadeIn sectionText-sm">
+            <hr>
+            <span class="animated fadeIn sectionText-sm">
           The problem can be thought of in terms of a n x n matrix of costs where each row represents an agent and each column represents a task. C<sub>x,y</sub> then represents a cost value for a given assignment of agent to task at that position.
         </span>
+          </div>
+
+          <div class="col-xs-6 center-block text-center">
+
+            <table style="margin-left:25%">
+              <thead>
+              <th class="columnTitle"></th>
+              <th class="columnTitle">t1</th>
+              <th class="columnTitle">t2</th>
+              <th class="columnTitle">t3</th>
+              </thead>
+              <tr>
+                <th class="rowTitle">a0</th>
+                <td>C<sub>a0,t0</sub></td>
+                <td>C<sub>a0,t1</sub></td>
+                <td>C<sub>a0,t2</sub></td>
+              </tr>
+              <tr>
+                <th class="rowTitle" >a1</th>
+                <td>C<sub>a1,t0</sub></td>
+                <td>C<sub>a1,t1</sub></td>
+                <td>C<sub>a1,t2</sub></td>
+              </tr>
+              <tr>
+                <th class="rowTitle">a2</th>
+                <td>C<sub>a2,t0</sub></td>
+                <td>C<sub>a2,t1</sub></td>
+                <td>C<sub>a2,t2</sub></td>
+              </tr>
+
+            </table>
+
+          </div>
+
+
+
+
+
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="col-xs-6 center-block text-center">
+  <div class="container home-page-playground-info" #playground>
+    <div class="row">
+      <h2>Playground</h2>
 
-              <table style="margin-left:25%">
-                <thead>
-                <th class="columnTitle"></th>
-                <th class="columnTitle">t1</th>
-                <th class="columnTitle">t2</th>
-                <th class="columnTitle">t3</th>
-                </thead>
-                <tr>
-                  <th class="rowTitle">a0</th>
-                  <td>C<sub>a0,t0</sub></td>
-                  <td>C<sub>a0,t1</sub></td>
-                  <td>C<sub>a0,t2</sub></td>
-                </tr>
-                <tr>
-                  <th class="rowTitle" >a1</th>
-                  <td>C<sub>a1,t0</sub></td>
-                  <td>C<sub>a1,t1</sub></td>
-                  <td>C<sub>a1,t2</sub></td>
-                </tr>
-                <tr>
-                  <th class="rowTitle">a2</th>
-                  <td>C<sub>a2,t0</sub></td>
-                  <td>C<sub>a2,t1</sub></td>
-                  <td>C<sub>a2,t2</sub></td>
-                </tr>
+    </div>
 
-              </table>
+    <div class="col-xs-12">
+      <div class="col-xs-9">
+        <img src="../../../assets/playground.PNG" class="img-responsive img-rounded shadow-one  ">
+      </div>
+      <div class="col-xs-3">
+        <p class="sectionText-sm white">The playground allows you to generate a random cost matrix or upload your own CSV cost matrix.</p>
 
+        <hr>
+        <p class="sectionText-sm white">Here you can play with the various algorithms and view assignments in real time.</p>
+
+        <div class="center-block text-center">
+          <button class="btn btn-success" (click)="navigate('playground')">Go to Playground</button>
         </div>
-
-
-
-
-
       </div>
     </div>
   </div>
-</div>
 
-<div class="container home-page-playground-info" #playground>
-  <div class="row">
-    <h2>Playground</h2>
-
-  </div>
-
-  <div class="col-xs-12">
-    <div class="col-xs-9">
-      <img src="../../../assets/playground.PNG" class="img-responsive img-rounded shadow-one  ">
+  <div class="container home-page-assignment-info" #assignment>
+    <div class="row">
+      <h2>Custom Assignment</h2>
     </div>
-    <div class="col-xs-3">
-      <p class="sectionText-sm white">The playground allows you to generate a random cost matrix or upload your own CSV cost matrix.</p>
 
-      <hr>
-      <p class="sectionText-sm white">Here you can play with the various algorithms and view assignments in real time.</p>
+    <div class="col-xs-12">
+      <div class="col-xs-9">
+        <img src="../../../assets/assignment.PNG" class="img-responsive img-rounded shadow-two ">
+      </div>
+      <div class="col-xs-3">
+        <p class="sectionText-sm white">
+          You may also wish to use the application for real-world scenarios.
+        </p>
 
-      <div class="center-block text-center">
-        <button class="btn btn-success" (click)="navigate('playground')">Go to Playground</button>
+        <p class="sectionText-sm white">
+          In that case you can create a custom assignment which will allow you to survey agents via email and collect
+          preference details.
+        </p>
+        <hr>
+
+        <p class="sectionText-sm white">
+          From here you can view detailed stats about the assignment using various algorithms.
+        </p>
+
+        <div class="center-block text-center">
+          <button class="btn btn-success" (click)="navigate('new-problem')">Create Custom Assignment</button>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="container home-page-assignment-info" #assignment>
-  <div class="row">
-    <h2>Custom Assignment</h2>
-  </div>
-
-  <div class="col-xs-12">
-    <div class="col-xs-9">
-      <img src="../../../assets/assignment.PNG" class="img-responsive img-rounded shadow-two ">
-    </div>
-    <div class="col-xs-3">
-      <p class="sectionText-sm white">
-        You may also wish to use the application for real-world scenarios.
-      </p>
-
-      <p class="sectionText-sm white">
-        In that case you can create a custom assignment which will allow you to survey agents via email and collect
-        preference details.
-      </p>
-      <hr>
-
-      <p class="sectionText-sm white">
-        From here you can view detailed stats about the assignment using various algorithms.
-      </p>
-
-      <div class="center-block text-center">
-        <button class="btn btn-success" (click)="navigate('new-problem')">Create Custom Assignment</button>
-      </div>
-    </div>
   </div>
 
 </div>

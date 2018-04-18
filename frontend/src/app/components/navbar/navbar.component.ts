@@ -8,9 +8,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  public playgroundCss = 'tab';
-  public homeCss = 'active-tab';
-  public assignmentCss = 'tab';
+  public activeTab = 'home';
 
   constructor(public router: Router) { }
 
@@ -34,16 +32,15 @@ export class NavbarComponent implements OnInit {
 
   private updateActiveTab(url) {
     const route = url;
-    this.playgroundCss = 'tab';
-    this.homeCss = 'tab';
-    this.assignmentCss = 'tab';
+
 
     if (route.includes('playground')) {
-      this.playgroundCss = 'active-tab';
+      this.activeTab = 'playground';
     } else if (route.includes('problem')) {
-      this.assignmentCss = 'active-tab';
+      this.activeTab = 'assignment';
     } else {
-      this.homeCss = 'active-tab';
+      this.activeTab = 'home';
+
     }
   }
 }
