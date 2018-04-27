@@ -7,8 +7,8 @@
 
 
 
-  <ng-container #taskRatings *ngIf="graphData && graphData.length > 0">
-    <ng-container #moreThan6Tasks *ngIf="graphData.length >= 6">
+  <ng-container #taskRatings *ngIf="numberOfTasks > 0">
+    <ng-container #moreThan6Tasks *ngIf="numberOfTasks >= 6">
 
       <div class="row">
         <div class="col-xs-6">
@@ -73,7 +73,7 @@
 
     </ng-container>
 
-    <ng-container #lessThan6Tasks *ngIf="graphData.length < 6">
+    <ng-container #lessThan6Tasks *ngIf="numberOfTasks < 6">
 
       <div class="row">
         <div class="col-xs-12">
@@ -108,7 +108,7 @@
                 </div>
               </div>
               <ngx-charts-bar-horizontal
-                [results]="graphData"
+                [results]="mostPopularTasksGraphData"
                 [yAxis]="true"
                 [xAxis]="true"
                 [showGridLines]="true"

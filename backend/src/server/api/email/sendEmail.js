@@ -3,7 +3,7 @@
 // Date: 2018-04-14 15:54:00
 const { spawn } = require('child_process');
 const { exec } = require('child_process');
-const isEmail = require('validator/lib/isEmail');
+
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
 const sendToAgents = require('./sendToAgents');

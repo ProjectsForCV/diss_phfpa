@@ -7,6 +7,7 @@ const fs = require('fs');
 const connection = require('../../data/dbSettings');
 const uuid = require('uuid/v4');
 const getAssignmentResults = require('./getAssignmentResults');
+const isEmail = require('validator/lib/isEmail');
 
 
 /**
@@ -21,6 +22,17 @@ function assignmentObject(app) {
     app.post('/api/assignment', (req, clientResponse) => {
 
         const assignment = req.body;
+        
+        let invalidEmailCount = 0;
+        for (let i = 0 ; i < assignment.agents.length; i++) {
+            if (!isEmail(assignment.agents[i].email)) {
+                invalidEmailCount ++;
+            }
+        }
+
+        if (invalidEmailCount > 0) {
+            clientResponse.status(500).end('Invalid Email provided');
+        }
         
         if (assignment.image) {
             assignment.image = saveImageData(assignment.image);

@@ -422,8 +422,6 @@ function subtractValueFromArray(array, value) {
 }
 
 
-let h = new Hungarian();
-console.log(h.minimise(12345));
 
 module.exports = exports = Hungarian;
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { AlertService } from '../alert-service/alert-service';
 
 @Injectable()

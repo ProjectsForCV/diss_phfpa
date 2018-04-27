@@ -2,7 +2,8 @@
   "name": "assignment-server",
   "version": "0.0.1",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -19,5 +20,9 @@
   },
   "jshintConfig": {
     "esversion": "6"
+  },
+  "devDependencies": {
+    "mocha": "^5.1.1",
+    "random-seed": "^0.3.0"
   }
 }

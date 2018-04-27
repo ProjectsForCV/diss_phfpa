@@ -1,8 +1,8 @@
 // Title: solveMat.js
 // Author: Daniel Cooke 
 // Date: 2018-04-14 16:22:30
-const genetic = require('../../genetics');
-const hungarian = require('../../hungarian');
+const genetic = require('../../genetic/genetics');
+const hungarian = require('../../hungarian/hungarian');
  /**
   * sets up the endpoint for the solve mat api
   * this api is used for solving cost matrices through the sub system - playground
@@ -76,7 +76,7 @@ function solveMat(app) {
 function solveGenetically(mat, options, rownames, colnames, callback) {
     const results = genetic(mat, options, rownames, colnames);
 
-    if (results !== -1) {
+    if (results instanceof Error) {
         callback(results, undefined);
     } else {
         callback(undefined, 'The genetic algorithm failed');

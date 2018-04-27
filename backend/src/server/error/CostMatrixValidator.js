@@ -2,16 +2,16 @@ const exceptions = require('./ExceptionTypes');
 class CostMatrixValidator {
 
     constructor() {
-        this.exceptions = exceptions;
+
     }
 
     static validateCostMatrix(costMatrix) {
         if (!twoDArray(costMatrix)) {
-            throw this.exceptions.invalidCostMatrixType;
+            throw exceptions.invalidCostMatrixType;
         }
 
         if(!correctCostMatrixFormat(costMatrix)){
-            throw this.exceptions.invalidCostMatrixFormat;
+            throw exceptions.invalidCostMatrixFormat;
         }
     }
 }

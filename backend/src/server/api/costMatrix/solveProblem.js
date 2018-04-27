@@ -4,8 +4,8 @@
 
 const mysql = require('mysql');
 const connection = require('../../data/dbSettings');
-const geneticSolver = require('../../genetics');
-const hungarian = require('../../hungarian');
+const geneticSolver = require('../../genetic/genetics');
+const hungarian = require('../../hungarian/hungarian');
 
  /**
   * sets up the endpoint for the solve problem api
@@ -111,9 +111,12 @@ function solveProblem(app) {
  * @param {function} callback 
  */
 function startGeneticSolver(completedAgents, geneticOptions, callback) {
-    const results = geneticSolver(completedAgents, geneticOptions)
-
-    if (results === -1) {
+  
+    const results = geneticSolver(matrix, geneticOptions);
+    
+    // Create a cost matrix from agent answers (this should probably be implemented before calling this routine)
+    
+    if (results instanceof Error) {
         return callback(undefined, 'The genetic algorithm failed.');
     }
 
