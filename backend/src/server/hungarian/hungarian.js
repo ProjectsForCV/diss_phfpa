@@ -3,7 +3,7 @@
 //   Author: Daniel Cooke
 const validator = require('../error/HungarianInputValidator');
 const hungarianException = require('../error/HungarianException');
-
+const {performance} = require('perf_hooks');
 class Hungarian {
 
     constructor() {
@@ -106,6 +106,11 @@ class Hungarian {
     }
 
 
+    /**
+     * The minimse function returns a solution matrix and potentially an assignment pair list if options are passed
+     * @param {*} costMatrix - number [][]
+     * @param {*} options - optional task and agent names
+     */
     minimise(costMatrix, options) {
 
         try {
@@ -123,6 +128,7 @@ class Hungarian {
         this.setup(costMatrix);
       
         this.iterate();
+    
 
         if (options && options.tasks && options.agents) {
             return {

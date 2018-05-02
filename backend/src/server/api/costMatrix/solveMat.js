@@ -3,6 +3,7 @@
 // Date: 2018-04-14 16:22:30
 const genetic = require('../../genetic/genetics');
 const hungarian = require('../../hungarian/hungarian');
+const {performance} = require('perf_hooks');
  /**
   * sets up the endpoint for the solve mat api
   * this api is used for solving cost matrices through the sub system - playground
@@ -24,6 +25,8 @@ function solveMat(app) {
                     res.status(500).send(error);
                 }
 
+                console.log(results);
+                
                 res.json(results);
             });
 
@@ -74,12 +77,18 @@ function solveMat(app) {
  * @param {function} callback 
  */
 function solveGenetically(mat, options, rownames, colnames, callback) {
-    const results = genetic(mat, options, rownames, colnames);
 
+    const start = performance.now();
+    const results = genetic(mat, options, rownames, colnames);
+    const end = performance.now();
+
+    console.log(`Genetic Elapsed Time: ${end - start} `);
+    
     if (results instanceof Error) {
-        callback(results, undefined);
-    } else {
         callback(undefined, 'The genetic algorithm failed');
+        
+    } else {
+        callback(results, undefined);
     }
 
 }

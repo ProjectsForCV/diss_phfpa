@@ -25,7 +25,7 @@ describe('Hungarian Algorithm Test Suite', () => {
                 assert.deepStrictEqual(h.minimise(inputMatrix), exceptions.invalidCostMatrixFormat);
             })
         
-            it('should return invalidOptionsFormat exception when task names length does not match matrix columns', () => {
+            it('should return invalidOptionsFormat exception when task names length does not match matrix column length', () => {
                 const inputMatrix = [[1,2,3],[3,2,1]]
                 const inputOptions = {
                     tasks: ["One", "Two"],
@@ -35,7 +35,7 @@ describe('Hungarian Algorithm Test Suite', () => {
                 assert.deepStrictEqual(h.minimise(inputMatrix, inputOptions), exceptions.invalidOptionsFormat);
             })
     
-            it('should return invalidOptionsFormat exception when agent names length does not match matrix columns', () => {
+            it('should return invalidOptionsFormat exception when agent names length does not match matrix row lenngth', () => {
                 const inputMatrix = [[1,2,3],[3,2,1]]
                 const inputOptions = {
                     tasks: ["One", "Two", "Three"],

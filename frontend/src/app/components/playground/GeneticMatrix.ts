@@ -5,4 +5,5 @@ export interface GeneticMatrix {
   totalCost: number;
   distance: number;
   assignment?: AssignmentResults[];
+  assignmentRating?: number;
 }

@@ -75,17 +75,19 @@ export class MatrixComponent implements OnInit {
   getTotalCost() {
 
     if (this.matrix && this.solution) {
+
       return this.matrix.reduce((acc, curr, i) => {
 
         const solvedIndex = this.solution[i].findIndex((val) => val === 1);
-        if (solvedIndex && solvedIndex > 0) {
+
+        if (solvedIndex >= 0) {
 
 
           return acc + curr[solvedIndex];
         } else {
           return acc;
         }
-      }, 1);
+      }, 0);
     }
   }
 

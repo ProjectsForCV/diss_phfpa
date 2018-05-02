@@ -16,18 +16,18 @@ describe('Genetic Algorithm Test Suite', () => {
 
     describe('error handling', () => {
         it('should return invalidGeneticInput exception when input: 99999383', () => {
-            assert.equal(geneticSolver(99999383,geneticOptions), exceptions.invalidGeneticInput);
+            assert.equal(geneticSolver(99999383,geneticOptions,null, null, false), exceptions.invalidGeneticInput);
         })
 
         it('should return invalidGeneticInput exception when input: "string"', () => {
-            assert.equal(geneticSolver("string",geneticOptions), exceptions.invalidGeneticInput);
+            assert.equal(geneticSolver("string",geneticOptions,null, null, false), exceptions.invalidGeneticInput);
         })
 
         it('should return invalidGeneticInput exception when input does not contain answers', () => {
             const input = [
                 {agentId: 123}
             ]
-            assert.equal(geneticSolver(input ,geneticOptions), exceptions.invalidGeneticInput);
+            assert.equal(geneticSolver(input ,geneticOptions, null, null, false), exceptions.invalidGeneticInput);
         })
 
         it('should return invalidCostMatrixFormat exception when input does not result in proper cost matrix', () => {
@@ -52,7 +52,7 @@ describe('Genetic Algorithm Test Suite', () => {
                     ]
                 }
             ]
-            assert.equal(geneticSolver(input ,geneticOptions), exceptions.invalidCostMatrixFormat);
+            assert.equal(geneticSolver(input ,geneticOptions,null, null, false), exceptions.invalidCostMatrixFormat);
         })
     });
     describe('functionality', () => {
@@ -70,6 +70,33 @@ describe('Genetic Algorithm Test Suite', () => {
                 })
             })
             
+        })
+
+        describe('Group constraints', () => {
+            describe('Task 1 and 2 - Maximum of 1 assignment' , () => {
+                it('should not return a solution containing both task 1 and 2', () => {
+                    const newOptions = geneticOptions;
+                    newOptions.groups = [{
+                        maxAssignments: 1,
+                        tasks: [
+                            {
+                                taskId: '1'
+                            },
+                            {
+                                taskId: '2'
+                            }
+                        ]
+                    }]
+                    const results = geneticSolver(input, newOptions,['One','Two'],['1','2','3'], false);
+            
+                    
+                    const assignments = results.map(res => res.assignment);
+                    const containsTask1 = assignments.filter(assignment => assignment.taskId === '1');
+                    const containsTask2 = assignments.filter(assignment => assignment.taskId === '2');
+
+                    assert.ok(containsTask1 !== containsTask2);
+                })
+            })
         })
     })
 });
