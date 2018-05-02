@@ -1,9 +1,12 @@
+Running application available at : https://munkres.ml
+
+
 # Project Allocation (by Daniel Cooke)
 
 ### Description
 Students want a nice project to do in their final years. Staff want interesting projects but
 not too many and to get the right student for their project. Staff have differing levels of
-availability too – some can supervise just one project others’ several projects. How do we
+availability too â€“ some can supervise just one project othersâ€™ several projects. How do we
 get the optimum balance?
 
 This project will involve developing a software service that will automatically match users
